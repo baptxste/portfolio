@@ -11,10 +11,14 @@
             "id": "4c31665aefd71b51",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "langages/rust/Rust Typing.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nouvel onglet"
+              "title": "Rust Typing"
             }
           }
         ]
@@ -111,6 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "langages/rust/Rust Typing.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -129,6 +134,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "langages/rust/Rust Typing.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -171,6 +177,7 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "langages/rust/Rust Typing.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -199,10 +206,12 @@
   },
   "active": "4c31665aefd71b51",
   "lastOpenFiles": [
+    "langages/rust/Architecture Hexagonale en Rust.md",
+    "langages/rust/Rust Typing.md",
+    "langages/rust/Sans titre.md",
     "Bienvenue.md",
     "demo-formatage.md",
     "template.md",
-    "langages/rust/Architecture Hexagonale en Rust.md",
     "2026-09-21.md",
     "test 2.md",
     "langages/Sans titre.md",

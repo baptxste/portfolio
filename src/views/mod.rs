@@ -3,6 +3,9 @@
 mod home;
 pub use home::Home;
 
+mod notes_home;
+pub use notes_home::NotesHome;
+
 mod note;
 pub use note::NotePage;
 
@@ -11,3 +14,6 @@ pub use tag::TagPage;
 
 mod navbar;
 pub use navbar::Navbar;
+
+mod cv; 
+pub use cv::CvPage;

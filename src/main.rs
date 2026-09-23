@@ -5,7 +5,7 @@ mod content;
 mod views;
 
 use content::get_vault_index;
-use views::{Home, Navbar, NotePage, TagPage};
+use views::{CvPage, Home, Navbar, NotePage, NotesHome, TagPage};
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -13,10 +13,14 @@ pub enum Route {
     #[layout(Navbar)]
         #[route("/")]
         Home {},
+        #[route("/notes")]
+        NotesHome {},
         #[route("/notes/:slug")]
         NotePage { slug: String },
         #[route("/tags/:tag")]
         TagPage { tag: String },
+        #[route("/cv")]
+        CvPage {},
 }
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");

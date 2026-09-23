@@ -2,6 +2,8 @@
 title: Architecture Hexagonale en Rust
 tags:
   - rust
+  - code
+  - architecture
 date: 2026-09-23
 publish: true
 ---
