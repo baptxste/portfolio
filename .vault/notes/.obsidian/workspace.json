@@ -11,14 +11,10 @@
             "id": "4c31665aefd71b51",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "demo-formatage.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "demo-formatage"
+              "title": "Nouvel onglet"
             }
           }
         ]
@@ -115,7 +111,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "demo-formatage.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -134,7 +129,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "demo-formatage.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -177,7 +171,6 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "demo-formatage.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -204,12 +197,12 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "2eeecd1714ad90cc",
+  "active": "4c31665aefd71b51",
   "lastOpenFiles": [
+    "Bienvenue.md",
+    "demo-formatage.md",
     "template.md",
     "langages/rust/Architecture Hexagonale en Rust.md",
-    "demo-formatage.md",
-    "Bienvenue.md",
     "2026-09-21.md",
     "test 2.md",
     "langages/Sans titre.md",
