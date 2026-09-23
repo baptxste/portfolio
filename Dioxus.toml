@@ -4,6 +4,7 @@
 
 # HTML title tag content
 title = "portfolio"
+base_path = "portfolio"
 
 # include `assets` in web platform
 [web.resource]
@@ -20,10 +21,3 @@ script = []
 # serve: [dev-server] only
 script = []
 
-[web.app]
-
-# HTML title tag content
-title = "portfolio"
-
-# base path pour servir l'app dans un sous-dossier (GitHub Pages)
-base_path = "portfolio"
