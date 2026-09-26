@@ -20,24 +20,23 @@
               "icon": "lucide-file",
               "title": "Rust Typing"
             }
-          }
-        ]
-      },
-      {
-        "id": "b59837d8f3a81db9",
-        "type": "tabs",
-        "children": [
+          },
           {
-            "id": "871b90e958f2cfc6",
+            "id": "b987ce2eb9bd9c76",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Vue graphique"
+              "type": "markdown",
+              "state": {
+                "file": "maths/Théorème Centrale Limite.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Théorème Centrale Limite"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -115,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "langages/rust/Rust Typing.md",
+                "file": "maths/Théorème Centrale Limite.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -134,7 +133,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "langages/rust/Rust Typing.md",
+                "file": "maths/Théorème Centrale Limite.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -177,7 +176,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "langages/rust/Rust Typing.md",
+                "file": "maths/Théorème Centrale Limite.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -204,14 +203,16 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "4c31665aefd71b51",
+  "active": "b987ce2eb9bd9c76",
   "lastOpenFiles": [
-    "langages/rust/Architecture Hexagonale en Rust.md",
+    "Ressources utiles.md",
+    "template.md",
+    "Sans titre.md",
     "langages/rust/Rust Typing.md",
+    "langages/rust/Architecture Hexagonale en Rust.md",
     "langages/rust/Sans titre.md",
     "Bienvenue.md",
     "demo-formatage.md",
-    "template.md",
     "2026-09-21.md",
     "test 2.md",
     "langages/Sans titre.md",

@@ -1,14 +1,14 @@
 import numpy as np
 from matplotlib.ticker import FuncFormatter
 
-from style import Colors, Fonts, styled_figure, save
+from styles import Colors, Fonts, save, styled_figure
 
 
 def normal_pdf(x, mu=0.0, sigma=1.0):
     return (1 / (sigma * np.sqrt(2 * np.pi))) * np.exp(-0.5 * ((x - mu) / sigma) ** 2)
 
 
-def build_bell_curve(output_path="normal_distribution.png"):
+def generate(output_path):
     fig, ax = styled_figure(figsize=(11, 7), spines=("left", "bottom"))
 
     x = np.linspace(-4, 4, 2000)
@@ -47,8 +47,15 @@ def build_bell_curve(output_path="normal_distribution.png"):
         (3.5, 0.014, "0,1%"),
     ]
     for xpos, ypos, text in labels:
-        ax.text(xpos, ypos, text, ha="center", va="center",
-                 color=Colors.TEXT, fontsize=Fonts.SIZE_ANNOTATION)
+        ax.text(
+            xpos,
+            ypos,
+            text,
+            ha="center",
+            va="center",
+            color=Colors.TEXT,
+            fontsize=Fonts.SIZE_ANNOTATION,
+        )
 
     # Axe X en unités d'écart-type (sigma)
     ax.set_xticks(range(-3, 4))
@@ -58,7 +65,7 @@ def build_bell_curve(output_path="normal_distribution.png"):
     )
     ax.set_xlim(-4, 4)
 
-    # Axe Y avec point décimal classique (comme dans le graphique d'origine)
+    # Axe Y avec point décimal classique
     ax.set_ylim(0, 0.45)
     ax.set_yticks(np.arange(0, 0.46, 0.05))
     ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:.2f}"))
@@ -67,5 +74,16 @@ def build_bell_curve(output_path="normal_distribution.png"):
 
 
 if __name__ == "__main__":
-    path = build_bell_curve("/Users/baptistechachura/projects/portfolio/.vault/notes/assets/maths/thm_centrale_limite.png")
+    from pathlib import Path
+
+    default_out = (
+        Path(__file__).resolve().parent.parent.parent.parent
+        / ".vault"
+        / "notes"
+        / "assets"
+        / "maths"
+        / "thm_centrale_limite.png"
+    )
+    default_out.parent.mkdir(parents=True, exist_ok=True)
+    path = generate(default_out)
     print(f"Image générée : {path}")
