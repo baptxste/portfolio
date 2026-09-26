@@ -17,7 +17,7 @@ pub fn Home() -> Element {
             // Hero Section - Starbucks Warm Cream / Dark House Green Hero
             section { class: "text-center py-12 md:py-16 px-6 md:px-12 theme-bg-surface rounded-[24px] sb-card-shadow relative overflow-hidden transition-colors duration-250",
                 div { class: "inline-block mb-4 px-4 py-1 bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] text-xs font-bold rounded-full tracking-wide uppercase",
-                    {tr(l, "Portfolio & Jardin Numérique", "Portfolio & Digital Garden")}
+                    {tr(l, "Portfolio", "Portfolio")}
                 }
                 h1 { class: "text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight theme-text-heading mb-6",
                     "Baptiste Chachura"
@@ -29,12 +29,12 @@ pub fn Home() -> Element {
                     Link {
                         to: Route::NotesHome {},
                         class: "px-7 py-3.5 sb-pill-green text-sm flex items-center gap-2.5 shadow-sm",
-                        {tr(l, "Explorer mes Notes 📚", "Explore my Notes 📚")}
+                        {tr(l, "Mes Notes", "My Notes")}
                     }
                     Link {
                         to: Route::CvPage {},
                         class: "px-7 py-3.5 sb-pill-outline text-sm flex items-center gap-2.5 theme-bg-card",
-                        {tr(l, "Consulter mon CV 📄", "View my Resume 📄")}
+                        {tr(l, "Mon CV", "My Resume")}
                     }
                 }
             }
@@ -43,9 +43,9 @@ pub fn Home() -> Element {
             section { class: "grid grid-cols-1 md:grid-cols-2 gap-8",
                 div { class: "p-8 theme-bg-card rounded-[12px] sb-card-shadow hover:shadow-md transition duration-200 flex flex-col justify-between group",
                     div {
-                        div { class: "w-12 h-12 rounded-full bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] flex items-center justify-center text-2xl font-bold mb-6 group-hover:scale-105 transition transform duration-200",
-                            "📓"
-                        }
+                        // div { class: "w-12 h-12 rounded-full bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] flex items-center justify-center text-2xl font-bold mb-6 group-hover:scale-105 transition transform duration-200",
+                        //     "📓"
+                        // }
                         h2 { class: "text-2xl font-semibold theme-text-main mb-3 group-hover:text-[#006241] dark:group-hover:text-[#d4e9e2] transition",
                             {tr(l, "Jardin Numérique", "Digital Garden")}
                         }
@@ -62,9 +62,9 @@ pub fn Home() -> Element {
 
                 div { class: "p-8 theme-bg-card rounded-[12px] sb-card-shadow hover:shadow-md transition duration-200 flex flex-col justify-between group",
                     div {
-                        div { class: "w-12 h-12 rounded-full bg-[#faf6ee] dark:bg-[#282218] text-[#cba258] flex items-center justify-center text-2xl font-bold mb-6 group-hover:scale-105 transition transform duration-200",
-                            "🎓"
-                        }
+                        // div { class: "w-12 h-12 rounded-full bg-[#faf6ee] dark:bg-[#282218] text-[#cba258] flex items-center justify-center text-2xl font-bold mb-6 group-hover:scale-105 transition transform duration-200",
+                        //     "🎓"
+                        // }
                         h2 { class: "text-2xl font-semibold theme-text-main mb-3 group-hover:text-[#006241] dark:group-hover:text-[#d4e9e2] transition",
                             {tr(l, "Parcours & Compétences", "Background & Skills")}
                         }

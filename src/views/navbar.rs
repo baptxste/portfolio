@@ -1,5 +1,8 @@
 use dioxus::prelude::*;
 use crate::components::FileTree;
+use crate::components::popover::PopoverContent;
+use crate::components::popover::PopoverTrigger;
+use crate::components::popover::PopoverRoot;
 use crate::content::VaultIndex;
 use crate::i18n::{tr, Language};
 use crate::Route;
@@ -27,7 +30,7 @@ pub fn Navbar() -> Element {
             "px-4 py-2 text-sm font-medium theme-text-main hover:text-[#006241] dark:hover:text-[#d4e9e2] hover:bg-[#edebe9] dark:hover:bg-[#1f3c35] rounded-full transition duration-200"
         }
     };
-
+    let mut open = use_signal(|| false);let mut open = use_signal(|| false);
     rsx! {
         div {
             class: if theme().is_dark() { "dark min-h-screen flex flex-col theme-bg-page theme-text-main selection:bg-[#d4e9e2] selection:text-[#006241]" } else { "min-h-screen flex flex-col theme-bg-page theme-text-main selection:bg-[#d4e9e2] selection:text-[#006241]" },
@@ -65,28 +68,42 @@ pub fn Navbar() -> Element {
                             class: link_class(matches!(current_route, Route::CvPage {})),
                             {tr(l, "CV & Parcours", "Resume")}
                         }
+                        
+                        PopoverRoot { open: open(), on_open_change: move |v| open.set(v),
+                            PopoverTrigger { {tr(l,"Réglages", "Settings") }}
+                            PopoverContent { gap: "0.25rem",
+                                div{
+                                    class: "px-3.5 py-1.5 text-xs font-bold rounded border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm flex-col",
+                                    // Theme Toggle Switcher Button
+                                    button {
+                                        class: "px-3.5 py-1.5 text-xs font-bold rounded-lg border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm",
+                                        onclick: move |_| theme.write().toggle(),
+                                        span { class: if theme().is_dark(){ "font-semibold flex items-center gap-1 text-[#d4e9e2]"} else { "opacity-50" }, "Dark" }
+                                        span { class: "opacity-30", "|" }
+                                        span { class: if !theme().is_dark(){"font-semibold flex items-center gap-1 text-slate-700"} else { "opacity-50" }, "Light" }
+                                        if theme().is_dark() {
+                                            
+                                        } else {
+                                            
+                                        }
+                                    }
 
-                        // Theme Toggle Switcher Button
-                        button {
-                            class: "px-3.5 py-1.5 text-xs font-bold rounded-full border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm",
-                            onclick: move |_| theme.write().toggle(),
-                            if theme().is_dark() {
-                                span { class: "font-semibold flex items-center gap-1 text-[#d4e9e2]", "🌙 Dark" }
-                            } else {
-                                span { class: "font-semibold flex items-center gap-1 text-slate-700", "☀️ Light" }
+                                    // Language Toggle Switcher Button
+                                    div { class: "pl-1 flex items-center",
+                                        button {
+                                            class: "px-3.5 py-1.5 text-xs font-bold rounded-full border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm",
+                                            onclick: move |_| lang.write().toggle(),
+                                            span { class: if lang() == Language::Fr { "text-[#006241] dark:text-[#d4e9e2] font-extrabold" } else { "opacity-50" }, "FR" }
+                                            span { class: "opacity-30", "|" }
+                                            span { class: if lang() == Language::En { "text-[#006241] dark:text-[#d4e9e2] font-extrabold" } else { "opacity-50" }, "EN" }
+                                        }
+                                    }
+                                }
+                                
                             }
                         }
 
-                        // Language Toggle Switcher Button
-                        div { class: "pl-1 flex items-center",
-                            button {
-                                class: "px-3.5 py-1.5 text-xs font-bold rounded-full border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm",
-                                onclick: move |_| lang.write().toggle(),
-                                span { class: if lang() == Language::Fr { "text-[#006241] dark:text-[#d4e9e2] font-extrabold" } else { "opacity-50" }, "FR" }
-                                span { class: "opacity-30", "|" }
-                                span { class: if lang() == Language::En { "text-[#006241] dark:text-[#d4e9e2] font-extrabold" } else { "opacity-50" }, "EN" }
-                            }
-                        }
+                        
                     }
                 }
             }
@@ -148,7 +165,7 @@ pub fn Navbar() -> Element {
                     }
 
                     div { class: "flex flex-col sm:flex-row justify-between items-center text-xs text-[rgba(255,255,255,0.70)] gap-4",
-                        p { "© 2026 Baptiste Chachura. Built with Dioxus 0.7 & Rust." }
+                        p { "© 2026 Baptiste Chachura. Built in Rust." }
                         div { class: "flex items-center gap-4",
                             a { href: "https://github.com/baptxste", target: "_blank", class: "hover:text-white transition", "GitHub ↗" }
                             a { href: "mailto:baptiste.chachura@me.com", class: "hover:text-white transition", "Contact Email" }
