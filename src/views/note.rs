@@ -33,22 +33,22 @@ pub fn NotePage(slug: String) -> Element {
     }));
 
     rsx! {
-        div { class: "container mx-auto px-4 py-8 max-w-4xl",
+        div { class: "container mx-auto px-2 py-4 max-w-4xl",
             if let Some(note) = note_opt {
-                article { class: "prose dark:prose-invert max-w-none bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700",
-                    header { class: "mb-8 pb-4 border-b border-gray-200 dark:border-gray-700",
-                        h1 { class: "text-4xl font-extrabold text-gray-900 dark:text-white mb-2",
+                article { class: "bg-white p-6 sm:p-10 rounded-[12px] sb-card-shadow",
+                    header { class: "mb-8 pb-6 border-b border-[#edebe9]",
+                        h1 { class: "text-3xl sm:text-4xl font-bold text-[#006241] mb-2 tracking-tight",
                             "{note.title}"
                         }
                         if let Some(date) = note.date {
-                            p { class: "text-sm text-gray-500 dark:text-gray-400", "Publié le {date}" }
+                            p { class: "text-xs text-[rgba(0,0,0,0.58)] mb-4 font-medium", "Publié le {date}" }
                         }
                         if !note.tags.is_empty() {
                             div { class: "flex flex-wrap gap-2 mt-4",
                                 for tag in note.tags {
                                     Link {
                                         to: Route::TagPage { tag: tag.clone() },
-                                        class: "px-2.5 py-1 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-900 transition",
+                                        class: "px-3 py-1 text-xs font-semibold bg-[#d4e9e2] text-[#006241] rounded-full hover:bg-[#00754A] hover:text-white transition duration-150",
                                         "#{tag}"
                                     }
                                 }
@@ -58,14 +58,15 @@ pub fn NotePage(slug: String) -> Element {
 
                     // Render converted Markdown HTML
                     div {
-                        class: "markdown-body mt-6 leading-relaxed text-gray-700 dark:text-gray-200",
+                        class: "markdown-body mt-6 leading-relaxed text-[rgba(0,0,0,0.87)]",
                         dangerous_inner_html: "{note.html}",
                     }
 
                     // Render Backlinks if any
                     if !note.backlinks.is_empty() {
-                        section { class: "mt-12 pt-6 border-t border-gray-200 dark:border-gray-700",
-                            h3 { class: "text-lg font-bold text-gray-900 dark:text-white mb-4",
+                        section { class: "mt-12 pt-8 border-t border-[#edebe9]",
+                            h3 { class: "text-lg font-bold text-[#006241] mb-4 flex items-center gap-2",
+                                span { "🔗" }
                                 "Backlinks (Notes liées)"
                             }
                             ul { class: "grid grid-cols-1 md:grid-cols-2 gap-4",
@@ -73,8 +74,8 @@ pub fn NotePage(slug: String) -> Element {
                                     li {
                                         Link {
                                             to: Route::NotePage { slug: backlink.slug.clone() },
-                                            class: "block p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-500 hover:bg-indigo-50/50 dark:hover:bg-gray-700/50 transition",
-                                            span { class: "font-semibold text-indigo-600 dark:text-indigo-400",
+                                            class: "block p-4 rounded-[12px] bg-[#f9f9f9] hover:bg-[#d4e9e2] transition duration-200 group border border-slate-200/60",
+                                            span { class: "font-semibold text-[#00754A] group-hover:text-[#006241] transition text-sm",
                                                 "← {backlink.title}"
                                             }
                                         }
@@ -85,12 +86,12 @@ pub fn NotePage(slug: String) -> Element {
                     }
                 }
             } else {
-                div { class: "text-center py-16",
-                    h1 { class: "text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4", "404 - Note introuvable" }
-                    p { class: "text-gray-600 dark:text-gray-400 mb-6", "La note '{slug}' n'existe pas ou n'a pas été publiée." }
+                div { class: "text-center py-16 bg-white rounded-[12px] p-8 sb-card-shadow",
+                    h1 { class: "text-3xl font-bold text-[#006241] mb-4", "404 - Note introuvable" }
+                    p { class: "text-[rgba(0,0,0,0.58)] text-sm mb-6", "La note '{slug}' n'existe pas ou n'a pas été publiée." }
                     Link {
                         to: Route::Home {},
-                        class: "inline-block px-5 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition",
+                        class: "inline-block px-6 py-3 sb-pill-green text-sm shadow-sm",
                         "Retourner à l'accueil"
                     }
                 }

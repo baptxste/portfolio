@@ -21,9 +21,10 @@ pub fn FileTree(notes: Vec<NoteMetaData>) -> Element {
     }
 
     rsx! {
-        aside { class: "w-full md:w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 p-4 font-mono text-sm overflow-y-auto flex-shrink-0",
-            div { class: "font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-xs mb-3 px-2 flex items-center justify-between",
+        aside { class: "w-full md:w-64 bg-white rounded-[12px] sb-card-shadow p-5 font-sans text-xs overflow-y-auto flex-shrink-0",
+            div { class: "font-bold text-[#006241] uppercase tracking-wider text-[11px] mb-4 px-2 flex items-center justify-between",
                 span { "Explorateur Vault" }
+                span { class: "w-2 h-2 rounded-full bg-[#00754A]" }
             }
             {render_tree_level(root_tree)}
         }
@@ -51,21 +52,23 @@ fn insert_into_tree(tree: &mut BTreeMap<String, FileNode>, parts: &[&str], note:
 
 fn render_tree_level(tree: BTreeMap<String, FileNode>) -> Element {
     rsx! {
-        ul { class: "space-y-1 pl-2 border-l border-gray-200 dark:border-gray-800 ml-1",
+        ul { class: "space-y-1 pl-2 ml-1",
             for (name, node) in tree {
                 li { key: "{name}",
                     match node {
                         FileNode::File(note) => rsx! {
                             Link {
                                 to: Route::NotePage { slug: note.slug.clone() },
-                                class: "flex items-center gap-1.5 px-2 py-1 rounded text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition truncate",
+                                class: "flex items-center gap-2 px-2.5 py-1.5 rounded-full text-slate-700 hover:bg-[#d4e9e2] hover:text-[#006241] transition duration-150 truncate group font-medium",
+                                span { class: "text-[#00754A] text-[11px]", "📄" }
                                 span { class: "truncate", "{note.title}" }
                             }
                         },
                         FileNode::Folder(sub_tree) => rsx! {
-                            details { open: true, class: "group",
-                                summary { class: "flex items-center gap-1.5 px-2 py-1 font-semibold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer select-none rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition",
-                                    span { class: "truncate", "{name}" }
+                            details { open: true, class: "group/folder",
+                                summary { class: "flex items-center gap-2 px-2.5 py-1.5 font-semibold text-slate-800 hover:text-[#006241] cursor-pointer select-none rounded-lg hover:bg-[#edebe9] transition duration-150",
+                                    span { class: "text-[#cba258] text-[11px]", "📁" }
+                                    span { class: "truncate tracking-tight", "{name}" }
                                 }
                                 {render_tree_level(sub_tree)}
                             }
