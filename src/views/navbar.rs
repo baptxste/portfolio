@@ -3,6 +3,7 @@ use crate::components::FileTree;
 use crate::content::VaultIndex;
 use crate::i18n::{tr, Language};
 use crate::Route;
+use crate::Theme;
 
 #[component]
 pub fn Navbar() -> Element {
@@ -11,6 +12,7 @@ pub fn Navbar() -> Element {
 
     let mut lang: Signal<Language> = use_context();
     let l = lang();
+    let mut theme: Signal<Theme> = use_context();
     let current_route = use_route::<Route>();
 
     let is_notes_route = matches!(
@@ -20,55 +22,69 @@ pub fn Navbar() -> Element {
 
     let link_class = |is_active: bool| -> &'static str {
         if is_active {
-            "px-4 py-2 text-sm font-semibold text-[#006241] bg-[#d4e9e2] rounded-full transition duration-200"
+            "px-4 py-2 text-sm font-semibold text-[#006241] dark:text-[#d4e9e2] bg-[#d4e9e2] dark:bg-[#24463e] rounded-full transition duration-200"
         } else {
-            "px-4 py-2 text-sm font-medium text-[rgba(0,0,0,0.87)] hover:text-[#006241] hover:bg-[#edebe9] rounded-full transition duration-200"
+            "px-4 py-2 text-sm font-medium theme-text-main hover:text-[#006241] dark:hover:text-[#d4e9e2] hover:bg-[#edebe9] dark:hover:bg-[#1f3c35] rounded-full transition duration-200"
         }
     };
 
     rsx! {
-        div { class: "min-h-screen flex flex-col bg-[#f2f0eb] text-[rgba(0,0,0,0.87)] selection:bg-[#d4e9e2] selection:text-[#006241]",
-            // Global Nav Header - Starbucks white nav bar with triple shadow stack
-            nav { class: "bg-white sticky top-0 z-50 sb-nav-shadow flex-shrink-0",
+        div {
+            class: if theme().is_dark() { "dark min-h-screen flex flex-col theme-bg-page theme-text-main selection:bg-[#d4e9e2] selection:text-[#006241]" } else { "min-h-screen flex flex-col theme-bg-page theme-text-main selection:bg-[#d4e9e2] selection:text-[#006241]" },
+            "data-theme": if theme().is_dark() { "dark" } else { "light" },
+
+            // Global Nav Header - Starbucks white / dark nav bar with triple shadow stack
+            nav { class: "bg-[var(--nav-bg)] sticky top-0 z-50 sb-nav-shadow flex-shrink-0 transition-colors duration-250",
                 div { class: "container mx-auto px-4 sm:px-6 h-20 flex items-center justify-between max-w-7xl",
-                    // Brand / Logo (Starbucks Siren-inspired green roundel)
+                    // Brand / Logo
                     Link {
                         to: Route::Home {},
-                        class: "text-lg font-bold text-[#006241] flex items-center gap-3 group tracking-tight",
+                        class: "text-lg font-bold text-[#006241] dark:text-[#d4e9e2] flex items-center gap-3 group tracking-tight",
                         span { class: "w-10 h-10 bg-[#006241] text-white rounded-full flex items-center justify-center font-bold text-sm tracking-wider shadow-sm group-hover:bg-[#00754A] transition duration-200 group-active:scale-95",
                             "BC"
                         }
-                        span { class: "hidden sm:inline font-bold text-[#006241] group-hover:text-[#00754A] transition",
+                        span { class: "hidden sm:inline font-bold text-[#006241] dark:text-[#d4e9e2] group-hover:text-[#00754A] transition",
                             "Baptiste Chachura"
                         }
                     }
 
-                    // Main Nav Links & Language Switcher Pill
-                    div { class: "flex items-center space-x-1 sm:space-x-3",
+                    // Main Nav Links + Theme Switcher & Language Switcher Pills
+                    div { class: "flex items-center space-x-1 sm:space-x-2.5",
                         Link {
                             to: Route::Home {},
                             class: link_class(matches!(current_route, Route::Home {})),
-                            {tr(lang(), "Accueil", "Home")}
+                            {tr(l, "Accueil", "Home")}
                         }
                         Link {
                             to: Route::NotesHome {},
                             class: link_class(is_notes_route),
-                            {tr(lang(), "Notes", "Notes")}
+                            {tr(l, "Notes", "Notes")}
                         }
                         Link {
                             to: Route::CvPage {},
                             class: link_class(matches!(current_route, Route::CvPage {})),
-                            {tr(lang(), "CV & Parcours", "Resume")}
+                            {tr(l, "CV & Parcours", "Resume")}
                         }
 
-                        // Language Toggle (Full-pill outlined style)
-                        div { class: "pl-2 flex items-center",
+                        // Theme Toggle Switcher Button
+                        button {
+                            class: "px-3.5 py-1.5 text-xs font-bold rounded-full border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm",
+                            onclick: move |_| theme.write().toggle(),
+                            if theme().is_dark() {
+                                span { class: "font-semibold flex items-center gap-1 text-[#d4e9e2]", "🌙 Dark" }
+                            } else {
+                                span { class: "font-semibold flex items-center gap-1 text-slate-700", "☀️ Light" }
+                            }
+                        }
+
+                        // Language Toggle Switcher Button
+                        div { class: "pl-1 flex items-center",
                             button {
-                                class: "px-3.5 py-1.5 text-xs font-bold rounded-full border border-slate-300 bg-white text-slate-800 hover:border-[#00754A] hover:text-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm",
+                                class: "px-3.5 py-1.5 text-xs font-bold rounded-full border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm",
                                 onclick: move |_| lang.write().toggle(),
-                                span { class: if lang() == Language::Fr { "text-[#006241] font-extrabold" } else { "opacity-50" }, "FR" }
+                                span { class: if lang() == Language::Fr { "text-[#006241] dark:text-[#d4e9e2] font-extrabold" } else { "opacity-50" }, "FR" }
                                 span { class: "opacity-30", "|" }
-                                span { class: if lang() == Language::En { "text-[#006241] font-extrabold" } else { "opacity-50" }, "EN" }
+                                span { class: if lang() == Language::En { "text-[#006241] dark:text-[#d4e9e2] font-extrabold" } else { "opacity-50" }, "EN" }
                             }
                         }
                     }
@@ -79,7 +95,7 @@ pub fn Navbar() -> Element {
             if is_notes_route {
                 div { class: "flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto px-4 py-6 gap-6",
                     FileTree { notes }
-                    main { class: "flex-1 p-6 md:p-8 bg-white rounded-[12px] sb-card-shadow overflow-y-auto",
+                    main { class: "flex-1 p-6 md:p-8 theme-bg-card rounded-[12px] sb-card-shadow overflow-y-auto transition-colors duration-250",
                         Outlet::<Route> {}
                     }
                 }
@@ -95,7 +111,7 @@ pub fn Navbar() -> Element {
             Link {
                 to: Route::NotesHome {},
                 class: "fixed bottom-6 right-6 z-50 sb-frap-button group",
-                title: tr(lang(), "Recherche rapide / Vault", "Quick Vault Search"),
+                title: tr(l, "Recherche rapide / Vault", "Quick Vault Search"),
                 svg {
                     class: "w-6 h-6 text-white group-hover:scale-110 transition duration-200",
                     fill: "none",

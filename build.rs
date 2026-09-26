@@ -1,4 +1,3 @@
-use base64::Engine;
 use gray_matter::engine::YAML;
 use gray_matter::Matter;
 use pulldown_cmark::{html, Parser};
@@ -9,6 +8,7 @@ use std::fs;
 use std::path::Path;
 use std::process::Command;
 use walkdir::WalkDir;
+
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct NoteMetaData {
@@ -126,51 +126,55 @@ fn main() {
         return;
     }
 
-    // Build image name → data URI map (base64 encoded, no file serving needed)
+    // Encode vault images as base64 data URIs.
+    // Les assets Dioxus 0.7 doivent passer par asset!() pour être servis en dev ;
+    // les fichiers copiés manuellement ne sont pas reconnus par dx serve et provoquent
+    // des erreurs de routing. Le base64 inline est la seule approche fiable pour
+    // du contenu dynamique dans un SPA Dioxus (pas de requête HTTP, marche partout).
+    let vault_assets_src = Path::new(".vault/notes/.assets");
     let mut image_name_to_url: HashMap<String, String> = HashMap::new();
 
-    for entry in WalkDir::new(&source_dir)
+    for entry in WalkDir::new(vault_assets_src)
         .into_iter()
         .filter_map(|e| e.ok())
         .filter(|e| e.file_type().is_file())
     {
         let path = entry.path();
-        if path.extension().map_or(false, |ext| ext == "md") {
-            continue;
-        }
-
-        if path.components().any(|c| {
-            let name = c.as_os_str().to_string_lossy();
-            name.starts_with('.') && name != ".vault"
-        }) {
-            continue;
-        }
-
-        let file_name = path.file_name().unwrap().to_string_lossy().to_string();
         let ext = path.extension().unwrap_or_default().to_string_lossy().to_lowercase();
 
         let mime = match ext.as_str() {
-            "png" => "image/png",
+            "png"  => "image/png",
             "jpg" | "jpeg" => "image/jpeg",
-            "gif" => "image/gif",
-            "svg" => "image/svg+xml",
+            "gif"  => "image/gif",
+            "svg"  => "image/svg+xml",
             "webp" => "image/webp",
-            "ico" => "image/x-icon",
-            _ => continue, // skip non-image files
+            "ico"  => "image/x-icon",
+            _      => continue,
         };
+
+        let file_name = path.file_name().unwrap().to_string_lossy().to_string();
 
         match fs::read(path) {
             Ok(bytes) => {
-                let b64 = base64::engine::general_purpose::STANDARD.encode(&bytes);
+                let mut b64 = String::with_capacity((bytes.len() * 4 / 3) + 4);
+                const CHARS: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+                for chunk in bytes.chunks(3) {
+                    let b0 = chunk[0] as usize;
+                    let b1 = if chunk.len() > 1 { chunk[1] as usize } else { 0 };
+                    let b2 = if chunk.len() > 2 { chunk[2] as usize } else { 0 };
+                    b64.push(CHARS[(b0 >> 2)] as char);
+                    b64.push(CHARS[((b0 & 3) << 4) | (b1 >> 4)] as char);
+                    b64.push(if chunk.len() > 1 { CHARS[((b1 & 0xf) << 2) | (b2 >> 6)] as char } else { '=' });
+                    b64.push(if chunk.len() > 2 { CHARS[b2 & 0x3f] as char } else { '=' });
+                }
                 let data_uri = format!("data:{};base64,{}", mime, b64);
                 image_name_to_url.insert(file_name.to_lowercase(), data_uri);
-                println!("cargo:warning=Encoded image: {}", file_name);
+                println!("cargo:warning=Image encodée: {}", file_name);
             }
-            Err(e) => {
-                println!("cargo:warning=Failed to read image {}: {}", file_name, e);
-            }
+            Err(e) => println!("cargo:warning=Échec lecture image {}: {}", file_name, e),
         }
     }
+
 
     // 2. Parse markdown notes
     let matter = Matter::<YAML>::new();
@@ -296,7 +300,8 @@ fn main() {
             let img_raw = caps[1].trim();
             let img_name = img_raw.to_lowercase();
             let url = image_name_to_url.get(&img_name).cloned().unwrap_or_else(|| {
-                format!("/assets/vault_assets/{}", img_raw)
+                println!("cargo:warning=Image introuvable dans le vault: {}", img_raw);
+                format!("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7") // pixel transparent
             });
             format!("<img src=\"{}\" alt=\"{}\" class=\"rounded-lg my-4 shadow\" />", url, img_raw)
         });

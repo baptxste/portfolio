@@ -578,3 +578,62 @@ When refining existing screens generated with this design system:
 - Form error-state full styling (red border weight, icon placement) visible on the tint token but not exhaustively extracted
 - Careers-page specific components (cup-name card, search radio grid) are referenced in token names but not covered by this extraction
 - Starbucks Visa Card / Starbucks-Card (SVC) detailed mockup specs are hinted at by `--svcRoundedCorners` and `--svcShadowFilter` tokens but not fully documented
+
+## 10. Dark Mode & Zero-Duplication Architecture Guidelines
+
+### Atmosphere & Tone
+The Dark Mode is an extension of the Starbucks Design System — designed as an **espresso-dark House Green matte theme**. It preserves the retail flagship warmth without resorting to cold Pitch Black (`#000000`) or flashy neon colors.
+
+### Strict Color Mapping (No-Flashy Rule)
+- **Dark Page Canvas:** `#0f1c19` (Deep House Green void)
+- **Dark Card Surface:** `#172f29` (Elevated dark emerald card fill)
+- **Dark Surface / Header:** `#1E3932` (House Green)
+- **Dark Subtle Wash / Input Fill:** `#1f3c35`
+- **Dark Pill Wash:** `#24463e`
+- **Primary Text in Dark Mode:** `rgba(255, 255, 255, 0.90)` (Text White)
+- **Secondary Text in Dark Mode:** `rgba(255, 255, 255, 0.65)` (Text White Soft)
+- **Headings in Dark Mode:** `#d4e9e2` (Soft Pale Sage Mint) — **CRITICAL: NEVER use flashy neon greens (`#00ff9d`), bright cyans, or saturated yellows.**
+- **Accents & Links in Dark Mode:** `#80c7b3` (Soft Matte Emerald)
+- **Status / Badges in Dark Mode:** `#cba258` (Muted Gold)
+
+### Zero-Duplication CSS Variable Architecture
+To avoid duplicating component templates (RSX / HTML) between light and dark modes, all components MUST consume semantic CSS variables or utility classes defined in `assets/styling/main.css`:
+
+```css
+:root {
+  --bg-page: #f2f0eb;
+  --bg-card: #ffffff;
+  --bg-surface: #edebe9;
+  --bg-subtle: #f9f9f9;
+  --bg-pill-light: #d4e9e2;
+  --text-main: rgba(0, 0, 0, 0.87);
+  --text-soft: rgba(0, 0, 0, 0.58);
+  --text-heading: #006241;
+  --text-link: #00754A;
+  --border-subtle: #edebe9;
+  --card-shadow: 0px 0px 0.5px 0px rgba(0,0,0,0.14), 0px 1px 1px 0px rgba(0,0,0,0.24);
+  --nav-bg: #ffffff;
+}
+
+:root[data-theme="dark"], .dark {
+  --bg-page: #0f1c19;
+  --bg-card: #172f29;
+  --bg-surface: #1E3932;
+  --bg-subtle: #1f3c35;
+  --bg-pill-light: #24463e;
+  --text-main: rgba(255, 255, 255, 0.90);
+  --text-soft: rgba(255, 255, 255, 0.65);
+  --text-heading: #d4e9e2;
+  --text-link: #80c7b3;
+  --border-subtle: #24463e;
+  --card-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+  --nav-bg: #132521;
+}
+```
+
+### Component Implementation Rules
+1. **No Conditional Template Duplication:** Never create duplicate `if is_dark { ... } else { ... }` markup for cards, text, or page containers. Use `theme-bg-page`, `theme-bg-card`, `theme-text-main`, `theme-text-heading`, `theme-text-soft`, `theme-text-link`, `sb-card-shadow`, `sb-pill-green`, `sb-pill-outline`.
+2. **50px Pill Micro-Interaction:** Preserve universal `50px` pill border-radius and `transform: scale(0.95)` on active press across both light and dark modes.
+3. **Theme Toggle Button:** Place a 50px full-pill switcher button in the global navbar controlling a global `Theme` context signal (`Theme::Light` / `Theme::Dark`).
+4. **Frap Floating CTA:** Keep the 56px circular floating order/search button in `#00754A` (Green Accent) fixed at `bottom-6 right-6 z-50` with layered ambient shadow across both light and dark modes.
+

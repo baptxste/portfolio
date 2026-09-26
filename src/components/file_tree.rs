@@ -21,8 +21,8 @@ pub fn FileTree(notes: Vec<NoteMetaData>) -> Element {
     }
 
     rsx! {
-        aside { class: "w-full md:w-64 bg-white rounded-[12px] sb-card-shadow p-5 font-sans text-xs overflow-y-auto flex-shrink-0",
-            div { class: "font-bold text-[#006241] uppercase tracking-wider text-[11px] mb-4 px-2 flex items-center justify-between",
+        aside { class: "w-full md:w-64 theme-bg-card rounded-[12px] sb-card-shadow p-5 font-sans text-xs overflow-y-auto flex-shrink-0 transition-colors duration-250",
+            div { class: "font-bold theme-text-heading uppercase tracking-wider text-[11px] mb-4 px-2 flex items-center justify-between",
                 span { "Explorateur Vault" }
                 span { class: "w-2 h-2 rounded-full bg-[#00754A]" }
             }
@@ -59,15 +59,13 @@ fn render_tree_level(tree: BTreeMap<String, FileNode>) -> Element {
                         FileNode::File(note) => rsx! {
                             Link {
                                 to: Route::NotePage { slug: note.slug.clone() },
-                                class: "flex items-center gap-2 px-2.5 py-1.5 rounded-full text-slate-700 hover:bg-[#d4e9e2] hover:text-[#006241] transition duration-150 truncate group font-medium",
-                                span { class: "text-[#00754A] text-[11px]", "📄" }
+                                class: "flex items-center gap-2 px-2.5 py-1.5 rounded-full theme-text-main hover:bg-[#d4e9e2] dark:hover:bg-[#24463e] hover:text-[#006241] dark:hover:text-[#d4e9e2] transition duration-150 truncate group font-medium",
                                 span { class: "truncate", "{note.title}" }
                             }
                         },
                         FileNode::Folder(sub_tree) => rsx! {
                             details { open: true, class: "group/folder",
-                                summary { class: "flex items-center gap-2 px-2.5 py-1.5 font-semibold text-slate-800 hover:text-[#006241] cursor-pointer select-none rounded-lg hover:bg-[#edebe9] transition duration-150",
-                                    span { class: "text-[#cba258] text-[11px]", "📁" }
+                                summary { class: "flex items-center gap-2 px-2.5 py-1.5 font-semibold theme-text-main hover:text-[#006241] dark:hover:text-[#d4e9e2] cursor-pointer select-none rounded-lg hover:bg-slate-200/50 dark:hover:bg-[#1f3c35] transition duration-150",
                                     span { class: "truncate tracking-tight", "{name}" }
                                 }
                                 {render_tree_level(sub_tree)}

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
+  /* Brand Constants */
   --starbucks-green: #006241;
   --green-accent: #00754A;
   --house-green: #1E3932;
@@ -9,27 +10,50 @@
   --gold: #cba258;
   --gold-light: #dfc49d;
   --gold-lightest: #faf6ee;
-  --neutral-warm: #f2f0eb;
-  --ceramic: #edebe9;
-  --neutral-cool: #f9f9f9;
-  --text-black: rgba(0, 0, 0, 0.87);
-  --text-black-soft: rgba(0, 0, 0, 0.58);
-  --text-white: rgba(255, 255, 255, 1);
-  --text-white-soft: rgba(255, 255, 255, 0.70);
-  --rewards-green: #33433d;
+
+  /* Theme Tokens - Light Mode */
+  --bg-page: #f2f0eb;
+  --bg-card: #ffffff;
+  --bg-surface: #edebe9;
+  --bg-subtle: #f9f9f9;
+  --bg-pill-light: #d4e9e2;
+  --text-main: rgba(0, 0, 0, 0.87);
+  --text-soft: rgba(0, 0, 0, 0.58);
+  --text-heading: #006241;
+  --text-link: #00754A;
+  --border-subtle: #edebe9;
   --card-shadow: 0px 0px 0.5px 0px rgba(0,0,0,0.14), 0px 1px 1px 0px rgba(0,0,0,0.24);
+  --nav-bg: #ffffff;
   --nav-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 2px 2px rgba(0,0,0,0.06), 0 0 2px rgba(0,0,0,0.07);
   --frap-shadow: 0 0 6px rgba(0,0,0,0.24), 0 8px 12px rgba(0,0,0,0.14);
 }
 
+/* Theme Tokens - Dark Mode (Muted House Green Matte Theme - Zero Flashy Colors) */
+:root[data-theme="dark"], .dark {
+  --bg-page: #0f1c19;
+  --bg-card: #172f29;
+  --bg-surface: #1E3932;
+  --bg-subtle: #1f3c35;
+  --bg-pill-light: #24463e;
+  --text-main: rgba(255, 255, 255, 0.90);
+  --text-soft: rgba(255, 255, 255, 0.65);
+  --text-heading: #d4e9e2;       /* Soft pale sage mint */
+  --text-link: #80c7b3;          /* Soft matte emerald */
+  --border-subtle: #24463e;
+  --card-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+  --nav-bg: #132521;
+  --nav-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
 body {
-    background-color: var(--neutral-warm);
-    color: var(--text-black);
+    background-color: var(--bg-page);
+    color: var(--text-main);
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     letter-spacing: -0.01em;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 code, kbd, samp, pre, .font-mono {
@@ -47,7 +71,7 @@ code, kbd, samp, pre, .font-mono {
     border-radius: 50px;
     font-weight: 600;
     letter-spacing: -0.01em;
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 .sb-pill-green:hover {
     background-color: var(--starbucks-green);
@@ -58,15 +82,15 @@ code, kbd, samp, pre, .font-mono {
 
 .sb-pill-outline {
     background-color: transparent;
-    color: var(--green-accent);
-    border: 1px solid var(--green-accent);
+    color: var(--text-link);
+    border: 1px solid var(--text-link);
     border-radius: 50px;
     font-weight: 600;
     letter-spacing: -0.01em;
     transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 .sb-pill-outline:hover {
-    background-color: var(--green-light);
+    background-color: var(--bg-pill-light);
 }
 .sb-pill-outline:active {
     transform: scale(0.95);
@@ -85,22 +109,6 @@ code, kbd, samp, pre, .font-mono {
     background-color: var(--neutral-warm);
 }
 .sb-pill-white:active {
-    transform: scale(0.95);
-}
-
-.sb-pill-[#ffffff]-outline {
-    background-color: transparent;
-    color: #ffffff;
-    border: 1px solid #ffffff;
-    border-radius: 50px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-}
-.sb-pill-[#ffffff]-outline:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-.sb-pill-[#ffffff]-outline:active {
     transform: scale(0.95);
 }
 
@@ -137,7 +145,7 @@ code, kbd, samp, pre, .font-mono {
     box-shadow: 0 0 6px rgba(0,0,0,0.24);
 }
 
-/* Shadows & Cards */
+/* Shadows & Theme Utility Classes */
 .sb-card-shadow {
     box-shadow: var(--card-shadow);
 }
@@ -146,16 +154,28 @@ code, kbd, samp, pre, .font-mono {
     box-shadow: var(--nav-shadow);
 }
 
+/* Dynamic Theme BG & Text Utility Classes */
+.theme-bg-page { background-color: var(--bg-page); }
+.theme-bg-card { background-color: var(--bg-card); }
+.theme-bg-surface { background-color: var(--bg-surface); }
+.theme-bg-subtle { background-color: var(--bg-subtle); }
+.theme-bg-pill { background-color: var(--bg-pill-light); }
+.theme-text-main { color: var(--text-main); }
+.theme-text-soft { color: var(--text-soft); }
+.theme-text-heading { color: var(--text-heading); }
+.theme-text-link { color: var(--text-link); }
+.theme-border { border-color: var(--border-subtle); }
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: var(--neutral-warm);
+    background: var(--bg-page);
 }
 ::-webkit-scrollbar-thumb {
-    background: #c2c0ba;
+    background: #6b847c;
     border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {

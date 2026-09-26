@@ -9,6 +9,25 @@ use content::get_vault_index;
 use i18n::Language;
 use views::{CvPage, Home, Navbar, NotePage, NotesHome, TagPage};
 
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Theme {
+    Light,
+    Dark,
+}
+
+impl Theme {
+    pub fn toggle(&mut self) {
+        *self = match self {
+            Theme::Light => Theme::Dark,
+            Theme::Dark => Theme::Light,
+        };
+    }
+
+    pub fn is_dark(&self) -> bool {
+        matches!(self, Theme::Dark)
+    }
+}
+
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
 pub enum Route {
@@ -43,6 +62,10 @@ fn App() -> Element {
     // Provide language signal globally
     let lang = use_signal(|| Language::Fr);
     use_context_provider(|| lang);
+
+    // Provide theme signal globally
+    let theme = use_signal(|| Theme::Light);
+    use_context_provider(|| theme);
 
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
