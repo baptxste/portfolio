@@ -2,9 +2,11 @@ use dioxus::prelude::*;
 
 mod components;
 mod content;
+mod i18n;
 mod views;
 
 use content::get_vault_index;
+use i18n::Language;
 use views::{CvPage, Home, Navbar, NotePage, NotesHome, TagPage};
 
 #[derive(Debug, Clone, Routable, PartialEq)]
@@ -37,6 +39,10 @@ fn App() -> Element {
     // Provide vault index globally to all components
     let index = use_signal(get_vault_index);
     use_context_provider(|| index());
+
+    // Provide language signal globally
+    let lang = use_signal(|| Language::Fr);
+    use_context_provider(|| lang);
 
     rsx! {
         document::Link { rel: "icon", href: FAVICON }

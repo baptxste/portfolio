@@ -1,11 +1,14 @@
 use dioxus::prelude::*;
 use crate::content::VaultIndex;
+use crate::i18n::{tr, Language};
 use crate::Route;
 use std::collections::HashSet;
 
 #[component]
 pub fn NotesHome() -> Element {
     let index: VaultIndex = use_context();
+    let lang: Signal<Language> = use_context();
+    let l = lang();
     let mut search_query = use_signal(|| String::new());
 
     let notes: Vec<_> = index.values().cloned().collect();
@@ -38,10 +41,10 @@ pub fn NotesHome() -> Element {
             // Header / Title Section
             header { class: "mb-6 pb-4 border-b border-gray-100 dark:border-gray-800",
                 h1 { class: "text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2",
-                    "Jardin Numérique & Vault Obsidian"
+                    {tr(l, "Jardin Numérique & Vault Obsidian", "Digital Garden & Obsidian Vault")}
                 }
                 p { class: "text-gray-600 dark:text-gray-300 text-sm",
-                    "Explorez l'ensemble des notes, théorèmes et articles. Utilisez la recherche ou l'arborescence à gauche."
+                    {tr(l, "Explorez l'ensemble des notes, théorèmes et articles. Utilisez la recherche ou l'arborescence à gauche.", "Explore all notes, theorems, and articles. Use search or the file tree on the left.")}
                 }
             }
 
@@ -50,7 +53,7 @@ pub fn NotesHome() -> Element {
                 div { class: "relative w-full md:w-96",
                     input {
                         r#type: "text",
-                        placeholder: "Rechercher une note, un sujet, un tag...",
+                        placeholder: tr(l, "Rechercher une note, un sujet, un tag...", "Search for a note, subject, tag..."),
                         class: "w-full pl-4 pr-10 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition",
                         value: "{search_query}",
                         oninput: move |e| search_query.set(e.value()),
@@ -75,7 +78,7 @@ pub fn NotesHome() -> Element {
             div { class: "grid grid-cols-1 md:grid-cols-2 gap-6",
                 if filtered_notes.is_empty() {
                     div { class: "col-span-2 text-center py-12 text-gray-500 dark:text-gray-400",
-                        "Aucune note ne correspond à votre recherche."
+                        {tr(l, "Aucune note ne correspond à votre recherche.", "No notes match your search query.")}
                     }
                 } else {
                     for note in filtered_notes {
