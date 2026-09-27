@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use crate::components::FileTree;
+use crate::components::file_tree::FileTree;
 use crate::components::popover::PopoverContent;
 use crate::components::popover::PopoverTrigger;
 use crate::components::popover::PopoverRoot;
@@ -30,7 +30,7 @@ pub fn Navbar() -> Element {
             "px-4 py-2 text-sm font-medium theme-text-main hover:text-[#006241] dark:hover:text-[#d4e9e2] hover:bg-[#edebe9] dark:hover:bg-[#1f3c35] rounded-full transition duration-200"
         }
     };
-    let mut open = use_signal(|| false);let mut open = use_signal(|| false);
+    let mut open = use_signal(|| false);
     rsx! {
         div {
             class: if theme().is_dark() { "dark min-h-screen flex flex-col theme-bg-page theme-text-main selection:bg-[#d4e9e2] selection:text-[#006241]" } else { "min-h-screen flex flex-col theme-bg-page theme-text-main selection:bg-[#d4e9e2] selection:text-[#006241]" },

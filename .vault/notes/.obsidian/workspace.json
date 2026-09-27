@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "maths/Théorème Centrale Limite.md",
+                "file": "Ressources utiles.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Théorème Centrale Limite"
+              "title": "Ressources utiles"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "maths/Théorème Centrale Limite.md",
+                "file": "Ressources utiles.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "maths/Théorème Centrale Limite.md",
+                "file": "Ressources utiles.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "maths/Théorème Centrale Limite.md",
+                "file": "Ressources utiles.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -190,11 +190,11 @@
   },
   "active": "4c31665aefd71b51",
   "lastOpenFiles": [
+    "maths/Théorème Centrale Limite.md",
     "assets/maths/thm_centrale_limite.png",
     "assets/maths",
     "assets",
     "langages/rust/Rust Typing.md",
-    "maths/Théorème Centrale Limite.md",
     "Ressources utiles.md",
     "template.md",
     "Sans titre.md",

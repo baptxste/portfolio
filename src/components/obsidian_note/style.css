@@ -1,0 +1,182 @@
+/* -> à placer dans assets/components/note_obsidian.css
+   Styles auto-suffisants (pas de dépendance à Tailwind) pour tout ce qui est
+   généré dynamiquement par build.rs : callouts, wikilinks, en-tête de note,
+   backlinks. Les classes "rounded-lg my-4 shadow" posées sur les <img> dans
+   build.rs restent telles quelles si tu utilises déjà Tailwind ailleurs. */
+/* ============================================================
+   note-obsidian — adapté au design system inspiré Starbucks
+   (canvas crème, 4 verts de marque, pastilles pleines 50px,
+   cartes 12px, ombres superposées légères, SoDoSans/Inter)
+   ============================================================ */
+
+.note-obsidian {
+  /* Tokens — mode clair (canvas crème + hiérarchie de verts) */
+  --note-bg: #f2f0eb;              /* Neutral Warm — canvas de page */
+  --note-card-bg: #ffffff;         /* surface carte / callout */
+  --note-fg: rgba(0, 0, 0, 0.87);  /* Text Black */
+  --note-muted: rgba(0, 0, 0, 0.58); /* Text Black Soft */
+  --note-border: #edebe9;          /* Ceramic */
+  --note-heading: #006241;         /* Starbucks Green */
+  --note-link: #00754A;            /* Green Accent */
+  --note-tag-bg: #d4e9e2;          /* Green Light */
+  --note-tag-fg: #006241;          /* Starbucks Green */
+  --note-shadow: 0px 0px 0.5px rgba(0, 0, 0, 0.14),
+                 0px 1px 1px rgba(0, 0, 0, 0.24);
+
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+  background: var(--note-bg);
+  color: var(--note-fg);
+  font-family: "SoDoSans", "Inter", "Manrope", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+/* Mode sombre — même structure, tokens uniquement (zero-duplication) */
+:root[data-theme="dark"] .note-obsidian,
+.dark .note-obsidian {
+  --note-bg: #0f1c19;
+  --note-card-bg: #172f29;
+  --note-fg: rgba(255, 255, 255, 0.90);
+  --note-muted: rgba(255, 255, 255, 0.65);
+  --note-border: #24463e;
+  --note-heading: #d4e9e2;
+  --note-link: #80c7b3;
+  --note-tag-bg: #24463e;
+  --note-tag-fg: #d4e9e2;
+  --note-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.note-obsidian__header {
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--note-border);
+  padding-bottom: 16px;
+}
+
+.note-obsidian__title {
+  font-size: 24px;
+  font-weight: 600;           /* la hiérarchie vient du poids, pas de la taille */
+  line-height: 36px;
+  letter-spacing: -0.16px;
+  color: var(--note-heading);
+  margin: 0 0 8px;
+}
+
+.note-obsidian__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--note-muted);
+}
+
+.note-obsidian__date {
+  font-variant-numeric: tabular-nums;
+}
+
+.note-obsidian__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.note-obsidian__tag {
+  background: var(--note-tag-bg);
+  color: var(--note-tag-fg);
+  border-radius: 50px;        /* pastille pleine, comme tous les boutons du système */
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.note-obsidian__body {
+  font-size: 16px;
+}
+
+.note-obsidian__body a.wikilink {
+  color: var(--note-link);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--note-link);
+  transition: border-bottom-style 0.2s ease;
+}
+.note-obsidian__body a.wikilink:hover {
+  border-bottom-style: solid;
+}
+
+.note-obsidian__body a.external-link::after {
+  content: " ↗";
+  font-size: 0.75em;
+}
+
+.note-obsidian__body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: var(--note-shadow);
+}
+
+/* Callouts — mappés sur les verts de marque + gold/red sémantiques,
+   au lieu du bleu/vert générique */
+.note-obsidian__body .callout {
+  --callout-border: var(--note-muted);
+  --callout-bg: var(--note-card-bg);
+  border-left: 4px solid var(--callout-border);
+  background: var(--callout-bg);
+  border-radius: 12px;
+  box-shadow: var(--note-shadow);
+  padding: 16px;
+  margin: 24px 0;
+}
+.note-obsidian__body .callout-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--note-fg);
+}
+
+.note-obsidian__body .callout-note    { --callout-border: #006241; --callout-bg: rgba(0, 98, 65, 0.06); }   /* Starbucks Green */
+.note-obsidian__body .callout-tip     { --callout-border: #00754A; --callout-bg: rgba(0, 117, 74, 0.06); }  /* Green Accent */
+.note-obsidian__body .callout-warning { --callout-border: #cba258; --callout-bg: #faf6ee; }                  /* Gold / Gold Lightest */
+.note-obsidian__body .callout-danger  { --callout-border: #c82014; --callout-bg: hsl(4 82% 43% / 5%); }      /* Red */
+
+:root[data-theme="dark"] .note-obsidian__body .callout-warning,
+.dark .note-obsidian__body .callout-warning {
+  --callout-bg: rgba(203, 162, 88, 0.12);
+}
+
+.note-obsidian__backlinks {
+  margin-top: 48px;
+  padding-top: 16px;
+  border-top: 1px solid var(--note-border);
+}
+.note-obsidian__backlinks-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--note-muted);
+  margin-bottom: 8px;
+}
+.note-obsidian__backlinks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.note-obsidian__backlinks-list a {
+  color: var(--note-link);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--note-link);
+}
+.note-obsidian__backlinks-list a:hover {
+  border-bottom-style: solid;
+}

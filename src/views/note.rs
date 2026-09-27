@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 use crate::content::VaultIndex;
 use crate::Route;
+use crate::components::obsidian_note::NoteObsidian;
 
 #[component]
 pub fn NotePage(slug: String) -> Element {
@@ -40,12 +41,12 @@ pub fn NotePage(slug: String) -> Element {
                         h1 { class: "text-3xl sm:text-4xl font-bold theme-text-heading mb-2 tracking-tight",
                             "{note.title}"
                         }
-                        if let Some(date) = note.date {
+                        if let Some(date) = &note.date {
                             p { class: "text-xs theme-text-soft mb-4 font-medium", "Publié le {date}" }
                         }
                         if !note.tags.is_empty() {
                             div { class: "flex flex-wrap gap-2 mt-4",
-                                for tag in note.tags {
+                                for tag in &note.tags {
                                     Link {
                                         to: Route::TagPage { tag: tag.clone() },
                                         class: "px-3 py-1 text-xs font-semibold bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] rounded-full hover:bg-[#00754A] hover:text-white transition duration-150",
@@ -59,7 +60,7 @@ pub fn NotePage(slug: String) -> Element {
                     // Render converted Markdown HTML
                     div {
                         class: "markdown-body mt-6 leading-relaxed theme-text-main",
-                        dangerous_inner_html: "{note.html}",
+                        NoteObsidian { note: note.clone() }
                     }
 
                     // Render Backlinks if any
@@ -70,7 +71,7 @@ pub fn NotePage(slug: String) -> Element {
                                 "Backlinks (Notes liées)"
                             }
                             ul { class: "grid grid-cols-1 md:grid-cols-2 gap-4",
-                                for backlink in note.backlinks {
+                                for backlink in &note.backlinks {
                                     li {
                                         Link {
                                             to: Route::NotePage { slug: backlink.slug.clone() },

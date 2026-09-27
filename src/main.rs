@@ -4,7 +4,7 @@ mod components;
 mod content;
 mod i18n;
 mod views;
-
+mod vault_assets;
 use content::get_vault_index;
 use i18n::Language;
 use views::{CvPage, Home, Navbar, NotePage, NotesHome, TagPage};
