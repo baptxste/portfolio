@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib.ticker import FuncFormatter
 
-from styles import Colors, Fonts, save, styled_figure
+from styles import Colors, Fonts, save, styled_figure, halo
 
 
 def normal_pdf(x, mu=0.0, sigma=1.0):
@@ -29,7 +29,7 @@ def generate(output_path):
         ax.fill_between(x[mask], y[mask], color=color, linewidth=0)
 
     # Courbe blanche par-dessus les zones
-    ax.plot(x, y, color=Colors.CURVE, linewidth=1.8)
+    ax.plot(x, y, color=Colors.CURVE, linewidth=1.8,path_effects=halo())
 
     # Lignes verticales aux frontières d'écart-type (+ au centre)
     for s in [-3, -2, -1, 0, 1, 2, 3]:
@@ -55,6 +55,7 @@ def generate(output_path):
             va="center",
             color=Colors.TEXT,
             fontsize=Fonts.SIZE_ANNOTATION,
+            path_effects=halo()
         )
 
     # Axe X en unités d'écart-type (sigma)

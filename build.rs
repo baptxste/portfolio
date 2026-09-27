@@ -131,7 +131,7 @@ fn main() {
     // les fichiers copiés manuellement ne sont pas reconnus par dx serve et provoquent
     // des erreurs de routing. Le base64 inline est la seule approche fiable pour
     // du contenu dynamique dans un SPA Dioxus (pas de requête HTTP, marche partout).
-    let vault_assets_src = Path::new(".vault/notes/.assets");
+    let vault_assets_src = Path::new(".vault/notes/assets");
     let mut image_name_to_url: HashMap<String, String> = HashMap::new();
 
     for entry in WalkDir::new(vault_assets_src)

@@ -1,5 +1,11 @@
 use dioxus::prelude::*;
 use crate::i18n::{tr, Language};
+use crate::components::{
+    tag_list::TagList,
+    timeline_section::{
+        TimelineEntry, TimelineSection}
+    };
+
 
 #[component]
 pub fn CvPage() -> Element {
@@ -55,38 +61,6 @@ pub fn CvPage() -> Element {
                     }
                 }
             }
-
-            // PDF Viewer Container (when show_pdf_embed is true)
-            if show_pdf_embed() {
-                div { class: "theme-bg-card p-4 rounded-[12px] sb-card-shadow transition-colors duration-250",
-                    div { class: "mb-3 flex justify-between items-center px-2 text-xs theme-text-soft font-medium",
-                        span { {tr(l, "Aperçu du fichier /assets/cv-chachura.pdf", "Preview /assets/cv-chachura.pdf")} }
-                        a {
-                            href: "/assets/cv-chachura.pdf",
-                            target: "_blank",
-                            class: "text-[#00754A] dark:text-[#80c7b3] font-semibold hover:underline",
-                            {tr(l, "Ouvrir dans un nouvel onglet ↗", "Open in new tab ↗")}
-                        }
-                    }
-                    object {
-                        data: "/assets/cv-chachura.pdf",
-                        r#type: "application/pdf",
-                        class: "w-full h-[800px] rounded-[8px] theme-bg-subtle border border-[var(--border-subtle)]",
-                        div { class: "text-center py-20 px-4 space-y-4",
-                            p { class: "theme-text-soft font-medium text-sm",
-                                {tr(l, "Le fichier PDF 'cv-chachura.pdf' sera affiché directement ici dès qu'il sera déposé dans le dossier assets.", "The PDF file 'cv-chachura.pdf' will be rendered directly here once placed in the assets directory.")}
-                            }
-                            a {
-                                href: "/assets/cv-chachura.pdf",
-                                download: "CV-Baptiste-Chachura.pdf",
-                                class: "inline-block px-5 py-2.5 sb-pill-green text-xs shadow-sm",
-                                {tr(l, "Télécharger le PDF", "Download PDF")}
-                            }
-                        }
-                    }
-                }
-            }
-
             // Web Structured CV Presentation - 12px Theme Card
             div { class: "theme-bg-card p-8 md:p-12 rounded-[12px] sb-card-shadow space-y-10 transition-colors duration-250",
                 // Profile & Info Header
@@ -125,51 +99,82 @@ pub fn CvPage() -> Element {
                             {tr(l, "Compétences Techniques", "Technical Skills")}
                         }
                         div { class: "space-y-4",
-                            div {
-                                span { class: "text-xs font-bold uppercase theme-text-soft block mb-2 tracking-wider", {tr(l, "Langages & Frameworks", "Languages & Frameworks")} }
-                                div { class: "flex flex-wrap gap-2",
-                                    span { class: "px-3.5 py-1 bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] text-xs font-semibold rounded-full", "Rust" }
-                                    span { class: "px-3.5 py-1 bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] text-xs font-semibold rounded-full", "Dioxus" }
-                                    span { class: "px-3.5 py-1 bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] text-xs font-semibold rounded-full", "TypeScript / JS" }
-                                    span { class: "px-3.5 py-1 bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] text-xs font-semibold rounded-full", "HTML5 / Tailwind CSS" }
-                                    span { class: "px-3.5 py-1 bg-[#faf6ee] dark:bg-[#251e13] text-[#cba258] text-xs font-semibold rounded-full border border-[#dfc49d]/50", "Python" }
-                                }
+                            
+                            TagList {
+                                l: l,
+                                title_fr: "Langages & Frameworks",
+                                title_en: "Langages & Frameworks",
+                                tags: vec!["Rust", "Python", "TypeScript"],
                             }
-                            div {
-                                span { class: "text-xs font-bold uppercase theme-text-soft block mb-2 tracking-wider", {tr(l, "Outils & Méthodes", "Tools & Methods")} }
-                                div { class: "flex flex-wrap gap-2",
-                                    span { class: "px-3.5 py-1 theme-bg-subtle theme-text-main text-xs font-medium rounded-full border border-[var(--border-subtle)]", "Git & GitHub" }
-                                    span { class: "px-3.5 py-1 theme-bg-subtle theme-text-main text-xs font-medium rounded-full border border-[var(--border-subtle)]", "Obsidian" }
-                                    span { class: "px-3.5 py-1 theme-bg-subtle theme-text-main text-xs font-medium rounded-full border border-[var(--border-subtle)]", "Linux" }
-                                    span { class: "px-3.5 py-1 theme-bg-subtle theme-text-main text-xs font-medium rounded-full border border-[var(--border-subtle)]", "WebAssembly (WASM)" }
-                                }
+                            TagList {
+                                l: l,
+                                title_fr: "Outils & Méthodes",
+                                title_en: "Tools & Methods",
+                                tags: vec!["Git & GitHub", "Obsidian", "Linux", "WebAssembly (WASM)"],
                             }
                         }
                     }
+                    TimelineSection {
+                        l: l,
+                        icon: "🎓",
+                        title_fr: "Formation & Parcours",
+                        title_en: "Education & Background",
+                        entries: vec![
+                            TimelineEntry {
+                                date: Some("09/2023"),
+                                title_fr: "Études Supérieures en Informatique & Mathématiques",
+                                title_en: "Higher Education in Computer Science & Mathematics",
+                                subtitle_fr: "Parcours Académique",
+                                subtitle_en: "Academic Path",
+                                description_fr: "Apprentissage des algorithmes, des mathématiques appliquées et de la programmation système.",
+                                description_en: "Studying algorithms, applied mathematics, and systems programming.",
+                            },
+                            TimelineEntry {
+                                date: None, // pas de date pour cette entrée -> rien ne s'affiche
+                                title_fr: "Autoformation continue",
+                                title_en: "Ongoing self-study",
+                                subtitle_fr: "Veille technologique",
+                                subtitle_en: "Tech watch",
+                                description_fr: "Approfondissement régulier via projets personnels et documentation.",
+                                description_en: "Ongoing deep-dives through personal projects and documentation.",
+                            },
+                        ],
+                    }
+                }
+            }
 
-                    // Formations
-                    div { class: "space-y-4",
-                        h3 { class: "text-lg font-semibold theme-text-heading flex items-center gap-2.5",
-                            span { class: "p-1.5 bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] rounded-full text-sm", "🎓" }
-                            {tr(l, "Formation & Parcours", "Education & Background")}
+            // PDF Viewer Container (when show_pdf_embed is true)
+            if show_pdf_embed() {
+                div { class: "theme-bg-card p-4 rounded-[12px] sb-card-shadow transition-colors duration-250",
+                    div { class: "mb-3 flex justify-between items-center px-2 text-xs theme-text-soft font-medium",
+                        span { {tr(l, "Aperçu du fichier /assets/cv-chachura.pdf", "Preview /assets/cv-chachura.pdf")} }
+                        a {
+                            href: "/assets/cv-chachura.pdf",
+                            target: "_blank",
+                            class: "text-[#00754A] dark:text-[#80c7b3] font-semibold hover:underline",
+                            {tr(l, "Ouvrir dans un nouvel onglet ↗", "Open in new tab ↗")}
                         }
-                        div { class: "space-y-4 border-l-2 border-[#d4e9e2] dark:border-[#24463e] pl-4",
-                            div { class: "relative pl-2",
-                                div { class: "absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-[#00754A] dark:bg-[#80c7b3]" }
-                                h4 { class: "font-semibold theme-text-main text-sm",
-                                    {tr(l, "Études Supérieures en Informatique & Mathématiques", "Higher Education in Computer Science & Mathematics")}
-                                }
-                                p { class: "text-xs theme-text-soft mt-0.5",
-                                    {tr(l, "Parcours Académique", "Academic Path")}
-                                }
-                                p { class: "text-xs theme-text-main mt-2 leading-relaxed",
-                                    {tr(l, "Apprentissage des algorithmes, des mathématiques appliquées et de la programmation système.", "Studying algorithms, applied mathematics, and systems programming.")}
-                                }
+                    }
+                    object {
+                        data: "/assets/cv-chachura.pdf",
+                        r#type: "application/pdf",
+                        class: "w-full h-[800px] rounded-[8px] theme-bg-subtle border border-[var(--border-subtle)]",
+                        div { class: "text-center py-20 px-4 space-y-4",
+                            p { class: "theme-text-soft font-medium text-sm",
+                                {tr(l, "Le fichier PDF 'cv-chachura.pdf' sera affiché directement ici dès qu'il sera déposé dans le dossier assets.", "The PDF file 'cv-chachura.pdf' will be rendered directly here once placed in the assets directory.")}
+                            }
+                            a {
+                                href: "/assets/cv-chachura.pdf",
+                                download: "CV-Baptiste-Chachura.pdf",
+                                class: "inline-block px-5 py-2.5 sb-pill-green text-xs shadow-sm",
+                                {tr(l, "Télécharger le PDF", "Download PDF")}
                             }
                         }
                     }
                 }
             }
+
+
         }
     }
 }

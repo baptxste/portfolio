@@ -1,0 +1,22 @@
+.timeline-icon-badge {
+  background-color: #d4e9e2;
+  color: #006241;
+}
+.dark .timeline-icon-badge {
+  background-color: #24463e;
+  color: #d4e9e2;
+}
+
+.timeline-rail {
+  border-color: #d4e9e2;
+}
+.dark .timeline-rail {
+  border-color: #24463e;
+}
+
+.timeline-dot {
+  background-color: #00754A;
+}
+.dark .timeline-dot {
+  background-color: #80c7b3;
+}

@@ -13,20 +13,6 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "langages/rust/Rust Typing.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Rust Typing"
-            }
-          },
-          {
-            "id": "b987ce2eb9bd9c76",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
                 "file": "maths/Théorème Centrale Limite.md",
                 "mode": "source",
                 "source": false
@@ -35,8 +21,7 @@
               "title": "Théorème Centrale Limite"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -203,12 +188,16 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "b987ce2eb9bd9c76",
+  "active": "4c31665aefd71b51",
   "lastOpenFiles": [
+    "assets/maths/thm_centrale_limite.png",
+    "assets/maths",
+    "assets",
+    "langages/rust/Rust Typing.md",
+    "maths/Théorème Centrale Limite.md",
     "Ressources utiles.md",
     "template.md",
     "Sans titre.md",
-    "langages/rust/Rust Typing.md",
     "langages/rust/Architecture Hexagonale en Rust.md",
     "langages/rust/Sans titre.md",
     "Bienvenue.md",
@@ -220,14 +209,10 @@
     "langages/rust",
     "langages",
     "attachments/image_demo.png",
-    "assets/maths/thm_centrale_limite.png",
     "attachments",
     "Théorème Centrale Limite.md",
-    "maths/Théorème Centrale Limite.md",
     "assets/maths/Pasted image 20251213083128.png",
-    "assets/maths",
     "assets/dossier sans titre",
-    "assets",
     "dossier sans titre",
     "maths",
     "test1/test 1.md",
