@@ -1,0 +1,5 @@
+- [] unifier le css, un fichier source qui sert de base pour le reste des autres fichiers css par composants
+- [] ajouter la section projet 
+- [] makefile (clean, rebuild images, ...)
+- [] update github workflow pour rebuild les images
+- [] Visualiseur de graph comme obsidian
