@@ -2,8 +2,7 @@ use dioxus::prelude::*;
 use crate::i18n::{tr, Language};
 use crate::components::{
     tag_list::TagList,
-    timeline_section::{
-        TimelineEntry, TimelineSection}
+    timeline_section::{TimelineEntry, TimelineSection}
     };
 
 
@@ -121,22 +120,31 @@ pub fn CvPage() -> Element {
                         title_en: "Education & Background",
                         entries: vec![
                             TimelineEntry {
-                                date: Some("09/2023"),
-                                title_fr: "Études Supérieures en Informatique & Mathématiques",
-                                title_en: "Higher Education in Computer Science & Mathematics",
-                                subtitle_fr: "Parcours Académique",
-                                subtitle_en: "Academic Path",
-                                description_fr: "Apprentissage des algorithmes, des mathématiques appliquées et de la programmation système.",
-                                description_en: "Studying algorithms, applied mathematics, and systems programming.",
+                                date: Some("09/2025"),
+                                title_fr: "Ecole d'Ingénieur - Centrale",
+                                title_en: "Engineering school - Centrale",
+                                subtitle_fr: "Centrale Marseille",
+                                subtitle_en: "Centrale Marseille, (France)",
+                                description_fr: "Cours intensifs en mathématiques, physique,\n -  chimie, \n - informatique, \n - sciences de l'ingénieur, anglais.",
+                                description_en: "Intensive program  preparing for the competitive entrance exams to French 'Grandes Écoles' with a focus on Advanced Mathematics, Physics, Chemistry, Computer Science, Engineering Sciences, and English.",
                             },
                             TimelineEntry {
-                                date: None, // pas de date pour cette entrée -> rien ne s'affiche
-                                title_fr: "Autoformation continue",
-                                title_en: "Ongoing self-study",
-                                subtitle_fr: "Veille technologique",
-                                subtitle_en: "Tech watch",
-                                description_fr: "Approfondissement régulier via projets personnels et documentation.",
-                                description_en: "Ongoing deep-dives through personal projects and documentation.",
+                                date: Some("09/2022"),
+                                title_fr: "CPGE PCSI / PC*",
+                                title_en: "CPGE PCSI / PC*",
+                                subtitle_fr: "Lycée Descartes, Tours",
+                                subtitle_en: "Lycée Descartes, Tours (France)",
+                                description_fr: "Cours intensifs en mathématiques, physique, chimie, informatique, sciences de l'ingénieur, anglais.",
+                                description_en: "Intensive program  preparing for the competitive entrance exams to French 'Grandes Écoles' with a focus on Advanced Mathematics, Physics, Chemistry, Computer Science, Engineering Sciences, and English.",
+                            },
+                            TimelineEntry {
+                                date: Some("09/2019"),
+                                title_fr: "Baccalauréat Scientifique",
+                                title_en: "A-Levels in STEM",
+                                subtitle_fr: "Lycée Marceau, Chartres",
+                                subtitle_en: "Lycée Marceau, Chartres (France)",
+                                description_fr: "Baccalauréat filière scientifique, mention Très Bien, mention européenne (physique-chimie), sport étude Volley Ball.",
+                                description_en: "Graduated with highest honors (Mention Très Bien), European section (Physics & Chemistry in English), and student-athlete program in Volleyball.",
                             },
                         ],
                     }

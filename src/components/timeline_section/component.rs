@@ -1,12 +1,13 @@
 use dioxus::prelude::*;
 use crate::i18n::{Language,tr};
+use crate::components::scroll_area::{ScrollArea, ScrollDirection};
 // ---------------------------------------------------------------------
 // Une entrée de timeline = pure donnée, aucun style.
 // ---------------------------------------------------------------------
 
 #[derive(Clone, PartialEq)]
 pub struct TimelineEntry {
-    /// Optionnel. Format "mm/yyyy", ex: "09/2023"
+    /// Optionnel. Format "mm/yyyy", ex: "09/2023"r
     pub date: Option<&'static str>,
     pub title_fr: &'static str,
     pub title_en: &'static str,
@@ -29,7 +30,34 @@ pub struct SectionHeaderProps {
     pub title_fr: &'static str,
     pub title_en: &'static str,
 }
+// markdown like helpers
+fn inline_bold(text: &str) -> Element {
+    rsx! {
+        for (i, part) in text.split("**").enumerate() {
+            if i % 2 == 1 {
+                strong { class: "font-semibold theme-text-main", "{part}" }
+            } else {
+                "{part}"
+            }
+        }
+    }
+}
 
+fn rich_text(text: &str) -> Element {
+    rsx! {
+        for raw_line in text.trim().split('\n') {
+            if let Some(rest) = raw_line.trim().strip_prefix("- ") {
+                div { class: "timeline-bullet-item",
+                    span { class: "timeline-bullet-dot" }
+                    span { { inline_bold(rest) } }
+                }
+            } else if !raw_line.trim().is_empty() {
+                p { class: "timeline-paragraph", { inline_bold(raw_line.trim()) } }
+            }
+        }
+    }
+}
+// end helper 
 #[component]
 pub fn SectionHeader(props: SectionHeaderProps) -> Element {
 
@@ -53,14 +81,16 @@ pub struct TimelineProps {
     pub l: Language,
     pub entries: Vec<TimelineEntry>,
 }
-
 #[component]
 pub fn Timeline(props: TimelineProps) -> Element {
     rsx! {
-        div { class: "timeline-rail space-y-4 border-l-2 pl-4",
+        document::Link { rel: "stylesheet", href: asset!("./style.css") }
+        ScrollArea {  class: "timeline-rail",
+            height: "20em",
+            direction: ScrollDirection::Vertical,
             for entry in props.entries.iter() {
-                div { class: "relative pl-2",
-                    div { class: "timeline-dot absolute -left-[23px] top-1.5 w-3 h-3 rounded-full" }
+                div { class: "timeline-item",
+                    div { class: "timeline-dot" }
                     div { class: "flex items-center justify-between gap-2",
                         h4 { class: "font-semibold theme-text-main text-sm",
                             { tr(props.l, entry.title_fr, entry.title_en) }
@@ -73,14 +103,13 @@ pub fn Timeline(props: TimelineProps) -> Element {
                         { tr(props.l, entry.subtitle_fr, entry.subtitle_en) }
                     }
                     p { class: "text-xs theme-text-main mt-2 leading-relaxed",
-                        { tr(props.l, entry.description_fr, entry.description_en) }
+                        { rich_text(tr(props.l, entry.description_fr, entry.description_en)) }
                     }
                 }
             }
         }
     }
 }
-
 // ---------------------------------------------------------------------
 // Composant final = header + timeline. Plus que le contenu en props,
 // zéro style à passer.

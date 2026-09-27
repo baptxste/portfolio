@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Ressources utiles.md",
+                "file": "Divers/template 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Ressources utiles"
+              "title": "template 1"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Ressources utiles.md",
+                "file": "Divers/template 1.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Ressources utiles.md",
+                "file": "Divers/template 1.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Ressources utiles.md",
+                "file": "Divers/template 1.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -188,14 +188,26 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "4c31665aefd71b51",
+  "active": "2eeecd1714ad90cc",
   "lastOpenFiles": [
+    "Divers/Ressources utiles.md",
+    "Divers/template 1.md",
+    "Divers/Sans titre.md",
+    "Divers",
+    "Langages/rust/test/template.md",
+    "Langages/rust/test",
+    "Maths/Théorème Centrale Limite.md",
+    "Maths",
+    "Langages/rust/Rust Typing.md",
+    "Langages/rust/Architecture Hexagonale en Rust.md",
+    "Langages/rust",
+    "Langages/python",
+    "Langages",
     "maths/Théorème Centrale Limite.md",
     "assets/maths/thm_centrale_limite.png",
     "assets/maths",
     "assets",
     "langages/rust/Rust Typing.md",
-    "Ressources utiles.md",
     "template.md",
     "Sans titre.md",
     "langages/rust/Architecture Hexagonale en Rust.md",
@@ -207,16 +219,10 @@
     "langages/Sans titre.md",
     "langages/python",
     "langages/rust",
-    "langages",
     "attachments/image_demo.png",
-    "attachments",
     "Théorème Centrale Limite.md",
     "assets/maths/Pasted image 20251213083128.png",
-    "assets/dossier sans titre",
-    "dossier sans titre",
-    "maths",
     "test1/test 1.md",
-    "test1",
     "test 1.md"
   ]
 }

@@ -1,5 +1,7 @@
 - [] unifier le css, un fichier source qui sert de base pour le reste des autres fichiers css par composants
+- [] harmoniser proprement la gestion des theme sombre et clair
 - [] ajouter la section projet 
 - [] makefile (clean, rebuild images, ...)
 - [] update github workflow pour rebuild les images
+- [] trier les notes par ordre alphabetique
 - [] Visualiseur de graph comme obsidian

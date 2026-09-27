@@ -26,7 +26,7 @@ publish: true
 
 # Package manager
 
-- uv ( pypi ) -> plus rapide
+- uv ( équivalent pypi ) -> plus rapide
 - pixi (conda forge) -> plus complet
 
 # outils

@@ -8,15 +8,54 @@
 }
 
 .timeline-rail {
-  border-color: #d4e9e2;
+  padding-left: 1rem; /* garde toujours le point dans la zone visible (overflow-x: hidden) */
 }
-.dark .timeline-rail {
+
+.timeline-item {
+  position: relative;
+  border-left: 2px solid #d4e9e2;
+  padding-left: 1rem;
+  padding-bottom: 1.25rem; /* remplace le margin-top : la ligne reste continue entre les items */
+}
+.dark .timeline-item {
   border-color: #24463e;
 }
 
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
 .timeline-dot {
+  position: absolute;
+  left: -7px; /* centré sur le border-left de 2px de l'item */
+  top: 0.375rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
   background-color: #00754A;
 }
 .dark .timeline-dot {
   background-color: #80c7b3;
+}
+.timeline-paragraph {
+  margin-top: 0.25rem;
+}
+.timeline-paragraph:first-child {
+  margin-top: 0;
+}
+
+.timeline-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.timeline-bullet-dot {
+  margin-top: 0.4rem;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background-color: currentColor;
+  flex-shrink: 0;
 }

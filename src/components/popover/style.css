@@ -199,13 +199,6 @@
   transition: background-color 0.2s ease;
 }
 
-.popover-content-action:hover {
-  background-color: var(--secondary-error-color);
-}
-
-.popover-content-action:focus-visible {
-  box-shadow: 0 0 0 2px var(--focused-border-color);
-}
 
 .popover-trigger {
   padding: 8px 18px;
@@ -217,12 +210,4 @@
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.2s ease;
-}
-
-.popover-trigger:hover {
-  background-color: var(--primary-color-4);
-}
-
-.popover-trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--focused-border-color);
 }
