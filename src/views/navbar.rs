@@ -152,9 +152,6 @@ pub fn Navbar() -> Element {
                                 span { class: "w-3 h-3 rounded-full bg-[#cba258]" }
                                 span { class: "text-xs font-bold uppercase tracking-wider text-[#cba258]", "Baptiste Chachura — Portfolio" }
                             }
-                            p { class: "text-sm text-[rgba(255,255,255,0.70)] max-w-lg",
-                                {tr(l, "Développeur & étudiant passionné par l'architecture logicielle, Rust et le web moderne.", "Software engineer & student passionate about software architecture, Rust, and modern web.")}
-                            }
                         }
 
                         div { class: "flex flex-wrap gap-4 text-sm font-semibold",
