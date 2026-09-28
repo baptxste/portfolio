@@ -13,36 +13,34 @@ pub fn TagPage(tag: String) -> Element {
         .collect();
 
     rsx! {
-        div { class: "container mx-auto px-2 py-4 max-w-4xl space-y-6",
-            header { class: "pb-4 border-b border-[var(--border-subtle)]",
-                div { class: "inline-block mb-2 px-3 py-1 bg-[#d4e9e2] dark:bg-[#1e3f36] text-[#006241] dark:text-[#00ff9d] text-xs font-bold rounded-full uppercase tracking-wider",
+        div { class: "notes-home-container",
+            header { class: "notes-header",
+                div { class: "hero-badge",
                     "Tag"
                 }
-                h1 { class: "text-3xl font-semibold theme-text-heading tracking-tight",
+                h1 {
                     "Notes marquées #{tag}"
                 }
             }
 
             if matching_notes.is_empty() {
-                p { class: "theme-text-soft text-sm italic py-8 text-center theme-bg-card rounded-[12px] sb-card-shadow",
+                p { class: "empty-notes-msg",
                     "Aucune note trouvée pour ce tag."
                 }
             } else {
-                ul { class: "space-y-4",
+                div { class: "notes-grid",
                     for note in matching_notes {
-                        li { class: "p-6 theme-bg-card rounded-[12px] sb-card-shadow hover:shadow-md transition duration-200 group",
-                            div { class: "flex justify-between items-start mb-2",
-                                Link {
-                                    to: Route::NotePage { slug: note.slug.clone() },
-                                    class: "text-xl font-semibold theme-text-main group-hover:text-[#00754A] dark:group-hover:text-[#00ff9d] transition",
-                                    "{note.title}"
+                        Link {
+                            to: Route::NotePage { slug: note.slug.clone() },
+                            class: "note-card-item",
+                            div {
+                                div { style: "display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;",
+                                    h3 { "{note.title}" }
+                                    if let Some(date) = &note.date {
+                                        span { style: "font-size: 0.75rem; color: var(--text-soft); white-space: nowrap; margin-left: 0.5rem;", "{date}" }
+                                    }
                                 }
-                                if let Some(date) = &note.date {
-                                    span { class: "ml-3 text-xs theme-text-soft", "{date}" }
-                                }
-                            }
-                            p { class: "mt-2 text-xs theme-text-soft leading-relaxed line-clamp-2",
-                                "{note.summary}..."
+                                p { "{note.summary}..." }
                             }
                         }
                     }

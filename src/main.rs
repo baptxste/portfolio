@@ -27,6 +27,13 @@ impl Theme {
     pub fn is_dark(&self) -> bool {
         matches!(self, Theme::Dark)
     }
+
+    pub fn to_class(&self) -> &'static str {
+        match self {
+            Theme::Light => "light",
+            Theme::Dark => "dark",
+        }
+    }
 }
 
 #[derive(Debug, Clone, Routable, PartialEq)]
@@ -46,9 +53,12 @@ pub enum Route {
 }
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
+const MASTER_CSS: Asset = asset!("/assets/master.css");
 const MAIN_CSS: Asset = asset!("/assets/styling/main.css");
+const HOME_CSS: Asset = asset!("/assets/styling/home.css");
+const NOTES_CSS: Asset = asset!("/assets/styling/notes.css");
+const CV_CSS: Asset = asset!("/assets/styling/cv.css");
 const MARKDOWN_CSS: Asset = asset!("/assets/styling/markdown.css");
-const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 
 fn main() {
     dioxus::launch(App);
@@ -70,9 +80,12 @@ fn App() -> Element {
 
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
+        document::Link { rel: "stylesheet", href: MASTER_CSS }
         document::Link { rel: "stylesheet", href: MAIN_CSS }
+        document::Link { rel: "stylesheet", href: HOME_CSS }
+        document::Link { rel: "stylesheet", href: NOTES_CSS }
+        document::Link { rel: "stylesheet", href: CV_CSS }
         document::Link { rel: "stylesheet", href: MARKDOWN_CSS }
-        document::Link { rel: "stylesheet", href: TAILWIND_CSS }
 
         // KaTeX Math Stylesheet & JS Auto-render script
         document::Link {

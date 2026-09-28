@@ -25,34 +25,35 @@ pub fn Navbar() -> Element {
 
     let link_class = |is_active: bool| -> &'static str {
         if is_active {
-            "px-4 py-2 text-sm font-semibold text-[#006241] dark:text-[#d4e9e2] bg-[#d4e9e2] dark:bg-[#24463e] rounded-full transition duration-200"
+            "nav-link active"
         } else {
-            "px-4 py-2 text-sm font-medium theme-text-main hover:text-[#006241] dark:hover:text-[#d4e9e2] hover:bg-[#edebe9] dark:hover:bg-[#1f3c35] rounded-full transition duration-200"
+            "nav-link"
         }
     };
     let mut open = use_signal(|| false);
+    
     rsx! {
         div {
-            class: if theme().is_dark() { "dark min-h-screen flex flex-col theme-bg-page theme-text-main selection:bg-[#d4e9e2] selection:text-[#006241]" } else { "min-h-screen flex flex-col theme-bg-page theme-text-main selection:bg-[#d4e9e2] selection:text-[#006241]" },
-            "data-theme": if theme().is_dark() { "dark" } else { "light" },
+            class: "app-container {theme().to_class()}",
+            "data-theme": theme().to_class(),
 
-            // Global Nav Header - Starbucks white / dark nav bar with triple shadow stack
-            nav { class: "bg-[var(--nav-bg)] sticky top-0 z-50 sb-nav-shadow flex-shrink-0 transition-colors duration-250",
-                div { class: "container mx-auto px-4 sm:px-6 h-20 flex items-center justify-between max-w-7xl",
+            // Global Nav Header
+            nav { class: "site-nav",
+                div { class: "nav-inner",
                     // Brand / Logo
                     Link {
                         to: Route::Home {},
-                        class: "text-lg font-bold text-[#006241] dark:text-[#d4e9e2] flex items-center gap-3 group tracking-tight",
-                        span { class: "w-10 h-10 bg-[#006241] text-white rounded-full flex items-center justify-center font-bold text-sm tracking-wider shadow-sm group-hover:bg-[#00754A] transition duration-200 group-active:scale-95",
+                        class: "brand-logo",
+                        span { class: "brand-avatar",
                             "BC"
                         }
-                        span { class: "hidden sm:inline font-bold text-[#006241] dark:text-[#d4e9e2] group-hover:text-[#00754A] transition",
+                        span { class: "hidden-mobile",
                             "Baptiste Chachura"
                         }
                     }
 
-                    // Main Nav Links + Theme Switcher & Language Switcher Pills
-                    div { class: "flex items-center space-x-1 sm:space-x-2.5",
+                    // Main Nav Links + Theme & Language Settings Popover
+                    div { class: "nav-links",
                         Link {
                             to: Route::Home {},
                             class: link_class(matches!(current_route, Route::Home {})),
@@ -71,66 +72,55 @@ pub fn Navbar() -> Element {
                         
                         PopoverRoot { open: open(), on_open_change: move |v| open.set(v),
                             PopoverTrigger { {tr(l,"Réglages", "Settings") }}
-                            PopoverContent { gap: "0.25rem",
-                                div{
-                                    class: "px-3.5 py-1.5 text-xs font-bold rounded border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm flex-col",
+                            PopoverContent {
+                                div { class: "popover-settings-group",
                                     // Theme Toggle Switcher Button
                                     button {
-                                        class: "px-3.5 py-1.5 text-xs font-bold rounded-lg border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm",
+                                        class: "popover-option-btn",
                                         onclick: move |_| theme.write().toggle(),
-                                        span { class: if theme().is_dark(){ "font-semibold flex items-center gap-1 text-[#d4e9e2]"} else { "opacity-50" }, "Dark" }
-                                        span { class: "opacity-30", "|" }
-                                        span { class: if !theme().is_dark(){"font-semibold flex items-center gap-1 text-slate-700"} else { "opacity-50" }, "Light" }
-                                        if theme().is_dark() {
-                                            
-                                        } else {
-                                            
-                                        }
+                                        span { "Thème" }
+                                        span { class: "tag-pill", if theme().is_dark() { "Dark 🌙" } else { "Light ☀️" } }
                                     }
 
                                     // Language Toggle Switcher Button
-                                    div { class: "pl-1 flex items-center",
-                                        button {
-                                            class: "px-3.5 py-1.5 text-xs font-bold rounded-full border border-slate-300 dark:border-[#24463e] bg-[var(--bg-card)] theme-text-main hover:border-[#00754A] active:scale-95 transition duration-200 flex items-center gap-1.5 shadow-sm",
-                                            onclick: move |_| lang.write().toggle(),
-                                            span { class: if lang() == Language::Fr { "text-[#006241] dark:text-[#d4e9e2] font-extrabold" } else { "opacity-50" }, "FR" }
-                                            span { class: "opacity-30", "|" }
-                                            span { class: if lang() == Language::En { "text-[#006241] dark:text-[#d4e9e2] font-extrabold" } else { "opacity-50" }, "EN" }
-                                        }
+                                    button {
+                                        class: "popover-option-btn",
+                                        onclick: move |_| lang.write().toggle(),
+                                        span { "Langue" }
+                                        span { class: "tag-pill", if lang() == Language::Fr { "FR 🇫🇷" } else { "EN 🇬🇧" } }
                                     }
                                 }
-                                
                             }
                         }
-
-                        
                     }
                 }
             }
 
             // Main Content Area with Conditional FileTree Sidebar for Notes
             if is_notes_route {
-                div { class: "flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto px-4 py-6 gap-6",
+                div { class: "main-wrapper notes-layout",
                     FileTree { notes }
-                    main { class: "flex-1 p-6 md:p-8 theme-bg-card rounded-[12px] sb-card-shadow overflow-y-auto transition-colors duration-250",
+                    main { class: "main-content-card",
                         Outlet::<Route> {}
                     }
                 }
             } else {
-                div { class: "flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 py-6",
-                    main { class: "flex-1 p-4 md:p-6 overflow-y-auto",
+                div { class: "main-wrapper",
+                    main { class: "main-content-card",
                         Outlet::<Route> {}
                     }
                 }
             }
 
-            // Floating "Frap" Signature Circular CTA Button (Section 4.8 of DESIGN.md)
+            // Floating "Frap" Signature Circular CTA Button
             Link {
                 to: Route::NotesHome {},
-                class: "fixed bottom-6 right-6 z-50 sb-frap-button group",
+                class: "sb-frap-button",
+                style: "position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;",
                 title: tr(l, "Recherche rapide / Vault", "Quick Vault Search"),
                 svg {
-                    class: "w-6 h-6 text-white group-hover:scale-110 transition duration-200",
+                    width: "24",
+                    height: "24",
                     fill: "none",
                     stroke: "currentColor",
                     view_box: "0 0 24 24",
@@ -143,29 +133,29 @@ pub fn Navbar() -> Element {
                 }
             }
 
-            // Starbucks House Green (#1E3932) Footer Bookend (Section 1 & 2 of DESIGN.md)
-            footer { class: "bg-[#1E3932] text-white py-12 px-6 mt-16 flex-shrink-0",
-                div { class: "container mx-auto max-w-7xl space-y-8",
-                    div { class: "flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-[rgba(255,255,255,0.15)] pb-8",
+            // Starbucks House Green Footer Bookend
+            footer { class: "site-footer",
+                div { class: "footer-inner",
+                    div { class: "footer-top",
                         div { class: "space-y-1",
-                            div { class: "flex items-center gap-2",
-                                span { class: "w-3 h-3 rounded-full bg-[#cba258]" }
-                                span { class: "text-xs font-bold uppercase tracking-wider text-[#cba258]", "Baptiste Chachura — Portfolio" }
+                            div { style: "display: flex; align-items: center; gap: 0.5rem;",
+                                span { style: "width: 0.75rem; height: 0.75rem; border-radius: 50%; background-color: var(--gold);" }
+                                span { style: "font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold);", "Baptiste Chachura — Portfolio" }
                             }
                         }
 
-                        div { class: "flex flex-wrap gap-4 text-sm font-semibold",
-                            Link { to: Route::Home {}, class: "text-white hover:text-[#cba258] transition", {tr(l, "Accueil", "Home")} }
-                            Link { to: Route::NotesHome {}, class: "text-white hover:text-[#cba258] transition", {tr(l, "Notes & Vault", "Notes & Vault")} }
-                            Link { to: Route::CvPage {}, class: "text-white hover:text-[#cba258] transition", {tr(l, "CV & Expérience", "Resume")} }
+                        div { class: "footer-nav",
+                            Link { to: Route::Home {}, {tr(l, "Accueil", "Home")} }
+                            Link { to: Route::NotesHome {}, {tr(l, "Notes & Vault", "Notes & Vault")} }
+                            Link { to: Route::CvPage {}, {tr(l, "CV & Expérience", "Resume")} }
                         }
                     }
 
-                    div { class: "flex flex-col sm:flex-row justify-between items-center text-xs text-[rgba(255,255,255,0.70)] gap-4",
+                    div { class: "footer-bottom",
                         p { "© 2026 Baptiste Chachura. Built in Rust." }
-                        div { class: "flex items-center gap-4",
-                            a { href: "https://github.com/baptxste", target: "_blank", class: "hover:text-white transition", "GitHub ↗" }
-                            a { href: "mailto:baptiste.chachura@me.com", class: "hover:text-white transition", "Contact Email" }
+                        div { style: "display: flex; gap: 1rem;",
+                            a { href: "https://github.com/baptxste", target: "_blank", "GitHub ↗" }
+                            a { href: "mailto:baptiste.chachura@me.com", "Contact Email" }
                         }
                     }
                 }

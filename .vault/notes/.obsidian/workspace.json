@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Divers/template 1.md",
+                "file": "Divers/Ressources utiles.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "template 1"
+              "title": "Ressources utiles"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Divers/template 1.md",
+                "file": "Divers/Ressources utiles.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Divers/template 1.md",
+                "file": "Divers/Ressources utiles.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Divers/template 1.md",
+                "file": "Divers/Ressources utiles.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -188,10 +188,13 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "2eeecd1714ad90cc",
+  "active": "4c31665aefd71b51",
   "lastOpenFiles": [
-    "Divers/Ressources utiles.md",
     "Divers/template 1.md",
+    "Langages/python/Ecosystème.md",
+    "template.md",
+    "Langages/python/Sans titre.md",
+    "Divers/Ressources utiles.md",
     "Divers/Sans titre.md",
     "Divers",
     "Langages/rust/test/template.md",
@@ -208,7 +211,6 @@
     "assets/maths",
     "assets",
     "langages/rust/Rust Typing.md",
-    "template.md",
     "Sans titre.md",
     "langages/rust/Architecture Hexagonale en Rust.md",
     "langages/rust/Sans titre.md",

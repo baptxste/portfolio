@@ -1,24 +1,21 @@
+/* ==========================================================================
+   TIMELINE SECTION COMPONENT STYLE
+   ========================================================================== */
+
 .timeline-icon-badge {
-  background-color: #d4e9e2;
-  color: #006241;
-}
-.dark .timeline-icon-badge {
-  background-color: #24463e;
-  color: #d4e9e2;
+  background-color: var(--bg-pill-light);
+  color: var(--text-heading);
 }
 
 .timeline-rail {
-  padding-left: 1rem; /* garde toujours le point dans la zone visible (overflow-x: hidden) */
+  padding-left: 1rem;
 }
 
 .timeline-item {
   position: relative;
-  border-left: 2px solid #d4e9e2;
-  padding-left: 1rem;
-  padding-bottom: 1.25rem; /* remplace le margin-top : la ligne reste continue entre les items */
-}
-.dark .timeline-item {
-  border-color: #24463e;
+  border-left: 2px solid var(--border-subtle);
+  padding-left: 1.25rem;
+  padding-bottom: 1.5rem;
 }
 
 .timeline-item:last-child {
@@ -27,16 +24,14 @@
 
 .timeline-dot {
   position: absolute;
-  left: -7px; /* centré sur le border-left de 2px de l'item */
+  left: -7px;
   top: 0.375rem;
-  width: 0.75rem;
-  height: 0.75rem;
-  border-radius: 9999px;
-  background-color: #00754A;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--green-accent);
 }
-.dark .timeline-dot {
-  background-color: #80c7b3;
-}
+
 .timeline-paragraph {
   margin-top: 0.25rem;
 }
@@ -52,10 +47,10 @@
 }
 
 .timeline-bullet-dot {
-  margin-top: 0.4rem;
-  width: 4px;
-  height: 4px;
-  border-radius: 9999px;
-  background-color: currentColor;
+  margin-top: 0.45rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--text-soft);
   flex-shrink: 0;
 }

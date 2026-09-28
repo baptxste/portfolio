@@ -13,24 +13,20 @@ pub fn CvPage() -> Element {
     let mut show_pdf_embed = use_signal(|| true);
 
     rsx! {
-        div { class: "container mx-auto px-2 py-4 max-w-5xl space-y-8",
-            // Header Bar & Download Action - Starbucks 12px Theme Card
-            header { class: "flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-6 sm:p-8 theme-bg-card rounded-[12px] sb-card-shadow transition-colors duration-250",
-                div {
-                    div { class: "inline-block mb-2 px-3 py-1 bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] text-xs font-bold rounded-full uppercase tracking-wider",
+        div { class: "cv-container",
+            // Header Bar & Download Action
+            header { class: "cv-header-card",
+                div { class: "cv-header-title",
+                    div { class: "hero-badge",
                         {tr(l, "Curriculum Vitae", "Curriculum Vitae")}
                     }
-                    h1 { class: "text-3xl font-semibold theme-text-heading mb-1 tracking-tight",
-                        "Baptiste Chachura"
-                    }
-                    p { class: "text-xs theme-text-soft font-medium",
-                        {tr(l, "Visualisateur & Téléchargement du CV", "Resume Viewer & Download")}
-                    }
+                    h1 { "Baptiste Chachura" }
+                    p { {tr(l, "Visualisateur & Téléchargement du CV", "Resume Viewer & Download")} }
                 }
 
-                div { class: "flex flex-wrap items-center gap-3",
+                div { class: "cv-header-actions",
                     button {
-                        class: "px-5 py-2.5 sb-pill-outline text-xs",
+                        class: "sb-pill-outline",
                         onclick: move |_| show_pdf_embed.set(!show_pdf_embed()),
                         if show_pdf_embed() {
                             {tr(l, "Afficher le format Web", "Show Web View")}
@@ -43,9 +39,11 @@ pub fn CvPage() -> Element {
                         href: "/assets/cv-chachura.pdf",
                         download: "CV-Baptiste-Chachura.pdf",
                         target: "_blank",
-                        class: "px-6 py-2.5 sb-pill-green text-xs flex items-center gap-2 shadow-sm",
+                        class: "sb-pill-green",
+                        style: "display: inline-flex; align-items: center; gap: 0.5rem;",
                         svg {
-                            class: "w-4 h-4",
+                            width: "16",
+                            height: "16",
                             fill: "none",
                             stroke: "currentColor",
                             view_box: "0 0 24 24",
@@ -60,49 +58,49 @@ pub fn CvPage() -> Element {
                     }
                 }
             }
-            // Web Structured CV Presentation - 12px Theme Card
-            div { class: "theme-bg-card p-8 md:p-12 rounded-[12px] sb-card-shadow space-y-10 transition-colors duration-250",
+
+            // Web Structured CV Presentation
+            div { class: "cv-body-card",
                 // Profile & Info Header
-                div { class: "border-b border-[var(--border-subtle)] pb-8 flex flex-col md:flex-row justify-between gap-6",
-                    div {
-                        h2 { class: "text-3xl font-semibold theme-text-heading mb-2 tracking-tight", "Baptiste Chachura" }
-                        p { class: "text-base text-[#00754A] dark:text-[#80c7b3] font-semibold mb-4",
+                div { class: "cv-profile-section",
+                    div { class: "cv-profile-info",
+                        h2 { "Baptiste Chachura" }
+                        p { class: "cv-profile-role",
                             {tr(l, "Étudiant & Développeur Software / Web", "Student & Software / Web Developer")}
                         }
-                        p { class: "text-sm theme-text-main max-w-2xl leading-relaxed",
+                        p { class: "cv-profile-desc",
                             {tr(l, "Passionné par l'architecture logicielle, le développement en Rust, les technologies web modernes et la modélisation mathématique.", "Passionate about software architecture, Rust development, modern web technologies, and mathematical modeling.")}
                         }
                     }
-                    div { class: "space-y-2 text-xs theme-text-main min-w-[220px] bg-[#faf6ee] dark:bg-[#251e13] p-4 rounded-[12px] border border-[#dfc49d]/40",
-                        div { class: "flex items-center gap-2",
-                            span { class: "font-bold text-[#006241] dark:text-[#d4e9e2]", "EMAIL:" }
-                            a { href: "mailto:baptiste.chachura@me.com", class: "hover:underline text-[#00754A] dark:text-[#80c7b3] font-semibold", "baptiste.chachura@me.com" }
+                    div { class: "cv-contact-box",
+                        div { class: "contact-row",
+                            span { class: "contact-label", "EMAIL:" }
+                            a { href: "mailto:baptiste.chachura@me.com", style: "color: var(--text-link); font-weight: 600;", "baptiste.chachura@me.com" }
                         }
-                        div { class: "flex items-center gap-2",
-                            span { class: "font-bold text-[#006241] dark:text-[#d4e9e2]", {tr(l, "LOCALISATION:", "LOCATION:")} }
+                        div { class: "contact-row",
+                            span { class: "contact-label", {tr(l, "LOCALISATION:", "LOCATION:")} }
                             span { "France" }
                         }
-                        div { class: "flex items-center gap-2",
-                            span { class: "font-bold text-[#006241] dark:text-[#d4e9e2]", "STATUT:" }
-                            span { class: "text-[#00754A] dark:text-[#80c7b3] font-bold", "Disponible" }
+                        div { class: "contact-row",
+                            span { class: "contact-label", "STATUT:" }
+                            span { style: "color: var(--text-link); font-weight: 700;", "Disponible" }
                         }
                     }
                 }
 
                 // Grid: Competences & Formations
-                div { class: "grid grid-cols-1 md:grid-cols-2 gap-8",
+                div { class: "cv-sections-grid",
                     // Competences
-                    div { class: "space-y-4",
-                        h3 { class: "text-lg font-semibold theme-text-heading flex items-center gap-2.5",
-                            span { class: "p-1.5 bg-[#d4e9e2] dark:bg-[#24463e] text-[#006241] dark:text-[#d4e9e2] rounded-full text-sm", "💻" }
+                    div { style: "display: flex; flex-direction: column; gap: 1rem;",
+                        h3 { style: "font-size: 1.125rem; font-weight: 700; color: var(--text-heading); display: flex; align-items: center; gap: 0.5rem;",
+                            span { style: "padding: 0.375rem; background-color: var(--bg-pill-light); border-radius: 50%; font-size: 0.875rem;", "💻" }
                             {tr(l, "Compétences Techniques", "Technical Skills")}
                         }
-                        div { class: "space-y-4",
-                            
+                        div { style: "display: flex; flex-direction: column; gap: 1rem;",
                             TagList {
                                 l: l,
                                 title_fr: "Langages & Frameworks",
-                                title_en: "Langages & Frameworks",
+                                title_en: "Languages & Frameworks",
                                 tags: vec!["Rust", "Python", "TypeScript"],
                             }
                             TagList {
@@ -126,7 +124,7 @@ pub fn CvPage() -> Element {
                                 subtitle_fr: "Centrale Marseille",
                                 subtitle_en: "Centrale Marseille, (France)",
                                 description_fr: "Cours intensifs en mathématiques, physique,\n -  chimie, \n - informatique, \n - sciences de l'ingénieur, anglais.",
-                                description_en: "Intensive program  preparing for the competitive entrance exams to French 'Grandes Écoles' with a focus on Advanced Mathematics, Physics, Chemistry, Computer Science, Engineering Sciences, and English.",
+                                description_en: "Intensive program preparing for the competitive entrance exams to French 'Grandes Écoles' with a focus on Advanced Mathematics, Physics, Chemistry, Computer Science, Engineering Sciences, and English.",
                             },
                             TimelineEntry {
                                 date: Some("09/2022"),
@@ -135,7 +133,7 @@ pub fn CvPage() -> Element {
                                 subtitle_fr: "Lycée Descartes, Tours",
                                 subtitle_en: "Lycée Descartes, Tours (France)",
                                 description_fr: "Cours intensifs en mathématiques, physique, chimie, informatique, sciences de l'ingénieur, anglais.",
-                                description_en: "Intensive program  preparing for the competitive entrance exams to French 'Grandes Écoles' with a focus on Advanced Mathematics, Physics, Chemistry, Computer Science, Engineering Sciences, and English.",
+                                description_en: "Intensive program preparing for the competitive entrance exams to French 'Grandes Écoles' with a focus on Advanced Mathematics, Physics, Chemistry, Computer Science, Engineering Sciences, and English.",
                             },
                             TimelineEntry {
                                 date: Some("09/2019"),
@@ -151,38 +149,37 @@ pub fn CvPage() -> Element {
                 }
             }
 
-            // PDF Viewer Container (when show_pdf_embed is true)
+            // PDF Viewer Container
             if show_pdf_embed() {
-                div { class: "theme-bg-card p-4 rounded-[12px] sb-card-shadow transition-colors duration-250",
-                    div { class: "mb-3 flex justify-between items-center px-2 text-xs theme-text-soft font-medium",
+                div { class: "cv-pdf-embed-card",
+                    div { class: "pdf-header",
                         span { {tr(l, "Aperçu du fichier /assets/cv-chachura.pdf", "Preview /assets/cv-chachura.pdf")} }
                         a {
                             href: "/assets/cv-chachura.pdf",
                             target: "_blank",
-                            class: "text-[#00754A] dark:text-[#80c7b3] font-semibold hover:underline",
+                            style: "color: var(--text-link); font-weight: 600;",
                             {tr(l, "Ouvrir dans un nouvel onglet ↗", "Open in new tab ↗")}
                         }
                     }
                     object {
                         data: "/assets/cv-chachura.pdf",
                         r#type: "application/pdf",
-                        class: "w-full h-[800px] rounded-[8px] theme-bg-subtle border border-[var(--border-subtle)]",
-                        div { class: "text-center py-20 px-4 space-y-4",
-                            p { class: "theme-text-soft font-medium text-sm",
+                        class: "pdf-object",
+                        div { style: "text-center; padding: 5rem 1rem;",
+                            p { style: "color: var(--text-soft); font-size: 0.875rem; margin-bottom: 1rem;",
                                 {tr(l, "Le fichier PDF 'cv-chachura.pdf' sera affiché directement ici dès qu'il sera déposé dans le dossier assets.", "The PDF file 'cv-chachura.pdf' will be rendered directly here once placed in the assets directory.")}
                             }
                             a {
                                 href: "/assets/cv-chachura.pdf",
                                 download: "CV-Baptiste-Chachura.pdf",
-                                class: "inline-block px-5 py-2.5 sb-pill-green text-xs shadow-sm",
+                                class: "sb-pill-green",
+                                style: "padding: 0.625rem 1.25rem; display: inline-block;",
                                 {tr(l, "Télécharger le PDF", "Download PDF")}
                             }
                         }
                     }
                 }
             }
-
-
         }
     }
 }
