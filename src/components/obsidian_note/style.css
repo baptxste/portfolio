@@ -65,6 +65,76 @@
   color: var(--text-main);
 }
 
+/* Inline code styling */
+.note-obsidian__body :not(pre) > code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.875em;
+  background-color: var(--bg-subtle);
+  color: var(--text-heading);
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Code block wrapper styling */
+.obsidian-code-block {
+  margin: 1.5rem 0;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-subtle);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.obsidian-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 1rem;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  text-transform: lowercase;
+}
+
+.obsidian-code-lang {
+  letter-spacing: 0.05em;
+}
+
+.obsidian-code-content {
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.obsidian-code-content pre {
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.obsidian-code-content code {
+  font-family: inherit;
+  background: transparent !important;
+}
+
+/* Dark mode adjustments for code block contrast */
+.dark .obsidian-code-block {
+  background-color: #13221e;
+  border-color: var(--border-subtle);
+}
+
+.dark .obsidian-code-header {
+  background-color: #0f1c19;
+  border-bottom-color: var(--border-subtle);
+}
+
 .note-obsidian__body a.wikilink {
   color: var(--text-link);
   text-decoration: none;
