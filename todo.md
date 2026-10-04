@@ -1,7 +1,7 @@
-- [] unifier le css, un fichier source qui sert de base pour le reste des autres fichiers css par composants
-- [] harmoniser proprement la gestion des theme sombre et clair
 - [] ajouter la section projet 
 - [] makefile (clean, rebuild images, ...)
 - [] update github workflow pour rebuild les images
 - [] trier les notes par ordre alphabetique
 - [] Visualiseur de graph comme obsidian
+- [] gérer le cas ou on a un lien interne mort dans une note ca doit renvoyer vers 404 (cf note pca)
+- [] améliorer parsing des liens externes pour qu'ils ne soient pas forcement inline si ils sont sur des lignes différentes dans la note.

@@ -32,6 +32,23 @@ pub fn NoteObsidian(note: NoteMetaData) -> Element {
                     console.error('Erreur lors de la copie: ', err);
                 });
             };
+
+            if (typeof renderMathInElement === 'function') {
+                const noteElem = document.querySelector('.note-obsidian');
+                if (noteElem) {
+                    renderMathInElement(noteElem, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false},
+                            {left: '\\[', right: '\\]', display: true}
+                        ],
+                        throwOnError: false,
+                        strict: false,
+                        ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+                    });
+                }
+            }
             "#
         );
     });

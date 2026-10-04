@@ -34,22 +34,13 @@ pub fn NotePage(slug: String) -> Element {
     }));
 
     rsx! {
-        div { class: "notes-home-container",
-            if let Some(note) = note_opt {
-                div { class: "main-content-card",
-                    NoteObsidian { note: note.clone() }
-                }
-            } else {
-                div { class: "main-content-card", style: "text-align: center; padding: 4rem 1rem;",
-                    h1 { style: "font-size: 1.875rem; font-weight: 700; color: var(--text-heading); margin-bottom: 1rem;", "404 - Note introuvable" }
-                    p { style: "color: var(--text-soft); font-size: 0.875rem; margin-bottom: 1.5rem;", "La note '{slug}' n'existe pas ou n'a pas été publiée." }
-                    Link {
-                        to: Route::NotesHome {},
-                        class: "sb-pill-green",
-                        style: "padding: 0.75rem 1.5rem; display: inline-block;",
-                        "Retourner aux notes"
-                    }
-                }
+        if let Some(note) = note_opt {
+            div { class: "main-content-card",
+                NoteObsidian { note: note.clone() }
+            }
+        } else {
+            div { class: "main-content-card",
+                crate::views::NotFound { route: vec!["notes".to_string(), slug.clone()] }
             }
         }
     }

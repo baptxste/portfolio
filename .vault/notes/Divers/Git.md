@@ -99,3 +99,50 @@ Résultat :
 ```text
 A---B---E'---F'
 ```
+
+
+## Git Reflog
+`git reflog` affiche l'historique des déplacements de références Git (`HEAD`, branches, rebases, resets, merges, etc.). Contrairement à `git log`, le reflog permet de retrouver des commits qui ne sont plus accessibles depuis une branche.
+
+### Afficher le reflog
+```bash
+git reflog
+```
+
+Exemple :
+```text
+a1b2c3d HEAD@{0}: rebase (finish): returning to refs/heads/main
+e4f5g6h HEAD@{1}: rebase (pick): Add feature
+i7j8k9l HEAD@{2}: checkout: moving from feature to main
+```
+
+### Restaurer un état précédent
+
+Revenir à un état référencé dans le reflog :
+```bash
+git reset --hard HEAD@{2}
+```
+
+Ou avec le hash :
+```bash
+git reset --hard i7j8k9l
+```
+
+### Cas d'usage courants
+
+#### Annuler un rebase
+```bash
+git reflog
+git reset --hard HEAD@{n}
+```
+#### Retrouver un commit perdu après un reset
+```bash
+git reflog
+git checkout <hash>
+```
+
+#### Restaurer une branche supprimée
+```bash
+git reflog
+git branch <nouvelle-branche> <hash>
+```

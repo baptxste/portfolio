@@ -7,129 +7,148 @@ date: 2026-10-04
 publish: true
 ---
 
-## 1. Problème
+# Introduction
 
-On dispose d'un jeu de données :
+L'analyse en composantes principales (ACP) est une technique de réduction de dimension.  
+L'idée principale est de regrouper plusieurs variables qui suivent une même tendance en une seule, afin de réduire la quantité de données à traiter tout en conservant l'essentiel de l'information.  
+En pratique, on parle de variables corrélées (qui portent une information redondante) et de nouvelles variables décorrélées.  
+Ces nouvelles variables sont appelées *composantes principales*, *axes principaux* ou encore *facteurs principaux*.
 
-$$D = {x_i,\ 1 \le i \le n}, \qquad x_i \in \mathbb{R}^2$$
+---
 
-On cherche un vecteur unitaire $\vec{v}$ tel que la **variance projetée** de $D$ sur la direction $\vec{v}$ soit **maximale**. La projection d'un point est :
+# Principe général
 
-$$x' = \vec{v} \cdot \vec{x}$$
+L'ACP repose sur l'étude de la variance et de la covariance, puis sur la diagonalisation de la matrice de covariance.
 
-### Rappel : variance d'une variable aléatoire
+#### Rappel :
+- Soit $U$ une variable aléatoire $\in \mathbf{R}$, alors $\mathrm{Var}(U) = \mathbb{E}\big[(U - \mathbb{E}(U))^2\big]$.
+- Pour un vecteur aléatoire $X$, la matrice de covariance est
+  $$\mathrm{cov}(X) = \mathbb{E}\big[(X - \mathbb{E}(X))(X - \mathbb{E}(X))^T\big],$$
+  c'est une matrice symétrique réelle définie positive.
 
-Pour $U$ une variable aléatoire réelle :
+![[pca_axe_principale.png]]
 
-$$\mathrm{Var}(U) = \mathbb{E}\left[(U - \mathbb{E}(U))^2\right]$$
+On note $D = \{x_i, 1 \le i \le n\}$, avec $x_i \in \mathbf{R}^d$ (par exemple $d=2$).  
+On cherche un vecteur unitaire $\vec{v}$ tel que la variance de la projection de $D$ sur l'axe engendré par $\vec{v}$ soit maximale.
 
-## 2. Hypothèse : données centrées
+On projette un point $x$ sur $\vec{v}$ par :
+$$x' = \vec{v}^T x.$$
 
-On suppose que les $x$ sont centrés, c'est-à-dire $\mathbb{E}_x(x) = 0$. Alors :
+On suppose que les $x$ sont centrés, ( $\mathbb{E}_x(x) = 0$ ) alors $\mathbb{E}_x(\vec{v}^T x) = \vec{v}^T \mathbb{E}(x) = 0,$ et
+$$\mathbb{E}_x\big[(\vec{v}^T x)^2\big] = \mathbb{E}_x\big[\vec{v}^T (xx^T) \vec{v}\big].$$
 
-$$\mathbb{E}_x(v^T x) = v^T \mathbb{E}_x(x) = 0$$
+Comme par hypothèse $\mathbb{E}(x) = 0$, on a $\mathrm{cov}(x) = \mathbb{E}(x x^T).$
+On cherche donc la direction $\vec{v}$ qui maximise la variance projetée, c'est-à-dire qui maximise
+$$\mathbb{E}_x\big[\vec{v}^T (x x^T) \vec{v}\big].$$
 
-La variance de la projection se simplifie donc en :
+---
 
-$$\mathbb{E}_x\left[(v^T x)^2\right] = \mathbb{E}_x\left[v^T (x x^T) v\right]$$
+# Décomposition spectrale de la covariance
 
-## 3. Matrice de covariance
+On note la matrice de covariance $\mathrm{cov}(x) = \Sigma$.  
+D'après le théorème spectral, une matrice symétrique réelle est diagonalisable dans une base orthonormée.
 
-$$\mathrm{Cov}(x) = \mathbb{E}\left[(x - \mathbb{E}(x))(x - \mathbb{E}(x))^T\right]$$
+On peut donc écrire :
+$$\Sigma = V \, \Omega \, V^T,$$
+où $V$ est la matrice dont les colonnes sont les vecteurs propres $e_i$, et $\Omega$ est la matrice diagonale des valeurs propres $\lambda_i$.
 
-C'est une matrice **symétrique (semi-)définie positive**. Ici, comme $\mathbb{E}(x) = 0$ par hypothèse :
+On peut représenter $V$ ainsi :
+$$V = \begin{bmatrix}
+\vdots & \vdots &        & \vdots \\
+e_1    & e_2    & \cdots & e_n    \\
+\vdots & \vdots &        & \vdots
+\end{bmatrix},
+\quad \text{avec } e_i \text{ les vecteurs propres.}$$
 
-$$\mathrm{Cov}(x) = \frac{1}{N}\sum_{i=1}^{N} x_i x_i^T = \mathbb{E}(x x^T)$$
+Comme les $e_i$ forment une base orthonormée, on a :
+$$V^T e_i = \begin{pmatrix} e_1^T e_i \\ e_2^T e_i \\ \vdots \\ e_n^T e_i \end{pmatrix} = \begin{pmatrix} 0 \\ \vdots \\ 1 \leftarrow \text{$i$-ème position} \\ \vdots \\ 0 \end{pmatrix}.$$
 
-On cherche donc $\vec{v}$ tel que $\mathbb{E}_x(v^T x x^T v)$ soit maximal.
+Par ailleurs,
+$$\Sigma e_i = \lambda_i e_i,$$
+c'est-à-dire que chaque vecteur propre $e_i$ est une direction privilégiée associée à la valeur propre $\lambda_i$.
 
-## 4. Diagonalisation (théorème spectral)
+---
 
-On note $\mathrm{Cov}(x) = \Sigma$. D'après le **théorème spectral**, $\Sigma$ est diagonalisable :
+# Maximisation de la variance projetée
 
-$$\Sigma = V \Omega V^T$$
+On cherche un vecteur unitaire $\vec{v}^*$ tel que
+$$\vec{v}^T V \Omega V^T \vec{v}$$
+soit maximal, sous la contrainte $\|\vec{v}\| = 1$.
 
-avec :
+On écrit $\vec{v}$ dans la base des vecteurs propres :
+$$\vec{v} = \sum_{j=1}^{N} b_j e_j.$$
 
-- $V = \begin{pmatrix} e_1 & e_2 & \cdots & e_N \end{pmatrix}$ : matrice dont les colonnes sont les vecteurs propres $e_i$ de $\Sigma$
-- $\Omega = \begin{pmatrix} \lambda_1 & & 0 \ & \ddots & \ 0 & & \lambda_N \end{pmatrix}$ : matrice diagonale des valeurs propres
+Alors
+$$\vec{v}^T V \Omega V^T \vec{v}
+= \left(\sum_{j=1}^{N} b_j e_j^T\right)
+  \left(\Sigma \sum_{j=1}^{N} b_j e_j\right)
+= \left(\sum_{j=1}^{N} b_j e_j^T\right)
+  \left(\sum_{j=1}^{N} b_j \Sigma e_j\right).$$
 
-> **Rappel :** les vecteurs propres sont orthogonaux (orthonormés), donc $V^T V = I$.
+Or $\Sigma e_j = \lambda_j e_j$, donc
+$$\left(\sum_j b_j e_j^T\right)
+\left(\sum_j b_j \lambda_j e_j\right)
+= \sum_i \sum_j b_i b_j \lambda_j \, e_i^T e_j.$$
 
-Les lignes de $V^T$ sont les $e_i^T$, d'où :
+Comme les $e_i$ sont orthonormés, $e_i^T e_j = 0$ si $i \ne j$ et $1$ si $i=j$, d'où :
+$$\vec{v}^T \Sigma \vec{v} = \sum_j b_j^2 \lambda_j.$$
 
-$$V^T e_i = \begin{pmatrix} e_1^T e_i \ e_2^T e_i \ \vdots \ e_N^T e_i \end{pmatrix} = \begin{pmatrix} 0 \ \vdots \ 1 \ \vdots \ 0 \end{pmatrix} = \varepsilon_i \quad (\text{le 1 est en position } i)$$
+La contrainte $\|\vec{v}\| = 1$ devient
+$$\|\vec{v}\|^2 = \left\|\sum_j b_j e_j\right\|^2
+= \sum_j b_j^2 = 1.$$
 
-Puis :
+On cherche donc à maximiser
+$$\sum_j b_j^2 \lambda_j
+\quad \text{sous la contrainte} \quad
+\sum_j b_j^2 = 1.$$
 
-$$\Omega V^T e_i = \begin{pmatrix} 0 \ \vdots \ \lambda_i \ \vdots \ 0 \end{pmatrix} \qquad \Longrightarrow \qquad V\left(\Omega V^T e_i\right) = \lambda_i e_i$$
+Pour maximiser cette somme, il suffit de prendre $b_j = 1$ pour l'indice $j$ correspondant à la plus grande valeur propre $\lambda_j$, et $b_k = 0$ pour tous les autres $k \ne j$.  
+L'axe $e_j$ est ainsi appelé *axe d'inertie* : c'est la direction qui maximise la variance.
 
-## 5. Maximisation sous contrainte
+---
 
-On cherche $\vec{v}$ qui maximise $v^T V \Omega V^T v$ sous la contrainte $|v| = 1$.
+# Réduction de dimension et projection
 
-On décompose $\vec{v}$ dans la base des vecteurs propres :
+Le principe de l'ACP est donc de diagonaliser la matrice de covariance $\Sigma$ et d'ordonner les valeurs propres $\lambda_i$ dans l'ordre décroissant.  
+Les vecteurs propres associés aux plus grandes valeurs propres définissent les axes principaux « les plus informatifs ».
 
-$$\vec{v} = \sum_{j=1}^{N} b_j e_j$$
+Pour réduire la dimension, il suffit de projeter les données sur les premiers axes principaux (ceux correspondant aux plus grandes valeurs propres).  
+Si $V$ est la matrice des vecteurs propres, les coordonnées d'un point $x$ dans la nouvelle base sont :
+$$x' = V^T x.$$
 
-Alors, d'après la section précédente, $V \Omega V^T v = \sum_j b_j \lambda_j e_j$ (matrice appliquée à $v$), et :
+En ne gardant que les $k$ premières composantes de $x'$, on obtient une représentation en dimension $k$ qui conserve le plus possible de variance.
 
-$$ \begin{aligned} v^T V \Omega V^T v &= \left(\sum_{j} b_j e_j^T\right)\left(\sum_{j} b_j \lambda_j e_j\right) \ &= \sum_i \sum_j b_i b_j ,\lambda_j, e_i^T e_j \ &= \sum_j b_j^2 \lambda_j \end{aligned} $$
+---
 
-car $e_i^T e_j = 1$ si $i = j$, et $0$ sinon (orthogonalité).
+# Variance expliquée
 
-On cherche donc à **maximiser** $\sum_j b_j^2 \lambda_j$ sous la contrainte $|v| = 1$, soit :
+La projection en dimension 2 (ou en dimension $k$ plus généralement) n'est pas toujours intéressante si l'on perd trop de variance.  
+Pour quantifier cela, on introduit la *variance expliquée*.
 
-$$\sum_j b_j^2 = 1$$
+La variance totale est :
+$$\mathrm{Var}(x) = \lambda_1 + \lambda_2 + \dots + \lambda_n.$$
 
-### Solution
+On définit le rapport de variance expliquée par les deux premières composantes :
+$$\frac{\lambda_1 + \lambda_2}{\mathrm{Var}(x)}.$$
+Si ce rapport est proche de 1, cela signifie que l'on conserve une grande partie de la variance dans les deux premières composantes principales, ce qui rend la représentation en dimension 2 pertinente.
 
-Pour résoudre, on prend :
+Plus généralement, on peut tracer la fonction
+$$f(k) = \frac{\sum_{i=1}^k \lambda_i}{\sum_{i=1}^n \lambda_i},$$
+qui donne la part de variance expliquée par les $k$ premières composantes principales.
 
-- $b_j = 1$ pour la **plus grande** valeur propre,
-- $b_i = 0$ pour tout le reste.
+Ce graphe permet de choisir un $k$ adapté : par exemple, le plus petit $k$ tel que $f(k)$ soit supérieur à un seuil (0.9, 0.95, etc.), afin de conserver une grande partie de l'information tout en réduisant la dimension.
 
-Le vecteur propre $e_j$ correspondant est appelé **axe d'inertie** : c'est l'axe qui **maximise la variance**.
-
-## 6. Conclusion : ce qu'est l'ACP
-
-> **ACP = diagonaliser la matrice de covariance.**
-
-(En pratique, on ordonne les valeurs propres de manière **décroissante** dans la matrice diagonale $\Omega$.)
-
-## 7. Changement de base et réduction de dimension
-
-### Nouvelles coordonnées
-
-Pour obtenir les coordonnées dans la nouvelle base :
-
-$$x' = V^T x \in \mathbb{R}^N$$
-
-### Réduction de dimension
-
-Pour réduire la dimension, on fait une **projection** sur les $k$ axes (par exemple $k = 2$) qui correspondent aux **plus grandes valeurs propres**.
-
-> Parfois, projeter en dimension 2 n'est pas intéressant (trop de variance perdue).
-
-## 8. Quelle dimension garder ? Variance expliquée
-
-La variance totale est la somme des valeurs propres :
-
-$$\mathrm{Var}(x) = \lambda_1 + \lambda_2 + \cdots + \lambda_N$$
-
-Après réduction en dimension 2, la part de variance conservée est :
-
-$$\frac{\lambda_1 + \lambda_2}{\mathrm{Var}(x)}$$
-
-Si ce rapport est **proche de 1**, c'est bien : on garde le maximum de variance.
-
-### Généralisation : courbe de variance cumulée
-
-Si on trace, en fonction de $k$ :
-
-$$\frac{\sum_{i=1}^{k} \lambda_i}{\sum_{j=1}^{N} \lambda_j}$$
-
-- **Courbe foncée** : la variance est concentrée sur les premiers axes, quelques composantes suffisent (≈ 0,9 dès les premières dimensions).
-- **Courbe claire** : la variance est répartie sur beaucoup d'axes, la réduction est moins efficace.
 ![[pca_var_cumulee.png]]
-Souvent, on cherche à **conserver un maximum de variance** : ce rapport permet donc de **trouver la dimension de réduction** adaptée.
+
+# Ressources
+#todo
+[[Vraisemblance]]
+### cercle des corrélations
+
+
+[[Cours9_ReductionDimension_Part_I.pdf]]
+
+
+[IBM](https://www.ibm.com/topics/principal-component-analysis)
+[Cours pdf Rennes](https://perso.univ-rennes2.fr/system/files/users/jegou_n/acp-cours.pdf)
+[Cours pdf Toulouse](https://www.math.univ-toulouse.fr/~besse/Wikistat/pdf/st-m-explo-acp)
