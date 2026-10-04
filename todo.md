@@ -5,3 +5,5 @@
 - [] Visualiseur de graph comme obsidian
 - [] gérer le cas ou on a un lien interne mort dans une note ca doit renvoyer vers 404 (cf note pca)
 - [] améliorer parsing des liens externes pour qu'ils ne soient pas forcement inline si ils sont sur des lignes différentes dans la note.
+- [] améliorer la gestion des tableau markdown 
+- [] bouton pour signaler un pb qui dirige vers github

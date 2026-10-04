@@ -82,14 +82,6 @@ La matrice de projection optimale V vers un sous-espace de dimension $k$ est don
 [TD analyse discriminante linéaire en R](TD_LDA.pdf)
 [Analyse discriminante et Régression logistique cours de l'UBS](poly_LDA_UBS.pdf)
 [Cours réduction de dimension, Tato A. ](Cours9_ReductionDimension_Part_II.pdf)
-https://www.geeksforgeeks.org/ml-linear-discriminant-analysis/
-
-https://www.analyticsvidhya.com/blog/2021/08/a-brief-introduction-to-linear-discriminant-analysis/
-
-https://medium.com/aimonks/linear-discriminant-analysis-lda-in-machine-learning-example-concept-and-applications-37f27e7c7e98
-
-https://www.ibm.com/docs/fr/spss-statistics/saas?topic=features-discriminant-analysis
-
-https://vivekmuraleedharan73.medium.com/what-is-linear-discriminant-analysis-lda-7e33ff59020a
-
-https://vivekmuraleedharan73.medium.com/what-is-linear-discriminant-analysis-lda-7e33ff59020a
+[Geeks for geeks](https://www.geeksforgeeks.org/ml-linear-discriminant-analysis/
+)
+[analyticsvidhya](https://www.analyticsvidhya.com/blog/2021/08/a-brief-introduction-to-linear-discriminant-analysis/)

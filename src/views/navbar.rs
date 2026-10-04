@@ -168,7 +168,7 @@ pub fn Navbar() -> Element {
                         p { "© 2026 Baptiste Chachura. Built in Rust." }
                         div { style: "display: flex; gap: 1rem;",
                             a { href: "https://github.com/baptxste", target: "_blank", "GitHub ↗" }
-                            a { href: "mailto:baptiste.chachura@me.com", "Contact Email" }
+                            a { href: "mailto:baptiste.chachura@gmail.com", "Contact Email" }
                         }
                     }
                 }

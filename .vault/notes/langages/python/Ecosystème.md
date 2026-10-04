@@ -13,9 +13,10 @@ publish: true
 
 
 ## UV 
-
-Fixer la version exact des dépendances: 
+Par défaut uv utilise la dernière version compatible des dépendances ce qui peut causer des erreurs entre différents environnements et laisse un flou sur quelle version d'une dépendance est utilisée, sur un projet déployé/ partagé il est préférable de fixer la version exact des dépendances avec : 
 ```toml
 [tool.uv] 
 add-bounds = "exact"
 ```
+
+Pour vérifier les mise à jour des dépendances : `uv tree --outdated --depth 1`
