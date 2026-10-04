@@ -21,6 +21,13 @@ impl Language {
             Language::En => "EN",
         }
     }
+
+    pub fn from_str(s: &str) -> Self {
+        match s {
+            "EN" | "en" => Language::En,
+            _ => Language::Fr,
+        }
+    }
 }
 
 pub fn tr<'a>(lang: Language, fr: &'a str, en: &'a str) -> &'a str {

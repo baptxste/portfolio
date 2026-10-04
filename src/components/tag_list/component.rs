@@ -19,13 +19,12 @@ pub struct TagListProps {
 #[component]
 pub fn TagList(props: TagListProps) -> Element {
     rsx! {
-        document::Link { rel: "stylesheet", href: asset!("./style.css") }
         div {
             span {
-                class: "text-xs font-bold uppercase theme-text-soft block mb-2 tracking-wider",
+                class: "tag-list-title",
                 { tr(props.l, props.title_fr, props.title_en) }
             }
-            div { class: "flex flex-wrap gap-2",
+            div { class: "tag-list-pills",
                 for tag in props.tags.iter() {
                     span { class: "tag-pill", "{tag}" }
                 }

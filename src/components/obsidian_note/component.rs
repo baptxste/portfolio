@@ -14,9 +14,29 @@ const MISSING_IMAGE: &str =
 pub fn NoteObsidian(note: NoteMetaData) -> Element {
     let body_html = resolve_images(&note);
 
-    rsx! {
-        document::Link { rel: "stylesheet", href: asset!("./style.css") }
+    use_effect(move || {
+        let _ = document::eval(
+            r#"
+            window.copyObsidianCode = function(button) {
+                const block = button.closest('.obsidian-code-block');
+                if (!block) return;
+                const codeContent = block.querySelector('.obsidian-code-content pre, .obsidian-code-content code');
+                if (!codeContent) return;
+                const text = codeContent.innerText;
+                navigator.clipboard.writeText(text).then(() => {
+                    button.classList.add('copied');
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                    }, 2500);
+                }).catch(err => {
+                    console.error('Erreur lors de la copie: ', err);
+                });
+            };
+            "#
+        );
+    });
 
+    rsx! {
         article { class: "note-obsidian",
             header { class: "note-obsidian__header",
                 h1 { class: "note-obsidian__title", "{note.title}" }

@@ -96,6 +96,20 @@ html, body {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   letter-spacing: -0.01em;
   overflow-x: hidden;
+}
+
+/* Anti-FOUC : le script theme-init.js pose la classe sur <html> avant tout rendu */
+html.dark {
+  background-color: #141613;
+  color: #e8e6e1;
+}
+html.light {
+  background-color: #f2f0eb;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Transition uniquement sur .app-container (après hydratation) */
+.app-container {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
@@ -205,4 +219,40 @@ a {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--green-accent);
+}
+
+/* Tags & Pills — globaux (utilisés dans navbar, home, notes, cv, 404...) */
+.tag-pill {
+  padding: 0.25rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-pill-light);
+  color: var(--text-heading);
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.tag-pill:hover {
+  background-color: var(--green-accent);
+  color: #ffffff;
+}
+
+/* Tag list section title */
+.tag-list-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-soft);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.tag-list-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }

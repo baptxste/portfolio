@@ -17,3 +17,6 @@ pub use navbar::Navbar;
 
 mod cv; 
 pub use cv::CvPage;
+
+mod not_found;
+pub use not_found::NotFound;

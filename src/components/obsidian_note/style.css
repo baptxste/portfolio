@@ -105,6 +105,52 @@
   letter-spacing: 0.05em;
 }
 
+.obsidian-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem;
+  background-color: var(--bg-card);
+  color: var(--text-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.obsidian-copy-btn .icon-check {
+  display: none;
+}
+
+.obsidian-copy-btn .icon-copy {
+  display: block;
+}
+
+.obsidian-copy-btn:hover {
+  color: var(--text-heading);
+  background-color: var(--bg-pill-light);
+  border-color: var(--text-link);
+}
+
+.obsidian-copy-btn.copied {
+  color: var(--starbucks-green);
+  border-color: var(--starbucks-green);
+  background-color: var(--bg-pill-light);
+}
+
+.obsidian-copy-btn.copied .icon-copy {
+  display: none;
+}
+
+.obsidian-copy-btn.copied .icon-check {
+  display: block;
+}
+
+.dark .obsidian-copy-btn.copied {
+  color: var(--text-link);
+  border-color: var(--text-link);
+}
+
 .obsidian-code-content {
   overflow-x: auto;
   padding: 1rem;

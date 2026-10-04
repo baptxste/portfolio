@@ -10,10 +10,11 @@ base_path = "portfolio"
 [web.resource]
 
 # Additional CSS style files
-style = []
+# components.css est généré automatiquement par build.rs (scan de src/components/**/style.css)
+style = ["assets/styling/components.css"]
 
 # Additional JavaScript files
-script = []
+script = ["assets/theme-init.js"]
 
 [web.resource.dev]
 

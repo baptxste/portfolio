@@ -8,7 +8,7 @@ mod vault_assets;
 
 use content::get_vault_index;
 use i18n::Language;
-use views::{CvPage, Home, Navbar, NotePage, NotesHome, TagPage};
+use views::{CvPage, Home, Navbar, NotePage, NotesHome, NotFound, TagPage};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Theme {
@@ -34,6 +34,13 @@ impl Theme {
             Theme::Dark => "dark",
         }
     }
+
+    pub fn from_str(s: &str) -> Self {
+        match s {
+            "dark" | "Dark" => Theme::Dark,
+            _ => Theme::Light,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Routable, PartialEq)]
@@ -50,6 +57,8 @@ pub enum Route {
         TagPage { tag: String },
         #[route("/cv")]
         CvPage {},
+        #[route("/:..route")]
+        NotFound { route: Vec<String> },
 }
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
@@ -59,6 +68,9 @@ const HOME_CSS: Asset = asset!("/assets/styling/home.css");
 const NOTES_CSS: Asset = asset!("/assets/styling/notes.css");
 const CV_CSS: Asset = asset!("/assets/styling/cv.css");
 const MARKDOWN_CSS: Asset = asset!("/assets/styling/markdown.css");
+// Auto-généré par build.rs (scan src/components/**/style.css) — ne jamais toucher.
+// Nouveau composant = ajouter un style.css dans son dossier, c'est tout.
+const COMPONENTS_CSS: Asset = asset!("/assets/styling/components.css");
 
 fn main() {
     dioxus::launch(App);
@@ -71,16 +83,42 @@ fn App() -> Element {
     use_context_provider(|| index());
 
     // Provide language signal globally
-    let lang = use_signal(|| Language::Fr);
+    let mut lang = use_signal(|| Language::Fr);
     use_context_provider(|| lang);
 
     // Provide theme signal globally
-    let theme = use_signal(|| Theme::Light);
+    let mut theme = use_signal(|| Theme::Light);
     use_context_provider(|| theme);
+
+    // Read persisted theme & lang from localStorage on first render
+    use_effect(move || {
+        spawn(async move {
+            if let Ok(saved) = document::eval(
+                "dioxus.send(localStorage.getItem('portfolio_theme') || '')"
+            ).recv::<String>().await {
+                if !saved.is_empty() {
+                    *theme.write() = Theme::from_str(&saved);
+                    // Apply immediately to <html> to prevent flash on any navigation
+                    let cls = saved.clone();
+                    let _ = document::eval(&format!(
+                        "document.documentElement.className = '{cls}';"
+                    ));
+                }
+            }
+            if let Ok(saved) = document::eval(
+                "dioxus.send(localStorage.getItem('portfolio_lang') || '')"
+            ).recv::<String>().await {
+                if !saved.is_empty() {
+                    *lang.write() = Language::from_str(&saved);
+                }
+            }
+        });
+    });
 
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: MASTER_CSS }
+        document::Link { rel: "stylesheet", href: COMPONENTS_CSS }
         document::Link { rel: "stylesheet", href: MAIN_CSS }
         document::Link { rel: "stylesheet", href: HOME_CSS }
         document::Link { rel: "stylesheet", href: NOTES_CSS }

@@ -21,16 +21,6 @@ pub fn FileTree(notes: Vec<NoteMetaData>) -> Element {
     }
 
     rsx! {
-        document::Link {
-            rel: "stylesheet",
-            href: asset!("./style.css")
-        }
-
-        document::Link {
-            rel: "stylesheet",
-            href: asset!("../../../assets/master.css")
-        }
-
         aside {
             class: "file-tree",
 
@@ -93,7 +83,7 @@ fn render_tree_level(tree: BTreeMap<String, FileNode>) -> Element {
                         FileNode::Folder(sub_tree) => rsx! {
                             details {
                                 class: "file-tree-folder",
-                                open: true,
+                                open: false,
 
                                 summary {
                                     class: "file-tree-folder-summary",

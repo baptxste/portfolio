@@ -77,7 +77,13 @@ pub fn Navbar() -> Element {
                                     // Theme Toggle Switcher Button
                                     button {
                                         class: "popover-option-btn",
-                                        onclick: move |_| theme.write().toggle(),
+                                        onclick: move |_| {
+                                            theme.write().toggle();
+                                            let class = theme().to_class();
+                                            let _ = document::eval(&format!(
+                                                "localStorage.setItem('portfolio_theme', '{class}'); document.documentElement.className = '{class}';"
+                                            ));
+                                        },
                                         span { "Thème" }
                                         span { class: "tag-pill", if theme().is_dark() { "Dark 🌙" } else { "Light ☀️" } }
                                     }
@@ -85,7 +91,14 @@ pub fn Navbar() -> Element {
                                     // Language Toggle Switcher Button
                                     button {
                                         class: "popover-option-btn",
-                                        onclick: move |_| lang.write().toggle(),
+                                        onclick: move |_| {
+                                            lang.write().toggle();
+                                            let code = lang().code();
+                                            let _ = document::eval(&format!(
+                                                "localStorage.setItem('portfolio_lang', '{}');",
+                                                code
+                                            ));
+                                        },
                                         span { "Langue" }
                                         span { class: "tag-pill", if lang() == Language::Fr { "FR 🇫🇷" } else { "EN 🇬🇧" } }
                                     }

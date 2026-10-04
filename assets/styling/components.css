@@ -1,0 +1,576 @@
+/* Auto-généré par build.rs — ne pas éditer */
+
+/* ── file_tree ── */
+/* ==========================================================================
+   FILE TREE COMPONENT STYLE
+   ========================================================================== */
+
+.file-tree {
+  width: 16rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-y: auto;
+  border-radius: 12px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--card-shadow);
+  color: var(--text-main);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.file-tree-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: var(--text-soft);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.file-tree-list,
+.file-tree-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.file-tree-list ul {
+  margin-left: 0.75rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--border-subtle);
+}
+
+.file-tree-file,
+.file-tree-folder-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.file-tree-file:hover,
+.file-tree-folder-summary:hover {
+  background-color: var(--bg-pill-light);
+  color: var(--text-heading);
+}
+
+.file-tree-folder summary {
+  list-style: none;
+}
+
+.file-tree-folder summary::-webkit-details-marker {
+  display: none;
+}
+
+.folder-name,
+.file-tree-file span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-tree-folder-summary::after {
+  content: "▾";
+  margin-left: auto;
+  color: var(--text-soft);
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.file-tree-folder:not([open]) .file-tree-folder-summary::after {
+  transform: rotate(-90deg);
+}
+
+.file-tree-file.active {
+  background-color: var(--bg-pill-light);
+  color: var(--text-heading);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .file-tree {
+    width: 100%;
+  }
+}
+/* ── obsidian_note ── */
+/* ==========================================================================
+   OBSIDIAN NOTE COMPONENT STYLE
+   ========================================================================== */
+
+.note-obsidian {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1rem 0.5rem;
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.note-obsidian__header {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1rem;
+}
+
+.note-obsidian__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--text-heading);
+  margin: 0 0 0.5rem;
+}
+
+.note-obsidian__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-soft);
+}
+
+.note-obsidian__date {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.note-obsidian__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.note-obsidian__tag {
+  background: var(--bg-pill-light);
+  color: var(--text-heading);
+  border-radius: 50px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.note-obsidian__body {
+  font-size: 1rem;
+  color: var(--text-main);
+}
+
+/* Inline code styling */
+.note-obsidian__body :not(pre) > code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.875em;
+  background-color: var(--bg-subtle);
+  color: var(--text-heading);
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Code block wrapper styling */
+.obsidian-code-block {
+  margin: 1.5rem 0;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-subtle);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.obsidian-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 1rem;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  text-transform: lowercase;
+}
+
+.obsidian-code-lang {
+  letter-spacing: 0.05em;
+}
+
+.obsidian-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem;
+  background-color: var(--bg-card);
+  color: var(--text-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.obsidian-copy-btn .icon-check {
+  display: none;
+}
+
+.obsidian-copy-btn .icon-copy {
+  display: block;
+}
+
+.obsidian-copy-btn:hover {
+  color: var(--text-heading);
+  background-color: var(--bg-pill-light);
+  border-color: var(--text-link);
+}
+
+.obsidian-copy-btn.copied {
+  color: var(--starbucks-green);
+  border-color: var(--starbucks-green);
+  background-color: var(--bg-pill-light);
+}
+
+.obsidian-copy-btn.copied .icon-copy {
+  display: none;
+}
+
+.obsidian-copy-btn.copied .icon-check {
+  display: block;
+}
+
+.dark .obsidian-copy-btn.copied {
+  color: var(--text-link);
+  border-color: var(--text-link);
+}
+
+.obsidian-code-content {
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.obsidian-code-content pre {
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.obsidian-code-content code {
+  font-family: inherit;
+  background: transparent !important;
+}
+
+/* Dark mode adjustments for code block contrast */
+.dark .obsidian-code-block {
+  background-color: #13221e;
+  border-color: var(--border-subtle);
+}
+
+.dark .obsidian-code-header {
+  background-color: #0f1c19;
+  border-bottom-color: var(--border-subtle);
+}
+
+.note-obsidian__body a.wikilink {
+  color: var(--text-link);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px dashed var(--text-link);
+  transition: border-bottom-style 0.2s ease;
+}
+.note-obsidian__body a.wikilink:hover {
+  border-bottom-style: solid;
+}
+
+.note-obsidian__body a.external-link::after {
+  content: " ↗";
+  font-size: 0.75em;
+}
+
+.note-obsidian__body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  margin: 1.5rem 0;
+}
+
+/* Callouts */
+.note-obsidian__body .callout {
+  border-left: 4px solid var(--border-strong);
+  background: var(--bg-subtle);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+.note-obsidian__body .callout-title {
+  font-weight: 700;
+  margin-bottom: 0.375rem;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--text-heading);
+}
+
+.note-obsidian__body .callout-note    { border-left-color: var(--starbucks-green); background: rgba(0, 98, 65, 0.06); }
+.note-obsidian__body .callout-tip     { border-left-color: var(--green-accent); background: rgba(0, 117, 74, 0.06); }
+.note-obsidian__body .callout-warning { border-left-color: var(--gold); background: var(--gold-lightest); }
+.note-obsidian__body .callout-danger  { border-left-color: #dc2626; background: rgba(220, 38, 38, 0.06); }
+
+.dark .note-obsidian__body .callout-warning {
+  background: rgba(203, 162, 88, 0.12);
+}
+
+.note-obsidian__backlinks {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.note-obsidian__backlinks-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+  margin-bottom: 0.5rem;
+}
+.note-obsidian__backlinks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+.note-obsidian__backlinks-list a {
+  color: var(--text-link);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px dashed var(--text-link);
+}
+.note-obsidian__backlinks-list a:hover {
+  border-bottom-style: solid;
+}
+/* ── popover ── */
+/* ==========================================================================
+   POPOVER COMPONENT STYLE
+   ========================================================================== */
+
+.popover {
+  position: relative;
+  display: inline-block;
+}
+
+.popover-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-main);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.popover-trigger:hover {
+  background-color: var(--bg-subtle);
+  border-color: var(--text-link);
+}
+
+.popover-content {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  padding: 0.75rem;
+  background-color: var(--popover-bg);
+  border: 1px solid var(--popover-border);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  color: var(--text-main);
+  animation: popover-fade-in 0.15s ease-out;
+}
+
+.popover-content[data-state="closed"] {
+  display: none;
+}
+
+.popover-content[data-state="open"] {
+  display: flex;
+}
+
+@keyframes popover-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Positioning rules based on data-side */
+.popover-content[data-side="top"] {
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 8px;
+  transform: translateX(-50%);
+}
+
+.popover-content[data-side="bottom"] {
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+}
+
+.popover-content[data-side="left"] {
+  right: 100%;
+  top: 50%;
+  margin-right: 8px;
+  transform: translateY(-50%);
+}
+
+.popover-content[data-side="right"] {
+  left: 100%;
+  top: 50%;
+  margin-left: 8px;
+  transform: translateY(-50%);
+}
+
+/* Internal layout helpers */
+.popover-settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--bg-subtle);
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+}
+
+.popover-option-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.popover-option-btn:hover {
+  border-color: var(--text-link);
+  background-color: var(--bg-pill-light);
+}
+
+.popover-option-btn:active {
+  transform: scale(0.97);
+}
+
+/* ── scroll_area ── */
+/* Scroll area doesn't require any additional styles */
+/* ── tag_list ── */
+.tag-pill {
+  padding: 0.25rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-pill-light);
+  color: var(--text-heading);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.tag-pill:hover {
+  background-color: var(--green-accent);
+  color: #ffffff;
+}
+/* ── timeline_section ── */
+/* ==========================================================================
+   TIMELINE SECTION COMPONENT STYLE
+   ========================================================================== */
+
+.timeline-icon-badge {
+  background-color: var(--bg-pill-light);
+  color: var(--text-heading);
+}
+
+.timeline-rail {
+  padding-left: 1rem;
+}
+
+.timeline-item {
+  position: relative;
+  border-left: 2px solid var(--border-subtle);
+  padding-left: 1.25rem;
+  padding-bottom: 1.5rem;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -7px;
+  top: 0.375rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--green-accent);
+}
+
+.timeline-paragraph {
+  margin-top: 0.25rem;
+}
+.timeline-paragraph:first-child {
+  margin-top: 0;
+}
+
+.timeline-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.timeline-bullet-dot {
+  margin-top: 0.45rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--text-soft);
+  flex-shrink: 0;
+}

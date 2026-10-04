@@ -62,7 +62,6 @@ fn rich_text(text: &str) -> Element {
 pub fn SectionHeader(props: SectionHeaderProps) -> Element {
 
     rsx! {
-        document::Link { rel: "stylesheet", href: asset!("./style.css") }
         h3 { class: "text-lg font-semibold theme-text-heading flex items-center gap-2.5",
             span { class: "timeline-icon-badge p-1.5 rounded-full text-sm", "{props.icon}" }
             { tr(props.l, props.title_fr, props.title_en) }
@@ -84,7 +83,6 @@ pub struct TimelineProps {
 #[component]
 pub fn Timeline(props: TimelineProps) -> Element {
     rsx! {
-        document::Link { rel: "stylesheet", href: asset!("./style.css") }
         ScrollArea {  class: "timeline-rail",
             height: "20em",
             direction: ScrollDirection::Vertical,

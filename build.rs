@@ -97,8 +97,62 @@ fn make_rust_ident(sanitized_filename: &str, used: &mut HashSet<String>) -> Stri
     ident
 }
 
+/// Scanne src/components/**/style.css et concatène tout dans
+/// assets/styling/components.css.
+/// Règle simple : un nouveau composant = un style.css dans son dossier.
+/// Rien d'autre à déclarer nulle part.
+fn bundle_component_css() {
+    let components_dir = Path::new("src/components");
+    let out_file = Path::new("assets/styling/components.css");
+
+    let mut bundle = String::from("/* Auto-généré par build.rs — ne pas éditer */\n");
+
+    // Tri alphabétique pour un ordre stable entre builds
+    let mut css_files: Vec<_> = WalkDir::new(components_dir)
+        .into_iter()
+        .filter_map(|e| e.ok())
+        .filter(|e| e.file_name() == "style.css")
+        .map(|e| e.into_path())
+        .collect();
+    css_files.sort();
+
+    for path in &css_files {
+        let component_name = path
+            .parent()
+            .and_then(|p| p.file_name())
+            .map(|n| n.to_string_lossy())
+            .unwrap_or_default();
+
+        bundle.push_str(&format!("\n/* ── {} ── */\n", component_name));
+        match fs::read_to_string(path) {
+            Ok(css) => bundle.push_str(&css),
+            Err(e) => println!("cargo:warning=CSS non lisible {}: {}", path.display(), e),
+        }
+    }
+
+    if let Some(parent) = out_file.parent() {
+        let _ = fs::create_dir_all(parent);
+    }
+    fs::write(out_file, &bundle)
+        .expect("Impossible d'écrire assets/styling/components.css");
+
+    println!(
+        "cargo:warning=CSS composants bundlés ({} fichiers) → {}",
+        css_files.len(),
+        out_file.display()
+    );
+}
+
 fn main() {
     println!("cargo:rerun-if-changed=.vault");
+    println!("cargo:rerun-if-changed=src/components");
+
+    // -----------------------------------------------------------------------
+    // Bundle automatique des CSS composants → assets/styling/components.css
+    // Règle : ajouter un style.css dans src/components/mon_composant/
+    //         c'est suffisant, rien d'autre à faire.
+    // -----------------------------------------------------------------------
+    bundle_component_css();
 
     let out_dir = std::env::var("OUT_DIR").expect("OUT_DIR non défini");
     let exported_dir = Path::new(&out_dir).join("exported");
@@ -393,7 +447,10 @@ fn main() {
                         .unwrap_or_else(|_| format!("<pre><code>{}</code></pre>", code_accumulator));
 
                     html_output.push_str("<div class=\"obsidian-code-block\">");
-                    html_output.push_str(&format!("<div class=\"obsidian-code-header\"><span class=\"obsidian-code-lang\">{}</span></div>", display_lang));
+                    html_output.push_str(&format!(
+                        "<div class=\"obsidian-code-header\"><span class=\"obsidian-code-lang\">{}</span><button class=\"obsidian-copy-btn\" onclick=\"copyObsidianCode(this)\" aria-label=\"Copier le code\"><svg class=\"icon-copy\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg><svg class=\"icon-check\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></button></div>",
+                        display_lang
+                    ));
                     html_output.push_str("<div class=\"obsidian-code-content\">");
                     html_output.push_str(&highlighted);
                     html_output.push_str("</div></div>");
