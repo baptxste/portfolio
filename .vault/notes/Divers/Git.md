@@ -146,3 +146,11 @@ git checkout <hash>
 git reflog
 git branch <nouvelle-branche> <hash>
 ```
+
+
+## Commandes diverses
+
+Restaurer un fichier depuis un commit précis : 
+```bash
+git restore --source <commit> -- <fichier>
+```

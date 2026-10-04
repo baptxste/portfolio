@@ -12,3 +12,4 @@ dependencies = [
 
 [project.scripts]
 generate-images = "main:main"
+

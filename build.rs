@@ -398,18 +398,11 @@ fn main() {
             )
         });
 
-        let processed_wikilinks = wikilink_regex.replace_all(&processed_images, |caps: &regex::Captures| {
+        let processed_body = wikilink_regex.replace_all(&processed_images, |caps: &regex::Captures| {
             let target = caps[1].trim();
             let label = caps.get(2).map(|m| m.as_str()).unwrap_or(target);
             let target_slug = stem_to_slug.get(&target.to_lowercase()).cloned().unwrap_or_else(|| slug::slugify(target));
             format!("<a href=\"/notes/{}\" class=\"wikilink\">{}</a>", target_slug, label)
-        });
-
-        // Protège les double-backslashes \\ dans les formules mathématiques ($$ et $)
-        // afin que pulldown-cmark ne les consomme pas comme caractères d'échappement Markdown.
-        let math_regex = Regex::new(r"(?s)(\$\$.*?\$\$|\$[^\$\n]+?\$)").unwrap();
-        let processed_body = math_regex.replace_all(&processed_wikilinks, |caps: &regex::Captures| {
-            caps[1].replace(r"\\", r"\\\\")
         });
 
         let mut options = pulldown_cmark::Options::empty();
@@ -417,7 +410,6 @@ fn main() {
         options.insert(pulldown_cmark::Options::ENABLE_TABLES);
         options.insert(pulldown_cmark::Options::ENABLE_TASKLISTS);
         options.insert(pulldown_cmark::Options::ENABLE_FOOTNOTES);
-        options.insert(pulldown_cmark::Options::ENABLE_SMART_PUNCTUATION);
 
         let ss = SyntaxSet::load_defaults_newlines();
         let ts = ThemeSet::load_defaults();
@@ -476,12 +468,7 @@ fn main() {
             }
         }
 
-        // 1. Transforme les URLs brutes (ex: https://...) non encore entourées de <a href="..."> en liens HTML cliquables
-        let raw_url_regex = Regex::new(r#"(?P<prefix>^|[^"'>=])(?P<url>https?://[^\s<]+)"#).unwrap();
-        let html_output = raw_url_regex.replace_all(&html_output, r#"$prefix<a href="$url">$url</a>"#).to_string();
-
-        // 2. Ajoute target="_blank" et class="external-link" à tous les liens externes http(s)
-        let ext_link_regex = Regex::new(r#"<a href="(https?://[^"]+)"(?:\s+class="[^"]*")*>"#).unwrap();
+        let ext_link_regex = Regex::new(r#"<a href="(https?://[^"]+)">"#).unwrap();
         let html_output = ext_link_regex.replace_all(&html_output, r#"<a href="$1" target="_blank" rel="noopener noreferrer" class="external-link">"#).to_string();
 
         let plain_text = regex::Regex::new(r"<[^>]*>").unwrap().replace_all(&html_output, "");
