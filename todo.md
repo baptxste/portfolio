@@ -7,3 +7,4 @@
 - [] améliorer parsing des liens externes pour qu'ils ne soient pas forcement inline si ils sont sur des lignes différentes dans la note.
 - [] améliorer la gestion des tableau markdown 
 - [] bouton pour signaler un pb qui dirige vers github
+- [] fair le cv en latext et automatiser le build dans la CI
