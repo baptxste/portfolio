@@ -6,6 +6,23 @@ date: 2026-10-04
 publish: true
 ---
 
+# Configuration
+
+
+dans `~/.tmux.conf` : 
+
+```bash
+# autorise le scroll à la sourie
+set -g mouse on 
+
+# raccourcis vim
+setw -g mode-keys vi
+
+# Pour qu'une sessions ne soit pas tuée si on tue le terminal 
+set -g destroy-unattached off
+set -g exit-unattached off
+```
+# Raccourcis
 **Préfixe :** `Ctrl+b`
 ## Sessions
 

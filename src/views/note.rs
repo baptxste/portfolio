@@ -13,25 +13,7 @@ pub fn NotePage(slug: String) -> Element {
         .or_else(|| index.get(&slugified))
         .cloned();
 
-    let current_slug = slug.clone();
-    use_effect(use_reactive!(|(current_slug,)| {
-        let _ = current_slug;
-        let _ = document::eval(
-            r#"
-            setTimeout(() => {
-                if (window.renderMathInElement) {
-                    renderMathInElement(document.body, {
-                        delimiters: [
-                            {left: '$$', right: '$$', display: true},
-                            {left: '$', right: '$', display: false}
-                        ],
-                        throwOnError: false
-                    });
-                }
-            }, 50);
-            "#
-        );
-    }));
+
 
     rsx! {
         if let Some(note) = note_opt {

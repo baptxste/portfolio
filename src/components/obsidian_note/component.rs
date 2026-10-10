@@ -14,9 +14,11 @@ const MISSING_IMAGE: &str =
 pub fn NoteObsidian(note: NoteMetaData) -> Element {
     let body_html = resolve_images(&note);
 
-    use_effect(move || {
+    let note_slug = note.slug.clone();
+    use_effect(use_reactive!(|(note_slug,)| {
+        let _ = note_slug;
         let _ = document::eval(
-            r#"
+            r###"
             window.copyObsidianCode = function(button) {
                 const block = button.closest('.obsidian-code-block');
                 if (!block) return;
@@ -33,25 +35,38 @@ pub fn NoteObsidian(note: NoteMetaData) -> Element {
                 });
             };
 
-            if (typeof renderMathInElement === 'function') {
-                const noteElem = document.querySelector('.note-obsidian');
-                if (noteElem) {
-                    renderMathInElement(noteElem, {
-                        delimiters: [
-                            {left: '$$', right: '$$', display: true},
-                            {left: '$', right: '$', display: false},
-                            {left: '\\(', right: '\\)', display: false},
-                            {left: '\\[', right: '\\]', display: true}
-                        ],
-                        throwOnError: false,
-                        strict: false,
-                        ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
-                    });
-                }
+            function triggerKaTeX() {
+                let retries = 0;
+                const maxRetries = 20; // 2 secondes max (20 * 100ms)
+                const interval = setInterval(() => {
+                    const noteElem = document.querySelector('.note-obsidian');
+                    if (typeof window.renderMathInElement === 'function' && noteElem) {
+                        clearInterval(interval);
+                        window.renderMathInElement(noteElem, {
+                            delimiters: [
+                                {left: '$$', right: '$$', display: true},
+                                {left: '$', right: '$', display: false},
+                                {left: '\\(', right: '\\)', display: false},
+                                {left: '\\[', right: '\\]', display: true}
+                            ],
+                            throwOnError: false,
+                            strict: false,
+                            ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+                        });
+                    } else {
+                        retries++;
+                        if (retries >= maxRetries) {
+                            clearInterval(interval);
+                        }
+                    }
+                }, 100);
             }
-            "#
+
+            // Un micro-délai pour s'assurer que le DOM mis à jour par Dioxus est attaché
+            setTimeout(triggerKaTeX, 30);
+            "###
         );
-    });
+    }));
 
     rsx! {
         article { class: "note-obsidian",
