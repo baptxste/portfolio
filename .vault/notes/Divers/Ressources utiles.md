@@ -35,3 +35,7 @@ publish: true
 - glow render markdown dans le terminal
 - direnv gestionnaire de secret plus intelligent que un .profile
 - nu shell, "terminal" qui permet une meilleure lecture/ gestions de tableaux
+
+# Env 
+
+- [dotenv-linter](https://github.com/dotenv-linter/dotenv-linter) permet d'assurer la cohérence entre .env.dist et .env 
