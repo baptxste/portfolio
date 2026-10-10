@@ -49,10 +49,25 @@ pub fn NoteObsidian(note: NoteMetaData) -> Element {
                                 {left: '\\(', right: '\\)', display: false},
                                 {left: '\\[', right: '\\]', display: true}
                             ],
+                            ignoredClasses: [],
                             throwOnError: false,
                             strict: false,
                             ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
                         });
+
+                        // renderMathInElement pour pulldown-cmark (balises <span class="math math-inline"> et <span class="math math-display">)
+                        if (window.katex) {
+                            noteElem.querySelectorAll('.math-inline').forEach(el => {
+                                try {
+                                    window.katex.render(el.textContent, el, { displayMode: false, throwOnError: false });
+                                } catch(e) {}
+                            });
+                            noteElem.querySelectorAll('.math-display').forEach(el => {
+                                try {
+                                    window.katex.render(el.textContent, el, { displayMode: true, throwOnError: false });
+                                } catch(e) {}
+                            });
+                        }
                     } else {
                         retries++;
                         if (retries >= maxRetries) {

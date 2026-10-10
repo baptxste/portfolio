@@ -410,6 +410,7 @@ fn main() {
         options.insert(pulldown_cmark::Options::ENABLE_TABLES);
         options.insert(pulldown_cmark::Options::ENABLE_TASKLISTS);
         options.insert(pulldown_cmark::Options::ENABLE_FOOTNOTES);
+        options.insert(pulldown_cmark::Options::ENABLE_MATH);
 
         let ss = SyntaxSet::load_defaults_newlines();
         let ts = ThemeSet::load_defaults();
