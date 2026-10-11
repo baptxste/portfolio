@@ -36,6 +36,10 @@ publish: true
 - direnv gestionnaire de secret plus intelligent que un .profile
 - nu shell, "terminal" qui permet une meilleure lecture/ gestions de tableaux
 
+# IOS 
+
+- equivalent de xcode mais sur linux et windows : xtool (à tester)
+
 # Env 
 
 - [dotenv-linter](https://github.com/dotenv-linter/dotenv-linter) permet d'assurer la cohérence entre .env.dist et .env 

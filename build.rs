@@ -459,6 +459,18 @@ fn main() {
                 pulldown_cmark::Event::Text(text) if in_code_block => {
                     code_accumulator.push_str(&text);
                 }
+                pulldown_cmark::Event::Start(pulldown_cmark::Tag::Table(alignments)) => {
+                    html_output.push_str("<div class=\"obsidian-table-wrapper\">");
+                    let mut temp = String::new();
+                    html::push_html(&mut temp, std::iter::once(pulldown_cmark::Event::Start(pulldown_cmark::Tag::Table(alignments))));
+                    html_output.push_str(&temp);
+                }
+                pulldown_cmark::Event::End(pulldown_cmark::TagEnd::Table) => {
+                    let mut temp = String::new();
+                    html::push_html(&mut temp, std::iter::once(pulldown_cmark::Event::End(pulldown_cmark::TagEnd::Table)));
+                    html_output.push_str(&temp);
+                    html_output.push_str("</div>");
+                }
                 _ => {
                     if !in_code_block {
                         let mut temp = String::new();

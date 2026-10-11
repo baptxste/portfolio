@@ -339,6 +339,106 @@
   background: rgba(203, 162, 88, 0.12);
 }
 
+/* ==========================================================================
+   OBSIDIAN TABLES
+   ========================================================================== */
+
+.note-obsidian__body .obsidian-table-wrapper {
+  margin: 1.5rem 0;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-card);
+  box-shadow: var(--card-shadow);
+}
+
+.note-obsidian__body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.note-obsidian__body th {
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-surface);
+  color: var(--text-heading);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.note-obsidian__body th:last-child {
+  border-right: none;
+}
+
+.note-obsidian__body td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  vertical-align: top;
+}
+
+.note-obsidian__body td:last-child {
+  border-right: none;
+}
+
+/* Thème clair : bordures bien visibles et uniformes */
+:root:not(.dark) .note-obsidian__body th,
+:root:not(.dark) .note-obsidian__body td {
+  border-right: 1px solid #d8d4cf;
+  border-bottom: 1px solid #d8d4cf;
+}
+:root:not(.dark) .note-obsidian__body .obsidian-table-wrapper {
+  border-color: #d8d4cf;
+}
+
+/* Zebra striping pour faciliter la lecture */
+.note-obsidian__body tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.025);
+}
+
+.dark .note-obsidian__body tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.025);
+}
+
+/* Highlight discret au survol de ligne */
+.note-obsidian__body tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.note-obsidian__body tbody tr:hover {
+  background-color: var(--bg-pill-light);
+}
+
+/* Dernière ligne sans bordure inférieure inutile */
+.note-obsidian__body tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Support des alignements de colonnes Markdown */
+.note-obsidian__body th[align="center"],
+.note-obsidian__body td[align="center"] {
+  text-align: center;
+}
+
+.note-obsidian__body th[align="right"],
+.note-obsidian__body td[align="right"] {
+  text-align: right;
+}
+
+.note-obsidian__body th[align="left"],
+.note-obsidian__body td[align="left"] {
+  text-align: left;
+}
+
 .note-obsidian__backlinks {
   margin-top: 3rem;
   padding-top: 1rem;

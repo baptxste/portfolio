@@ -8,3 +8,4 @@
 - [] améliorer la gestion des tableau markdown 
 - [] bouton pour signaler un pb qui dirige vers github
 - [] fair le cv en latext et automatiser le build dans la CI
+- [] faire un somaire cliquable en haut de note pour scrolle directement à la partie de la note
