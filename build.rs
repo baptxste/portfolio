@@ -421,9 +421,52 @@ fn main() {
         let mut in_code_block = false;
         let mut current_lang = String::new();
         let mut code_accumulator = String::new();
+        let mut in_heading: Option<pulldown_cmark::HeadingLevel> = None;
+        let mut heading_text_accumulator = String::new();
+        let mut toc: Vec<HeadingItem> = Vec::new();
+        let mut heading_slug_counts: HashMap<String, usize> = HashMap::new();
 
         for event in parser {
             match event {
+                pulldown_cmark::Event::Start(pulldown_cmark::Tag::Heading { level, .. }) => {
+                    in_heading = Some(level);
+                    heading_text_accumulator.clear();
+                }
+                pulldown_cmark::Event::End(pulldown_cmark::TagEnd::Heading(_)) => {
+                    if let Some(level) = in_heading.take() {
+                        let raw_title = heading_text_accumulator.trim().to_string();
+                        let base_id = slug::slugify(&raw_title);
+                        let base_id = if base_id.is_empty() { "section".to_string() } else { base_id };
+                        
+                        let count = heading_slug_counts.entry(base_id.clone()).or_insert(0);
+                        let id = if *count == 0 {
+                            base_id
+                        } else {
+                            format!("{}-{}", base_id, count)
+                        };
+                        *count += 1;
+
+                        let lvl_num: u8 = match level {
+                            pulldown_cmark::HeadingLevel::H1 => 1,
+                            pulldown_cmark::HeadingLevel::H2 => 2,
+                            pulldown_cmark::HeadingLevel::H3 => 3,
+                            pulldown_cmark::HeadingLevel::H4 => 4,
+                            pulldown_cmark::HeadingLevel::H5 => 5,
+                            pulldown_cmark::HeadingLevel::H6 => 6,
+                        };
+
+                        toc.push(HeadingItem {
+                            id: id.clone(),
+                            title: raw_title.clone(),
+                            level: lvl_num,
+                        });
+
+                        html_output.push_str(&format!(
+                            "<h{} id=\"{}\">{}</h{}>",
+                            lvl_num, id, raw_title, lvl_num
+                        ));
+                    }
+                }
                 pulldown_cmark::Event::Start(pulldown_cmark::Tag::CodeBlock(kind)) => {
                     in_code_block = true;
                     code_accumulator.clear();
@@ -459,6 +502,12 @@ fn main() {
                 pulldown_cmark::Event::Text(text) if in_code_block => {
                     code_accumulator.push_str(&text);
                 }
+                pulldown_cmark::Event::Text(text) if in_heading.is_some() => {
+                    heading_text_accumulator.push_str(&text);
+                }
+                pulldown_cmark::Event::Code(text) if in_heading.is_some() => {
+                    heading_text_accumulator.push_str(&text);
+                }
                 pulldown_cmark::Event::Start(pulldown_cmark::Tag::Table(alignments)) => {
                     html_output.push_str("<div class=\"obsidian-table-wrapper\">");
                     let mut temp = String::new();
@@ -472,7 +521,7 @@ fn main() {
                     html_output.push_str("</div>");
                 }
                 _ => {
-                    if !in_code_block {
+                    if !in_code_block && in_heading.is_none() {
                         let mut temp = String::new();
                         html::push_html(&mut temp, std::iter::once(event));
                         html_output.push_str(&temp);
@@ -510,6 +559,7 @@ fn main() {
                 date: fm.date,
                 summary,
                 html: html_output,
+                toc,
                 images: used_images,
                 backlinks,
             },

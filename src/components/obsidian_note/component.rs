@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 
 use crate::vault_assets::resolve_vault_asset;
+use crate::i18n::{tr, Language};
 use super::model::NoteMetaData;
 
 
@@ -12,6 +13,7 @@ const MISSING_IMAGE: &str =
 
 #[component]
 pub fn NoteObsidian(note: NoteMetaData) -> Element {
+    let lang: Signal<Language> = use_context();
     let body_html = resolve_images(&note);
 
     let note_slug = note.slug.clone();
@@ -83,6 +85,10 @@ pub fn NoteObsidian(note: NoteMetaData) -> Element {
         );
     }));
 
+    let toc_label = tr(lang(), "Sommaire", "Table of contents");
+    let sections_unit = tr(lang(), "sections", "sections");
+    let backlinks_title = tr(lang(), "Mentionné dans", "Mentioned in");
+
     rsx! {
         article { class: "note-obsidian",
             header { class: "note-obsidian__header",
@@ -101,6 +107,30 @@ pub fn NoteObsidian(note: NoteMetaData) -> Element {
                 }
             }
 
+            if !note.toc.is_empty() {
+                details { class: "note-obsidian__toc",
+                    summary { class: "note-obsidian__toc-summary",
+                        span { class: "note-obsidian__toc-title", "{toc_label}" }
+                        span { class: "note-obsidian__toc-badge", "{note.toc.len()} {sections_unit}" }
+                    }
+                    nav { class: "note-obsidian__toc-nav",
+                        ul { class: "note-obsidian__toc-list",
+                            for item in note.toc.iter() {
+                                li {
+                                    key: "{item.id}",
+                                    class: "note-obsidian__toc-item note-obsidian__toc-item--level-{item.level}",
+                                    a {
+                                        href: "#{item.id}",
+                                        class: "note-obsidian__toc-link",
+                                        "{item.title}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             div {
                 class: "note-obsidian__body",
                 dangerous_inner_html: "{body_html}",
@@ -108,7 +138,7 @@ pub fn NoteObsidian(note: NoteMetaData) -> Element {
 
             if !note.backlinks.is_empty() {
                 footer { class: "note-obsidian__backlinks",
-                    h2 { class: "note-obsidian__backlinks-title", "Mentionné dans" }
+                    h2 { class: "note-obsidian__backlinks-title", "{backlinks_title}" }
                     ul { class: "note-obsidian__backlinks-list",
                         for bl in note.backlinks.iter() {
                             li { key: "{bl.slug}",

@@ -166,9 +166,129 @@
   letter-spacing: -0.01em;
 }
 
+/* ==========================================================================
+   TABLE OF CONTENTS (SOMMAIRE)
+   ========================================================================== */
+
+.note-obsidian__toc {
+  margin: 1.25rem 0 2rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  background-color: var(--bg-subtle);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+:root:not(.dark) .note-obsidian__toc {
+  border-color: #d8d4cf;
+  background-color: #f7f6f4;
+}
+
+.note-obsidian__toc[open] {
+  box-shadow: var(--card-shadow);
+}
+
+.note-obsidian__toc-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  color: var(--text-heading);
+  transition: background-color 0.15s ease;
+}
+
+.note-obsidian__toc-summary:hover {
+  background-color: var(--bg-surface);
+}
+
+.note-obsidian__toc-title {
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}
+
+.note-obsidian__toc-badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  background-color: var(--bg-card);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+}
+
+.note-obsidian__toc-nav {
+  padding: 0.5rem 1.25rem 1rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+:root:not(.dark) .note-obsidian__toc-nav {
+  border-top-color: #d8d4cf;
+}
+
+.note-obsidian__toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.note-obsidian__toc-item {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.note-obsidian__toc-item--level-1 {
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.note-obsidian__toc-item--level-2 {
+  padding-left: 0.75rem;
+  font-weight: 500;
+}
+
+.note-obsidian__toc-item--level-3 {
+  padding-left: 1.5rem;
+  font-size: 0.8125rem;
+}
+
+.note-obsidian__toc-item--level-4,
+.note-obsidian__toc-item--level-5,
+.note-obsidian__toc-item--level-6 {
+  padding-left: 2.25rem;
+  font-size: 0.8125rem;
+}
+
+.note-obsidian__toc-link {
+  color: var(--text-main);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  display: inline-block;
+}
+
+.note-obsidian__toc-link:hover {
+  color: var(--text-link);
+  text-decoration: underline;
+}
+
 .note-obsidian__body {
   font-size: 1rem;
   color: var(--text-main);
+}
+
+/* Offset d'ancrage pour les titres avec la navbar fixe */
+.note-obsidian__body h1[id],
+.note-obsidian__body h2[id],
+.note-obsidian__body h3[id],
+.note-obsidian__body h4[id],
+.note-obsidian__body h5[id],
+.note-obsidian__body h6[id] {
+  scroll-margin-top: 5rem;
 }
 
 /* Inline code styling */

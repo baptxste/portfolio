@@ -1,4 +1,11 @@
 #[derive(Debug, serde::Serialize, serde::Deserialize, Clone, PartialEq)]
+pub struct HeadingItem {
+    pub id: String,
+    pub title: String,
+    pub level: u8,
+}
+
+#[derive(Debug, serde::Serialize, serde::Deserialize, Clone, PartialEq)]
 pub struct NoteMetaData {
     pub slug: String,
     pub title: String,
@@ -8,6 +15,7 @@ pub struct NoteMetaData {
     pub date: Option<String>,
     pub summary: String,
     pub html: String,
+    pub toc: Vec<HeadingItem>,
     /// Noms (en minuscules, tels qu'écrits dans les `![[...]]` Obsidian) des
     /// images référencées par cette note. Sert à NoteObsidian pour savoir
     /// quels jetons `vault-asset:...` résoudre dans `html`, sans avoir à
@@ -18,7 +26,6 @@ pub struct NoteMetaData {
 
 #[derive(Debug, serde::Serialize, serde::Deserialize, Clone, PartialEq)]
 pub struct BacklinkInfo {
-
     pub slug: String,
     pub title: String,
 }
