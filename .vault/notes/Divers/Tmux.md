@@ -2,28 +2,73 @@
 title: Tmux
 tags:
   - terminal
-date: 2026-10-04
+date: 2026-10-13
 publish: true
 ---
 
 # Configuration
 
-
-dans `~/.tmux.conf` : 
+dans `~/.tmux.conf` :
 
 ```bash
-# autorise le scroll à la sourie
-set -g mouse on 
+# autorise le scroll à la souris
+set -g mouse on
 
 # raccourcis vim
 setw -g mode-keys vi
+bind -T copy-mode-vi v send -X begin-selection   # v pour démarrer la sélection
+bind -T copy-mode-vi y send -X copy-selection-and-cancel   # y pour copier
 
-# Pour qu'une sessions ne soit pas tuée si on tue le terminal 
+# Pour qu'une session ne soit pas tuée si on tue le terminal
 set -g destroy-unattached off
 set -g exit-unattached off
+
+# --- Plugins (TPM) : survivre aux redémarrages ---
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+
+set -g @continuum-restore 'on'
+
+# Toujours en toute dernière ligne
+run '~/.tmux/plugins/tpm/tpm'
 ```
+
+## Installation des plugins (survie aux reboots)
+
+Les sessions tmux survivent à la fermeture du terminal, mais **pas à un redémarrage** de la machine. Pour ça, on restaure la configuration et les commandes (pas l'état exact des processus) :
+
+- **tmux-resurrect** : sauvegarde / restaure sessions, fenêtres, panes et commandes
+- **tmux-continuum** : automatise les sauvegardes (toutes les 15 min par défaut) et la restauration au démarrage de tmux
+
+1. Installer TPM (le gestionnaire de plugins) :
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+2. Ajouter le bloc plugins ci-dessus dans `~/.tmux.conf`
+3. Recharger la config :
+
+```bash
+tmux source-file ~/.tmux.conf
+```
+
+4. Dans tmux, installer les plugins : `Prefix I` (i majuscule)
+
+|Action|Raccourci|
+|---|---|
+|Installer les plugins|`Prefix I`|
+|Mettre à jour les plugins|`Prefix U`|
+|Sauvegarder manuellement (resurrect)|`Prefix Ctrl+s`|
+|Restaurer manuellement (resurrect)|`Prefix Ctrl+r`|
+
+> [!note] Un serveur, un `vim` ou une commande longue ne reprend pas toujours exactement au même point après un reboot, mais `tmux-resurrect` recrée les panes et relance généralement les commandes. La restauration automatique se déclenche au démarrage du serveur tmux (première commande `tmux` après le reboot).
+
 # Raccourcis
-**Préfixe :** `Ctrl+b`
+
+**Préfixe :** `Ctrl+b`
+
 ## Sessions
 
 |Action|Raccourci / Commande|
@@ -32,7 +77,7 @@ set -g exit-unattached off
 |Nouvelle session nommée|`tmux new -s <name>`|
 |Lister les sessions|`tmux ls`|
 |Attacher la dernière session|`tmux a`|
-|Attacher une session nommée|`tmux a -t <name>`|
+|Attacher une session nommée|`tmux a -t <name>` (ou `tmux attach -t <name>`)|
 |Détacher la session|`Prefix d`|
 |Renommer la session|`Prefix $`|
 |Liste interactive des sessions|`Prefix s`|
@@ -79,13 +124,13 @@ set -g exit-unattached off
 |Défilement haut / bas|`PgUp / PgDn`|
 |Coller le buffer|`Prefix ]`|
 |Lister les buffers|`Prefix =`|
-|Navigation (mode vi)|`h`, `j`, `k`, `l`|
-|Début / fin de ligne|`0` / `$`|
+|Navigation (mode vi)|`h`, `j`, `k`, `l`|
+|Début / fin de ligne|`0` / `$`|
 |Recherche avant|`/`|
 |Recherche arrière|`?`|
-|Début de sélection|`v` (vi) / `Space`|
-|Copier la sélection|`y` / `Enter`|
-|Quitter|`q` / `Esc`|
+|Début de sélection|`Space` (ou `v` avec le bind de la config)|
+|Copier la sélection|`Enter` (ou `y` avec le bind de la config)|
+|Quitter|`q` / `Esc`|
 
 ## Mode Commande
 
@@ -93,13 +138,13 @@ set -g exit-unattached off
 |---|---|
 |Ouvrir l'invite de commande|`Prefix :`|
 |Afficher les raccourcis|`Prefix ?`|
-|Recharger la configuration|`Prefix : source-file ~/.tmux.conf`|
+|Recharger la configuration|`Prefix : source-file ~/.tmux.conf` ou `tmux source-file ~/.tmux.conf`|
 
 ## Divers
 
-|Action|Raccourci / Commande|
-|---|---|
-|Mode horloge|`Prefix t`|
-|Détacher les autres clients|`Prefix D`|
-|Afficher la version|`tmux -V`|
-|Informations serveur|`tmux info`|
+| Action                      | Raccourci / Commande |
+| --------------------------- | -------------------- |
+| Mode horloge                | `Prefix t`           |
+| Détacher les autres clients | `Prefix D`           |
+| Afficher la version         | `tmux -V`            |
+| Informations serveur        | `tmux info`          |
