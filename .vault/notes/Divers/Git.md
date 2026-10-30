@@ -154,3 +154,13 @@ Restaurer un fichier depuis un commit précis :
 ```bash
 git restore --source <commit> -- <fichier>
 ```
+
+Restaurer un fichier/dossier depuis une autre branche: 
+```bash
+git checkout <branch ou commit > -- <nom fichier ou dossier>
+```
+
+Retirer des fichiers staged (et les garder localement)
+```bash
+git reset ou git restore --staged . 
+```
