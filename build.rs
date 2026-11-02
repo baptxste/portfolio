@@ -402,7 +402,7 @@ fn main() {
             let target = caps[1].trim();
             let label = caps.get(2).map(|m| m.as_str()).unwrap_or(target);
             let target_slug = stem_to_slug.get(&target.to_lowercase()).cloned().unwrap_or_else(|| slug::slugify(target));
-            format!("<a href=\"/notes/{}\" class=\"wikilink\">{}</a>", target_slug, label)
+            format!("<a href=\"/portfolio/notes/{}\" class=\"wikilink\">{}</a>", target_slug, label)
         });
 
         let mut options = pulldown_cmark::Options::empty();

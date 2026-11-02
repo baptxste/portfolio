@@ -142,7 +142,7 @@ pub fn NoteObsidian(note: NoteMetaData) -> Element {
                     ul { class: "note-obsidian__backlinks-list",
                         for bl in note.backlinks.iter() {
                             li { key: "{bl.slug}",
-                                a { href: "/notes/{bl.slug}", class: "wikilink", "{bl.title}" }
+                                a { href: "/portfolio/notes/{bl.slug}", class: "wikilink", "{bl.title}" }
                             }
                         }
                     }
