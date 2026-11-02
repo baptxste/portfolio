@@ -1,5 +1,5 @@
 ---
-title: Fonctions d'activations
+title: Fonctions d'activation
 tags:
   - todo
 date: 2026-09-21
@@ -16,3 +16,5 @@ publish: false
 | **SiLU / Swish** | z·σ(z)                                                | ≈ ]−0,28, +∞[     | Réseaux modernes (EfficientNet, LLM)                         |
 | **Softmax**      | softmax(z)ᵢ = eᶻⁱ / Σⱼ eᶻʲ                            | ]0, 1[, somme = 1 | Sortie multiclasse                                           |
 | **Identité**     | z                                                     | ℝ                 | Sortie en régression                                         |
+
+Une fonction d'activation doit etre non linéraire (sinon pas d'intéret ), différentiable, de préférence monotone (la monotonie garantie la convexité de l'erreur ) et surtout doit etre facile à calculer et a différencier ( efficcité du reseau)

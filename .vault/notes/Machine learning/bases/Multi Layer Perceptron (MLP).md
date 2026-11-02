@@ -3,7 +3,7 @@ title: Multi Layer Perceptron (MLP)
 tags:
   - MLP
 date: 2026-10-28
-publish: false
+publish: true
 ---
 Un perceptron multicouche est une forme basique de réseau de neurones. On peut le représenté comme cela: 
 ![[MLP.png]]Il est composé d'une couche d'entrée (input layer), de couches intermédiaires appelées couches cachées (hidden layers) dont le nombre peut varier, et d'une couche de sortie (output layer). Le nombre de neurones au sein d'une couche peut varier, en fonction des besoins du problèmes ou de la dimension des données à traiter.
@@ -14,8 +14,47 @@ On note le vecteur d'entré $X = \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n  \e
 $$
 y = X \cdot w +b = x_1w_1 + x_2w_2 + \dots + x_nw_n + b
 $$
-Etant donné que la composition de fonction affine reste une fonction affine il est nécessaire d'ajouter de la non linéatité dans réseau, pour cela on utilise des fonctions d'activation.
+Etant donné que les fonction affine sont stable par composition cela signifie que notre modèle est uniquement capable d'apprendre une fonction affine peut importe le nombre de couche qu'il possède. Pour sortir de cette limitation il est nécessaire d'ajouter de la non linéarité dans le réseau, pour cela on utilise des fonctions d'activation. (cf l'exemple de XOR dans le [MIT Deeplearning book](https://www.deeplearningbook.org/) page 167)
+
 ## Fonction d'activation 
 
-Les plus 
+Les plus répandues sont ReLu, Sigmoïde et tanh.
 
+| Nom      | Formule                               | Domaine         | Usage                      |
+| -------- | ------------------------------------- | --------------- | -------------------------- |
+| ReLu     | $max(0,z)$                            | $[0, +\infty [$ | Défaut des couches cachées |
+| Sigmoïde | $\sigma(z) = 1 / (1 + e^{-z})$        | $]0, 1[$        | Classification Binaire     |
+| Tanh     | $tanh(z) = (e^z-e^{-z})/(e^z+e^{-z})$ | $]-1, 1[$       | Couches chachées           |
+| ...      | ...                                   | ...             | ...                        |
+
+
+![[fct_activation.png]]
+
+Chaque couche neurone est suivit d'une activation ce qui permet de les noter $y = g(a \cdot x +b )$ où $g$ représente la fonction d'activation. 
+
+Il existe de nombreux autres types de fonctions d'activations (cf notes: [[Fonctions d'activation]]).
+
+# Entraînement 
+
+Initialement les paramètres de notre réseau (les poids et les biais) sont aléatoire, et par conséquent la sortie l'est aussi. Pour que notre réseau soit utile il est nécessaire de l'entraîner sur une tâche, entraîner un réseau revient à modifier ses paramètres pour améliorer la performance sur une tâche.
+
+Pour entraîner un réseau de neurones il faut un jeu de données annotées c'est à dire un ensemble de données contenant des entrées (notées x) à donner au réseau et des sorties attendu (notées y) , le but étant de faire apprendre ce motif là au réseau. Pour cela on a besoin d'une fonction erreur (ou Loss), cette fonction doit être capable de mesurer l'erreur entre la sortie produite par le réseau (notée $\hat{y}$ ) pour un entrée donnée par rapport à la sortie attendue.
+## Fonction d'erreur
+
+
+La fonction la plus répandue est l'erreur quadratique (MSE : mean square error) définie par :
+$$L = 1/N \sum_{i=1}^N (y_i-\hat{y}_i)^2  = 1/N \sum^N_{i=1}(f(x_i, W, B) -\hat{y}_i)^2$$
+où $f$ représente la fonction apprise par le réseau paramétrée par les poids et biais $W$ et $B$. Comme la fonction erreur dépend des paramètres de notre modèle et qu'elle est différentiable on peut donc calculer le gradient par rapport aux paramètres $\nabla_{\mathbf{w}} L = \frac{\partial L}{\partial \mathbf{w}}$. Plus de détails ici: [[Fonctions d'erreur]]
+
+## Descente de gradient 
+
+On calcule le gradient parce qu’il indique, pour chaque paramètre, dans quel sens et de combien la perte augmente quand on le modifie. En se déplaçant dans la direction opposée au gradient, on faire baisser la perte, et donc par conséquent améliorer le réseau. Pour cela il est nécessaire de venir mettre à jour les paramètres en faisant une rétro propagation du gradient de la manière suivante : 
+$$w \leftarrow w - \eta \, \frac{\partial L}{\partial w}  \sim w_{ij} \leftarrow w_{ij} - \eta \frac{\partial L}{\partial w_{ij}}$$
+Pour chaque point de données du jeu d'entraînement on vient calculer sa prédiction par le modèle, puis la loss puis le gradient et on vient mettre à jour tous les paramètres du  modèle. (En pratique la rétro propagation, ne s'effectue pas pour chaque point de données mais pour un lot de points (gradient par batch), pour des raisons de stabilité de l'apprentissage et d'efficacité de calcul.) Plus de détails ici : [[Descente de gradient]]
+
+
+
+
+# Sources
+
+[MIT Deeplearning book](https://www.deeplearningbook.org/)
