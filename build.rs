@@ -400,7 +400,7 @@ fn main() {
 
         let processed_body = wikilink_regex.replace_all(&processed_images, |caps: &regex::Captures| {
             let target = caps[1].trim();
-            let label = caps.get(2).map(|m| m.as_str()).unwrap_or(target);
+            let label = caps.get(2).map(|m| m.as_str().trim()).unwrap_or(target);
             let target_slug = stem_to_slug.get(&target.to_lowercase()).cloned().unwrap_or_else(|| slug::slugify(target));
             format!("<a href=\"/portfolio/notes/{}\" class=\"wikilink\">{}</a>", target_slug, label)
         });
