@@ -6,7 +6,7 @@ tags:
   - yaml
   - anchor
 date: 2026-11-03
-publish: false
+publish: true
 ---
 # Ancres YAML et champs `x-` dans Docker Compose
 
