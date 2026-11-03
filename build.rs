@@ -520,6 +520,11 @@ fn main() {
                     html_output.push_str(&temp);
                     html_output.push_str("</div>");
                 }
+                pulldown_cmark::Event::SoftBreak => {
+                    if !in_code_block && in_heading.is_none() {
+                        html_output.push_str("<br />\n");
+                    }
+                }
                 _ => {
                     if !in_code_block && in_heading.is_none() {
                         let mut temp = String::new();
