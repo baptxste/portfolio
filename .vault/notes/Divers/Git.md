@@ -164,3 +164,8 @@ Retirer des fichiers staged (et les garder localement)
 ```bash
 git reset ou git restore --staged . 
 ```
+
+Lister si un fichier ou un dossier est suivi par Git:
+```bash
+git ls-files /chemin/du/dossier ou du fichier # renvoie les fichiers suivis ou rien
+```

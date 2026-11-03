@@ -95,12 +95,12 @@ def generate(output_path):
                            edgecolor=Colors.HALO, linewidth=1.5))
 
     # --- Étiquettes ---
-    label(ax, 372, 185, r"$\tilde{\mu}_1$")
-    label(ax, 366, 358, r"$\tilde{\mu}_2$")
-    label(ax, 745, 180, r"$\mu_1$")
-    label(ax, 1020, 332, r"$\mu_2$")
-    label(ax, 732, 722, r"$\hat{\mu}_1$")
-    label(ax, 1018, 735, r"$\hat{\mu}_2$")
+    label(ax, 372, 185, r"$\tilde{M}_1$")
+    label(ax, 366, 358, r"$\tilde{M}_2$")
+    label(ax, 745, 180, r"$m_1$")
+    label(ax, 1020, 332, r"$m_2$")
+    label(ax, 732, 722, r"$\hat{M}_1$")
+    label(ax, 1018, 735, r"$\hat{M}_2$")
 
     return save(fig, output_path)
 

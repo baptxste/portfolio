@@ -27,7 +27,7 @@ La LDA permet de réduire le nombre de paramètres, on regroupe des ensemble de 
 
 # Principe :
 La LDA est une forme généralisée de la [discrimination linéaire de Fischer.](Fischer_discriminative_analysis.pdf) L'idée générale derrière cette méthode est de projeter les données sur des axes optimaux, c'est à dire qui vont maximiser la distance entre différentes classes et minimiser l'écart entre les points d'une même classe. Plus visuellement on obtiens ceci :
-![[lda_projection.png]]Sur ce schéma on voit que l'on peut obtenir différentes représentations d'un même ensemble de données en fonction de l'axe sur lequel on effectue la projection. On voit clairement que dans le cadre de droite il est beaucoup plus facile de séparer les deux classes de données. 
+![[lda_projection.png]]Sur ce schéma on voit que l'on peut obtenir différentes représentations d'un même ensemble de données en fonction de l'axe sur lequel on effectue la projection. On voit clairement que dans le cas de droite il est beaucoup plus facile de séparer les deux classes de données. 
 
 On va considérer des points $x_{i}$( données) dans un espace de dimension $d$. 
 Ces points appartiennent à deux classes distinctes $C_{1}$ et $C_{2}$ qui contiennent respectivement $N_{1}$ et $N_{2}$ points. Et $N = N_{1} +N_{2}$ 
