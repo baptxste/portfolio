@@ -32,3 +32,6 @@ La descente de gradient *utilise* le gradient, la rétropropagation le *calcule*
 
 ## 11. Implémentation - 
 - Code minimal en numpy (régression linéaire) - Comparaison avec un optimiseur de bibliothèque# Descente de gradient 
+
+
+## 12 evanouissement du gradient
