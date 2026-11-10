@@ -4,6 +4,7 @@ tags:
   - data
   - pipeline
   - datalake
+  - todo
 date: 2026-11-08
 publish: true
 ---
@@ -11,25 +12,30 @@ publish: true
 
 Tous les trois des solutions de gestion de données. Ces solutions sont différentes et peuvent être combinées pour former une _Data fabric_
 
-_Data warehouse_ : Aggrège, nettoie et prépapre de la donnée.
+**Data warehouse** : Aggrège, nettoie et prépapre de la donnée.
 
-_Data Lake_ : Stocke de grandes quantités à bas coûts.
+**Data Lake**: Stocke de grandes quantités à bas coûts.
 
-_Data Lakehouse_ : Combine les deux.
+**Data Lakehouse** : Combine les deux.
 
-_Transaction ACID_: Atomicité, Cohérence, Isolation, Durabilité
+**Transaction ACID**: Atomicité, Cohérence, Isolation, Durabilité
 
 - A: la transaction se fait en un seul bloc qui réussit ou échoue (rollback) pas de requête partielle, si une partie de la req échoue tout est annulé.
 - C: la transaction maintient la base dans un état valide (respect règles, contraintes ... )
 - I: des transaction effectuée en même temps n'interfèrent pas, le résultat doit etre identique à une execution séquentielle
 - D: une fois la transcation terminée/ validée (commit) la persistance est permanente
 
-_Delta Lake_ : Format de stockage de donnée qui combine le format parquet avec un journal de métadonnées
+**Delta Lake_**: Format de stockage de donnée qui combine le format parquet avec un journal de métadonnées
 
-_fichier ORC_ : Optimized row columnar - équivalent à parquet dans hive / hadoop
+**fichier ORC** : Optimized row columnar - équivalent à parquet dans hive / hadoop
 
-_Z-order_ : Algorithme d'optimisation qui permet de stocker des données similaires proche les unes des autres. C'est une sorte de tri mais sur plusieurs colonnes en même temps
+**Z-order** : Algorithme d'optimisation qui permet de stocker des données similaires proche les unes des autres. C'est une sorte de tri mais sur plusieurs colonnes en même temps. 
 
+**OLAP** : Online Analytical processing opposé à **OLTP** : Online Transactionnal Processing
+
+
+# OLAP vs OLTP 
+#todo cas d'usage + exemple de db
 # Data Lake
 
 Objectifs traiter une très grande quantité de données, pas de formattage initial, ça utilise une approche _schema on read_ ce qui evite tout le preprocess de la donnée. Les données sont stockées comme quand elles arrivent, structurée, semi structurée ou non structurée ( images, free form text, ...), utilisation de cloud objets -> pas cher mais pas acid et pas possible de lister metadonnée
