@@ -148,13 +148,13 @@ Avantages : ajouter un journal permet de résoudre le manque d'ACID sur un datal
 
 ## Visualisation et BI
 
-|Nom|But|Type|Commentaire|Language / techno|Hébergement|
-|---|---|---|---|---|---|
-|superset|Visualisation de données, création de dashboard||Déjà intégré dans Studio. Projet Apache|Python|Hébergeable|
-|Metabase|BI simple, dashboards et requêtes sans SQL|Service à déployer||Clojure|Hébergeable|
-|Grafana|Dashboards et monitoring, orienté métriques / séries temporelles|Service à déployer||Go|Hébergeable|
-|Power BI|BI Microsoft, rapports et dashboards|SaaS (payant)||Propriétaire|Cloud|
-|Tableau|BI et visualisation de données|SaaS (payant)|Existe aussi en Tableau Server|Propriétaire|Cloud|
+| Nom      | But                                                              | Type               | Commentaire                    | Language / techno | Hébergement |
+| -------- | ---------------------------------------------------------------- | ------------------ | ------------------------------ | ----------------- | ----------- |
+| superset | Visualisation de données, création de dashboard                  |                    | Projet Apache                  | Python            | Hébergeable |
+| Metabase | BI simple, dashboards et requêtes sans SQL                       | Service à déployer |                                | Clojure           | Hébergeable |
+| Grafana  | Dashboards et monitoring, orienté métriques / séries temporelles | Service à déployer |                                | Go                | Hébergeable |
+| Power BI | BI Microsoft, rapports et dashboards                             | SaaS (payant)      |                                | Propriétaire      | Cloud       |
+| Tableau  | BI et visualisation de données                                   | SaaS (payant)      | Existe aussi en Tableau Server | Propriétaire      | Cloud       |
 
 # Sources :
 

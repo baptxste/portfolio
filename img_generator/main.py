@@ -41,11 +41,14 @@ if not vault_path.is_absolute():
     vault_path = (IMG_GENERATOR_DIR / vault_path).resolve()
 
 DEFAULT_IMAGES_DIR = IMG_GENERATOR_DIR / "images"
+DEFAULT_SCHEMAS_DIR = IMG_GENERATOR_DIR / "schemas"
 DEFAULT_ASSETS_DIR = vault_path / raw_path_in_vault
 
 # Ensure img_generator directory is in sys.path so scripts can import styles / style
 if str(IMG_GENERATOR_DIR) not in sys.path:
     sys.path.insert(0, str(IMG_GENERATOR_DIR))
+
+from schema_renderer import find_schemas, render_schema
 
 
 def find_image_scripts(images_dir: Path) -> list[Path]:
@@ -128,6 +131,12 @@ def main():
         help="Path to images scripts directory",
     )
     parser.add_argument(
+        "--schemas-dir",
+        type=Path,
+        default=DEFAULT_SCHEMAS_DIR,
+        help="Path to HTML/SVG schemas directory",
+    )
+    parser.add_argument(
         "--assets-dir",
         type=Path,
         default=DEFAULT_ASSETS_DIR,
@@ -155,28 +164,47 @@ def main():
     if args.filter:
         scripts = [s for s in scripts if args.filter.lower() in str(s).lower()]
 
-    if not scripts:
-        print(f"No image scripts found in {images_dir}")
-        return
+    schemas_dir = args.schemas_dir.resolve()
+    schemas = find_schemas(schemas_dir)
+    if args.filter:
+        schemas = [s for s in schemas if args.filter.lower() in str(s).lower()]
 
-    print("==================================================")
-    print("🎨 Running Image Generator Suite")
-    print(f"📂 Source: {images_dir}")
-    print(f"🎯 Vault Assets Target: {assets_dir}")
-    print(f"📄 Found {len(scripts)} script(s)")
-    print("==================================================")
+    if not scripts and not schemas:
+        print(f"No image scripts or schemas found matching criteria.")
+        return
 
     success_count = 0
     fail_count = 0
 
-    for script in scripts:
-        if run_script(script, images_dir, assets_dir):
-            success_count += 1
-        else:
-            fail_count += 1
+    if scripts:
+        print("==================================================")
+        print("🎨 Running Python Image Generator Suite")
+        print(f"📂 Source: {images_dir}")
+        print(f"🎯 Target: {assets_dir}")
+        print(f"📄 Found {len(scripts)} script(s)")
+        print("==================================================")
+        for script in scripts:
+            if run_script(script, images_dir, assets_dir):
+                success_count += 1
+            else:
+                fail_count += 1
 
+    if schemas:
+        print("\n==================================================")
+        print("📐 Running Schemas Generator (HTML/SVG -> PNG)")
+        print(f"📂 Source: {schemas_dir}")
+        print(f"🎯 Target: {assets_dir}")
+        print(f"📄 Found {len(schemas)} schema(s)")
+        print("==================================================")
+        for schema in schemas:
+            if render_schema(schema, schemas_dir, assets_dir):
+                success_count += 1
+            else:
+                fail_count += 1
+
+    total_tasks = len(scripts) + len(schemas)
     print("--------------------------------------------------")
-    print(f"📊 Summary: {success_count} succeeded, {fail_count} failed out of {len(scripts)} script(s).")
+    print(f"📊 Summary: {success_count} succeeded, {fail_count} failed out of {total_tasks} task(s).")
     print("==================================================")
 
     if fail_count > 0:
