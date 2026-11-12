@@ -69,6 +69,11 @@ pub fn Navbar() -> Element {
                             class: link_class(matches!(current_route, Route::CvPage {})),
                             {tr(l, "CV & Parcours", "Resume")}
                         }
+                        Link {
+                            to: Route::ProjectsHome {},
+                            class: link_class(matches!(current_route, Route::ProjectsHome {} | Route::ProjectPage { .. })),
+                            {tr(l, "Projets", "Projects")}
+                        }
                         
                         PopoverRoot { open: open(), on_open_change: move |v| open.set(v),
                             PopoverTrigger { {tr(l,"Réglages", "Settings") }}
@@ -161,6 +166,7 @@ pub fn Navbar() -> Element {
                             Link { to: Route::Home {}, {tr(l, "Accueil", "Home")} }
                             Link { to: Route::NotesHome {}, {tr(l, "Notes & Vault", "Notes & Vault")} }
                             Link { to: Route::CvPage {}, {tr(l, "CV & Expérience", "Resume")} }
+                            Link { to: Route::ProjectsHome {}, {tr(l, "Projets", "Projects")} }
                         }
                     }
 

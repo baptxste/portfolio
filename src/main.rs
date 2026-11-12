@@ -8,7 +8,7 @@ mod vault_assets;
 
 use content::get_vault_index;
 use i18n::Language;
-use views::{CvPage, Home, Navbar, NotePage, NotesHome, NotFound, TagPage};
+use views::{CvPage, Home, Navbar, NotePage, NotesHome, NotFound, ProjectPage, ProjectsHome, TagPage};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Theme {
@@ -57,6 +57,10 @@ pub enum Route {
         TagPage { tag: String },
         #[route("/cv")]
         CvPage {},
+        #[route("/projects")]
+        ProjectsHome {},
+        #[route("/projects/:slug")]
+        ProjectPage { slug: String },
         #[route("/:..route")]
         NotFound { route: Vec<String> },
 }

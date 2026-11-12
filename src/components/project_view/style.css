@@ -1,0 +1,172 @@
+/* ==========================================================================
+   COMPONENT: PROJECT VIEW STYLE
+   (Auto-bundled by build.rs into assets/styling/components.css)
+   ========================================================================== */
+
+.project-detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 54rem;
+  margin: 0 auto;
+}
+
+.project-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--starbucks-green);
+  text-decoration: none;
+  width: fit-content;
+  transition: opacity 0.2s ease;
+}
+
+.project-back-btn:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.project-detail-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.project-detail-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.project-detail-tagline {
+  font-size: 1.15rem;
+  color: var(--text-soft);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.project-detail-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.project-detail-cover {
+  width: 100%;
+  max-height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--card-shadow);
+  background-color: var(--bg-surface);
+}
+
+.project-detail-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.project-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  line-height: 1.7;
+}
+
+.project-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.project-detail-section h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.project-detail-section p {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+.project-highlights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.project-highlights-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.project-highlights-list li::before {
+  content: "✓";
+  color: var(--starbucks-green);
+  font-weight: 800;
+}
+
+.project-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 640px) {
+  .project-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.project-gallery-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 0.5rem;
+}
+
+.project-gallery-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  background-color: var(--bg-surface);
+  border-radius: 8px;
+}
+
+.project-gallery-item figcaption {
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  text-align: center;
+  font-style: italic;
+  padding: 0.25rem 0.5rem;
+}

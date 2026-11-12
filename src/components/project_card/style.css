@@ -1,0 +1,185 @@
+/* ==========================================================================
+   COMPONENT: PROJECT CARD STYLE
+   Layout: horizontal row, image alternates left/right
+   (Auto-bundled by build.rs into assets/styling/components.css)
+   ========================================================================== */
+
+/* --- List container --- */
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* --- Card base --- */
+.project-card {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  grid-template-rows: 1fr auto;
+  min-height: 220px;
+  background-color: var(--bg-card);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: var(--starbucks-green);
+}
+
+/* --- Image: left by default --- */
+.project-card-image-wrap {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  background-color: var(--bg-surface);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-card-image {
+  transform: scale(1.04);
+}
+
+/* --- Body --- */
+.project-card-body {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* --- Footer --- */
+.project-card-footer {
+  grid-column: 2;
+  grid-row: 2;
+  padding: 0.75rem 1.75rem;
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--starbucks-green);
+}
+
+/* --- Image RIGHT variant --- */
+.project-card--img-right {
+  grid-template-columns: 1fr 320px;
+}
+
+.project-card--img-right .project-card-image-wrap {
+  grid-column: 2;
+  grid-row: 1 / -1;
+}
+
+.project-card--img-right .project-card-body {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.project-card--img-right .project-card-footer {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* --- Shared sub-elements --- */
+.project-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.project-status-badge {
+  background-color: var(--green-light);
+  color: var(--house-green);
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.project-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.project-card-summary {
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.project-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.project-tag {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+}
+
+/* --- Responsive: stack vertically on small screens --- */
+@media (max-width: 700px) {
+  .project-card,
+  .project-card--img-right {
+    grid-template-columns: 1fr;
+    grid-template-rows: 180px auto auto;
+  }
+
+  .project-card-image-wrap,
+  .project-card--img-right .project-card-image-wrap {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .project-card-body,
+  .project-card--img-right .project-card-body {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .project-card-footer,
+  .project-card--img-right .project-card-footer {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}

@@ -1,7 +1,6 @@
-use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-pub use crate::components::obsidian_note::model::{NoteMetaData, BacklinkInfo};
+pub use crate::components::obsidian_note::model::NoteMetaData;
 
 pub type VaultIndex = HashMap<String, NoteMetaData>;
 

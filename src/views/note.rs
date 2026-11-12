@@ -1,6 +1,5 @@
 use dioxus::prelude::*;
 use crate::content::VaultIndex;
-use crate::Route;
 use crate::components::obsidian_note::NoteObsidian;
 
 #[component]
