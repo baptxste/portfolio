@@ -12,3 +12,6 @@ publish: true
 ![[markov_decision_process.png]]
 
 ![[cnn_isometric.png]]
+![[datalake_medallion.png]]
+
+![[datalake_pipeline.png]]

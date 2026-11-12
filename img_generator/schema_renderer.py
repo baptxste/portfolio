@@ -1,11 +1,11 @@
 """
-schema_renderer.py — Rendu épuré, flat et arrondi (sans gradients ni angles droits rigides).
+schema_renderer.py — Rendu épuré, flat et garanti 100% lisible.
 
-Principes graphiques :
-- Zéro dégradé : aplats de couleurs purs et lisibles.
-- Formes fluides et douces : coins très arrondis (rx: 16-20px) et pills (rx: 9999px).
-- Traits nets et arrondis : stroke-linecap: round, stroke-linejoin: round.
-- Fond transparent avec halo de protection pour lisibilité Light / Dark mode.
+Règles de rendu :
+- Formes douces : arrondis explicites (rx/ry) injectés automatiquement si omis.
+- Lisibilité maximale : fort contraste texte/fond. Ne jamais forcer fill sur 'text'
+  afin de préserver les attributs fill="#ffffff" et classes de contraste.
+- Zéro dégradé : aplats nets et lisibles sur fond clair et sombre.
 """
 
 import json
@@ -16,15 +16,17 @@ import styles
 
 
 def get_default_defs() -> str:
-    """Définitions SVG système épurées : marqueurs de flèches nets et arrondis."""
+    """Définitions SVG système : marqueurs de flèches épurés."""
     return f"""
   <defs id="system-defs">
-    <!-- Pointes de flèches soignées sans agressivité -->
     <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
       <path d="M 0 0.5 L 7.5 3 L 0 5.5 Z" fill="{styles.Colors.ACCENT}" />
     </marker>
     <marker id="arrow-soft" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
       <path d="M 0 0.5 L 7.5 3 L 0 5.5 Z" fill="{styles.Colors.BAND_2}" />
+    </marker>
+    <marker id="arrow-gold" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M 0 0.5 L 7.5 3 L 0 5.5 Z" fill="#cba258" />
     </marker>
     <marker id="dot" markerWidth="6" markerHeight="6" refX="3" refY="3">
       <circle cx="3" cy="3" r="2.5" fill="{styles.Colors.ACCENT}" />
@@ -34,7 +36,7 @@ def get_default_defs() -> str:
 
 
 def build_common_stylesheet() -> str:
-    """Feuille de style CSS épurée : aplats plats, arrondis généreux, typographie nette."""
+    """Feuille de style CSS garantissant un contraste et une lisibilité parfaits."""
     return f"""
     :root {{
         --color-accent: {styles.Colors.ACCENT};
@@ -46,11 +48,11 @@ def build_common_stylesheet() -> str:
         --color-grid: {styles.Colors.GRID};
     }}
 
-    /* Typographie moderne et lisible (Plus Jakarta Sans / Inter) */
+    /* Typographie : couleur de marque par défaut pour éviter tout texte noir */
     text {{
-        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-        fill: {styles.Colors.TEXT};
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", sans-serif;
         letter-spacing: -0.1px;
+        fill: {styles.Colors.TEXT};
     }}
 
     .title {{
@@ -65,70 +67,104 @@ def build_common_stylesheet() -> str:
         fill: {styles.Colors.BAND_2};
     }}
 
-    /* Halo pour le Dark Mode : liseré blanc net */
+    .text-white, text[fill="#ffffff"] {{
+        fill: #ffffff !important;
+    }}
+
+    .text-accent {{
+        fill: {styles.Colors.ACCENT} !important;
+    }}
+
+    /* Halo fin pour isoler le texte sur le fond sans noyer les petites lettres */
     .halo {{
         paint-order: stroke fill;
         stroke: {styles.Colors.HALO};
-        stroke-width: 3.5px;
+        stroke-width: 2px;
         stroke-linecap: round;
         stroke-linejoin: round;
     }}
 
-    /* Conteneurs très arrondis et plats (zéro dégradé, zéro ombre floue) */
+    /* Cartes & Blocs par défaut : fond blanc pur et contour vert sapin */
     .card {{
-        fill: {styles.Colors.BAND_4};
+        fill: #ffffff;
         stroke: {styles.Colors.ACCENT};
         stroke-width: 1.8px;
-        rx: 18px;
-        ry: 18px;
+    }}
+    .card-accent {{
+        fill: {styles.Colors.ACCENT};
+        stroke: {styles.Colors.ACCENT};
+        stroke-width: 1.8px;
+    }}
+    .card-soft {{
+        fill: {styles.Colors.BAND_4};
+        stroke: {styles.Colors.ACCENT};
+        stroke-width: 1.5px;
+    }}
+
+    /* Formes spécifiques aux bases de données */
+    .db-body {{
+        fill: #ffffff;
+        stroke: {styles.Colors.ACCENT};
+        stroke-width: 1.6px;
+    }}
+    .db-top {{
+        fill: #d4e9e2;
+        stroke: {styles.Colors.ACCENT};
+        stroke-width: 1.6px;
+    }}
+
+    /* Pastilles d'état (vert vif, or, bleu) */
+    .dot-live {{
+        fill: #10b981;
+    }}
+    .dot-gold {{
+        fill: #cba258;
+    }}
+    .dot-blue {{
+        fill: #3b82f6;
     }}
 
     .card-accent {{
         fill: {styles.Colors.ACCENT};
         stroke: {styles.Colors.ACCENT};
         stroke-width: 1.8px;
-        rx: 18px;
-        ry: 18px;
     }}
 
     .card-soft {{
-        fill: rgba(195, 221, 210, 0.45);
-        stroke: {styles.Colors.BAND_2};
+        fill: {styles.Colors.BAND_4};
+        stroke: {styles.Colors.ACCENT};
         stroke-width: 1.5px;
-        rx: 16px;
-        ry: 16px;
     }}
 
-    .card-white {{
+    /* Capsules / Pilules douces inspirées du design system du site */
+    .pill {{
         fill: #ffffff;
         stroke: {styles.Colors.ACCENT};
         stroke-width: 1.8px;
-        rx: 18px;
-        ry: 18px;
-    }}
-
-    .pill {{
-        fill: {styles.Colors.BAND_4};
-        stroke: {styles.Colors.ACCENT};
-        stroke-width: 1.8px;
-        rx: 9999px;
-        ry: 9999px;
     }}
 
     .pill-accent {{
-        fill: {styles.Colors.ACCENT};
+        fill: #d4e9e2;
         stroke: {styles.Colors.ACCENT};
-        stroke-width: 1.8px;
-        rx: 9999px;
-        ry: 9999px;
+        stroke-width: 1.6px;
+    }}
+
+    .pill-soft {{
+        fill: rgba(212, 233, 226, 0.45);
+        stroke: {styles.Colors.BAND_2};
+        stroke-width: 1.4px;
+    }}
+
+    /* Texte dans les pilules accentuées : vert sapin foncé bien net sur fond vert pastel doux */
+    .pill-accent text, .card-accent text, g.pill-accent text, g.card-accent text {{
+        fill: {styles.Colors.ACCENT};
+        font-weight: 600;
     }}
 
     .badge {{
-        fill: {styles.Colors.BAND_1};
+        fill: {styles.Colors.ACCENT};
         stroke: {styles.Colors.HALO};
-        stroke-width: 1.5px;
-        rx: 8px;
-        ry: 8px;
+        stroke-width: 1.2px;
     }}
 
     .badge-text {{
@@ -139,21 +175,19 @@ def build_common_stylesheet() -> str:
     }}
 
     .node {{
-        fill: {styles.Colors.BAND_3};
+        fill: #ffffff;
         stroke: {styles.Colors.ACCENT};
         stroke-width: 2.2px;
     }}
 
     .container-dashed {{
-        fill: rgba(195, 221, 210, 0.12);
+        fill: none;
         stroke: {styles.Colors.GRID};
         stroke-width: 1.5px;
         stroke-dasharray: 6 5;
-        rx: 22px;
-        ry: 22px;
     }}
 
-    /* Connecteurs et flèches fluides */
+    /* Connecteurs */
     .arrow {{
         stroke: {styles.Colors.ACCENT};
         stroke-width: 2px;
@@ -179,25 +213,19 @@ def build_common_stylesheet() -> str:
 
     /* Rétrocompatibilité */
     .box {{
-        fill: {styles.Colors.BAND_4};
+        fill: #ffffff;
         stroke: {styles.Colors.ACCENT};
         stroke-width: 1.8px;
-        rx: 16px;
-        ry: 16px;
     }}
     .box-accent {{
         fill: {styles.Colors.ACCENT};
         stroke: {styles.Colors.ACCENT};
         stroke-width: 1.8px;
-        rx: 16px;
-        ry: 16px;
     }}
     .box-subtle {{
-        fill: rgba(195, 221, 210, 0.45);
-        stroke: {styles.Colors.GRID};
+        fill: {styles.Colors.BAND_4};
+        stroke: {styles.Colors.BAND_2};
         stroke-width: 1.5px;
-        rx: 14px;
-        ry: 14px;
     }}
     .subtext {{
         fill: {styles.Colors.BAND_2};
@@ -206,8 +234,27 @@ def build_common_stylesheet() -> str:
     """
 
 
+def inject_missing_rx(svg: str) -> str:
+    """Injecte automatiquement rx/ry sur les <rect> de classe pill, card, box s'ils manquent."""
+    def add_rx_pill(match):
+        attrs = match.group(0)
+        if "rx=" not in attrs:
+            return attrs.replace("<rect", '<rect rx="24" ry="24"')
+        return attrs
+
+    def add_rx_card(match):
+        attrs = match.group(0)
+        if "rx=" not in attrs:
+            return attrs.replace("<rect", '<rect rx="18" ry="18"')
+        return attrs
+
+    svg = re.sub(r'<rect[^>]*class=["\'][^"\']*pill[^"\']*["\'][^>]*>', add_rx_pill, svg)
+    svg = re.sub(r'<rect[^>]*class=["\'][^"\']*(?:card|box|container)[^"\']*["\'][^>]*>', add_rx_card, svg)
+    return svg
+
+
 def extract_and_prepare_svg(content: str) -> str:
-    """Extrait le SVG et y injecte les <defs> système si nécessaires."""
+    """Extrait le SVG, injecte les defs et s'assure des arrondis."""
     match = re.search(r"(<svg[\s\S]*?</svg>)", content, re.IGNORECASE)
     svg = match.group(1) if match else content
 
@@ -215,6 +262,7 @@ def extract_and_prepare_svg(content: str) -> str:
         defs = get_default_defs()
         svg = re.sub(r"(<svg[^>]*>)", r"\1\n" + defs, svg, count=1, flags=re.IGNORECASE)
 
+    svg = inject_missing_rx(svg)
     return svg
 
 

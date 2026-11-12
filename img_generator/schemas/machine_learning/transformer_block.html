@@ -1,71 +1,76 @@
-<svg width="680" height="700" viewBox="0 0 680 700" xmlns="http://www.w3.org/2000/svg">
-  <!-- Conteneur externe doux -->
-  <rect x="70" y="60" width="540" height="570" class="container-dashed" />
-  <text x="590" y="85" text-anchor="end" font-weight="bold" font-size="13" class="halo">Bloc Transformer Encoder (×N)</text>
+<svg width="680" height="710" viewBox="0 0 680 710" xmlns="http://www.w3.org/2000/svg">
+  <!-- Conteneur externe doux arrondi -->
+  <rect x="60" y="60" width="560" height="580" rx="22" ry="22" class="container-dashed" />
+  <text x="600" y="85" text-anchor="end" font-weight="bold" font-size="13" class="halo">Bloc Transformer Encoder (×N)</text>
 
   <!-- 1. ENTRÉE -->
-  <g transform="translate(340, 665)">
+  <g transform="translate(340, 675)">
     <text x="0" y="0" text-anchor="middle" font-weight="bold" font-size="13" class="halo">Entrée X (Tokens + Pos Embeddings)</text>
-    <rect x="135" y="-13" width="75" height="18" class="badge" />
+    <rect x="135" y="-13" width="75" height="18" rx="6" ry="6" class="badge" />
     <text x="172" y="0" text-anchor="middle" class="badge-text">(B, T, D)</text>
   </g>
-  <line x1="340" y1="650" x2="340" y2="600" class="arrow" marker-end="url(#arrow)" />
+  <line x1="340" y1="660" x2="340" y2="605" class="arrow" marker-end="url(#arrow)" />
 
-  <!-- Point de départ Skip 1 -->
-  <circle cx="340" cy="610" r="4" fill="#286044" />
-  <!-- Courbe fluide de Skip Connection 1 (sans angle droit) -->
-  <path d="M 340,610 C 130,610 130,435 250,435" class="arrow-dashed" marker-end="url(#arrow-soft)" />
-  <text x="145" y="525" font-size="11" class="halo" fill="#4a8a6e">Skip Connection (Résiduel)</text>
+  <!-- Point de bifurcation Skip 1 -->
+  <circle cx="340" cy="615" r="4" fill="#286044" />
+  <!-- Courbe fluide de Skip 1 (sans angle droit) -->
+  <path d="M 340,615 C 130,615 130,440 245,440" class="arrow-dashed" marker-end="url(#arrow-soft)" />
+  <text x="145" y="530" font-size="11" class="halo" fill="#4a8a6e">Skip Connection (Résiduel)</text>
 
   <!-- Multi-Head Attention Container -->
-  <g transform="translate(220, 480)">
-    <rect class="card" width="240" height="105" />
-    <text x="120" y="28" text-anchor="middle" class="title halo">Multi-Head Attention</text>
-    <text x="120" y="44" text-anchor="middle" class="subtitle">h têtes • dim = D/h</text>
+  <g transform="translate(210, 485)">
+    <!-- Carte bien arrondie rx=16 ry=16 avec fond blanc net -->
+    <rect rx="16" ry="16" class="card" width="260" height="105" />
+    <text x="130" y="28" text-anchor="middle" class="title">Multi-Head Attention</text>
+    <text x="130" y="44" text-anchor="middle" class="subtitle">h têtes d'attention • dim = D/h</text>
 
-    <!-- Sous-branches Q, K, V en forme de pilules douces -->
-    <rect x="25" y="58" width="55" height="32" class="pill" />
-    <text x="52" y="78" text-anchor="middle" font-weight="bold" font-size="12">Q</text>
+    <!-- Sous-branches Q, K, V en petites pilules arrondies (rx=14 ry=14) -->
+    <rect x="25" y="58" width="60" height="30" rx="15" ry="15" class="pill-soft" />
+    <text x="55" y="78" text-anchor="middle" font-weight="bold" font-size="12" fill="#286044">Q</text>
 
-    <rect x="92" y="58" width="55" height="32" class="pill" />
-    <text x="119" y="78" text-anchor="middle" font-weight="bold" font-size="12">K</text>
+    <rect x="100" y="58" width="60" height="30" rx="15" ry="15" class="pill-soft" />
+    <text x="130" y="78" text-anchor="middle" font-weight="bold" font-size="12" fill="#286044">K</text>
 
-    <rect x="160" y="58" width="55" height="32" class="pill" />
-    <text x="187" y="78" text-anchor="middle" font-weight="bold" font-size="12">V</text>
+    <rect x="175" y="58" width="60" height="30" rx="15" ry="15" class="pill-soft" />
+    <text x="205" y="78" text-anchor="middle" font-weight="bold" font-size="12" fill="#286044">V</text>
   </g>
 
   <!-- Flèche vers Add & Norm 1 -->
-  <line x1="340" y1="480" x2="340" y2="455" class="arrow" marker-end="url(#arrow)" />
+  <line x1="340" y1="485" x2="340" y2="460" class="arrow" marker-end="url(#arrow)" />
 
-  <!-- Add & LayerNorm 1 -->
-  <g transform="translate(255, 415)">
-    <rect class="pill-accent" width="170" height="38" />
-    <text x="85" y="24" text-anchor="middle" font-weight="bold" font-size="12" fill="#ffffff">Add &amp; LayerNorm</text>
+  <!-- Add & LayerNorm 1 (Capsule douce pastel) -->
+  <g transform="translate(250, 420)">
+    <rect rx="20" ry="20" class="pill-accent" width="180" height="40" />
+    <circle cx="28" cy="20" r="9" fill="#286044" />
+    <text x="28" y="24" text-anchor="middle" font-weight="bold" font-size="12" fill="#ffffff">+</text>
+    <text x="105" y="25" text-anchor="middle" font-weight="bold" font-size="12" fill="#286044">Add &amp; LayerNorm</text>
   </g>
 
   <!-- Flèche vers Feed Forward + départ Skip 2 -->
-  <line x1="340" y1="415" x2="340" y2="345" class="arrow" marker-end="url(#arrow)" />
+  <line x1="340" y1="420" x2="340" y2="345" class="arrow" marker-end="url(#arrow)" />
   <circle cx="340" cy="370" r="4" fill="#286044" />
   
-  <!-- Courbe fluide de Skip Connection 2 (sans angle droit) -->
-  <path d="M 340,370 C 130,370 130,195 250,195" class="arrow-dashed" marker-end="url(#arrow-soft)" />
+  <!-- Courbe fluide de Skip 2 -->
+  <path d="M 340,370 C 130,370 130,195 245,195" class="arrow-dashed" marker-end="url(#arrow-soft)" />
   <text x="145" y="285" font-size="11" class="halo" fill="#4a8a6e">Skip Connection (Résiduel)</text>
 
-  <!-- Bloc Feed Forward -->
-  <g transform="translate(220, 245)">
-    <rect class="card" width="240" height="90" />
-    <text x="120" y="30" text-anchor="middle" class="title halo">Feed-Forward (FFN)</text>
-    <text x="120" y="50" text-anchor="middle" class="subtitle">Linear (D → 4D) + GELU</text>
-    <text x="120" y="68" text-anchor="middle" class="subtitle">Linear (4D → D) + Dropout</text>
+  <!-- Bloc Feed Forward (Carte arrondie rx=16) -->
+  <g transform="translate(210, 245)">
+    <rect rx="16" ry="16" class="card" width="260" height="95" />
+    <text x="130" y="30" text-anchor="middle" class="title">Feed-Forward (FFN)</text>
+    <text x="130" y="52" text-anchor="middle" class="subtitle">Linear (D → 4D) + GELU</text>
+    <text x="130" y="70" text-anchor="middle" class="subtitle">Linear (4D → D) + Dropout</text>
   </g>
 
   <!-- Flèche vers Add & Norm 2 -->
   <line x1="340" y1="245" x2="340" y2="215" class="arrow" marker-end="url(#arrow)" />
 
-  <!-- Add & LayerNorm 2 -->
-  <g transform="translate(255, 175)">
-    <rect class="pill-accent" width="170" height="38" />
-    <text x="85" y="24" text-anchor="middle" font-weight="bold" font-size="12" fill="#ffffff">Add &amp; LayerNorm</text>
+  <!-- Add & LayerNorm 2 (Capsule douce pastel) -->
+  <g transform="translate(250, 175)">
+    <rect rx="20" ry="20" class="pill-accent" width="180" height="40" />
+    <circle cx="28" cy="20" r="9" fill="#286044" />
+    <text x="28" y="24" text-anchor="middle" font-weight="bold" font-size="12" fill="#ffffff">+</text>
+    <text x="105" y="25" text-anchor="middle" font-weight="bold" font-size="12" fill="#286044">Add &amp; LayerNorm</text>
   </g>
 
   <!-- Flèche finale -->
@@ -74,7 +79,7 @@
   <!-- 3. SORTIE -->
   <g transform="translate(340, 40)">
     <text x="0" y="0" text-anchor="middle" font-weight="bold" font-size="13" class="halo">Sortie Z (Context Embeddings)</text>
-    <rect x="125" y="-13" width="75" height="18" class="badge" />
+    <rect x="125" y="-13" width="75" height="18" rx="6" ry="6" class="badge" />
     <text x="162" y="0" text-anchor="middle" class="badge-text">(B, T, D)</text>
   </g>
 </svg>

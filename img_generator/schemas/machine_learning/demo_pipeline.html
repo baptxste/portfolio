@@ -1,31 +1,32 @@
-<svg width="650" height="180" viewBox="0 0 650 180" xmlns="http://www.w3.org/2000/svg">
-  <!-- Ligne de flux en arrière-plan -->
-  <line x1="60" y1="90" x2="590" y2="90" class="grid-line" />
+<svg width="680" height="180" viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ligne de guidage douce -->
+  <line x1="50" y1="90" x2="630" y2="90" class="grid-line" />
 
   <!-- Étape 1 : Dataset -->
-  <g transform="translate(40, 50)">
-    <rect class="pill" width="150" height="80" />
-    <text x="75" y="42" text-anchor="middle" font-weight="bold" font-size="13" class="halo">Dataset Brut</text>
-    <text x="75" y="58" text-anchor="middle" class="subtitle">CSV / Parquet</text>
+  <g transform="translate(40, 55)">
+    <!-- rx="35" sur une hauteur de 70px = vraie capsule 100% ronde -->
+    <rect rx="35" ry="35" class="pill" width="160" height="70" />
+    <text x="80" y="36" text-anchor="middle" font-weight="bold" font-size="14" fill="#286044">Dataset Brut</text>
+    <text x="80" y="52" text-anchor="middle" font-size="11" fill="#4a8a6e">CSV / Parquet</text>
   </g>
 
   <!-- Connecteur fluide 1 -> 2 -->
-  <line x1="195" y1="90" x2="245" y2="90" class="arrow" marker-end="url(#arrow)" />
+  <line x1="205" y1="90" x2="255" y2="90" class="arrow" marker-end="url(#arrow)" />
 
-  <!-- Étape 2 : Entraînement -->
-  <g transform="translate(250, 50)">
-    <rect class="pill-accent" width="160" height="80" />
-    <text x="80" y="42" text-anchor="middle" font-weight="bold" font-size="13" fill="#ffffff">Entraînement</text>
-    <text x="80" y="58" text-anchor="middle" font-size="11" fill="#c3ddd2">Backprop &amp; AdamW</text>
+  <!-- Étape 2 : Entraînement (Accent vert doux) -->
+  <g transform="translate(260, 55)">
+    <rect rx="35" ry="35" class="pill-accent" width="160" height="70" />
+    <text x="80" y="36" text-anchor="middle" font-weight="bold" font-size="14" fill="#286044">Entraînement</text>
+    <text x="80" y="52" text-anchor="middle" font-size="11" fill="#4a8a6e">Backprop &amp; AdamW</text>
   </g>
 
   <!-- Connecteur fluide 2 -> 3 -->
-  <line x1="415" y1="90" x2="465" y2="90" class="arrow" marker-end="url(#arrow)" />
+  <line x1="425" y1="90" x2="475" y2="90" class="arrow" marker-end="url(#arrow)" />
 
   <!-- Étape 3 : Inférence -->
-  <g transform="translate(470, 50)">
-    <rect class="pill" width="150" height="80" />
-    <text x="75" y="42" text-anchor="middle" font-weight="bold" font-size="13" class="halo">Inférence</text>
-    <text x="75" y="58" text-anchor="middle" class="subtitle">API REST / WASM</text>
+  <g transform="translate(480, 55)">
+    <rect rx="35" ry="35" class="pill" width="160" height="70" />
+    <text x="80" y="36" text-anchor="middle" font-weight="bold" font-size="14" fill="#286044">Inférence</text>
+    <text x="80" y="52" text-anchor="middle" font-size="11" fill="#4a8a6e">API REST / WASM</text>
   </g>
 </svg>
